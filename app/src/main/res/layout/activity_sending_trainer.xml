@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".brasspound.BrassPoundActivity">
+
+        <TextView
+            android:id="@+id/title"
+            style="?attr/textAppearanceHeadline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sendingtrainer_headline"
+            app:layout_constraintBottom_toTopOf="@+id/current_word_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/current_word_title"
+            style="@style/TextAppearance.MyTheme.Headline3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center_horizontal"
+            android:text="@string/sendingtrainer_current_word_label"
+            app:layout_constraintBottom_toTopOf="@+id/current_word"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <TextView
+            android:id="@+id/current_word"
+            style="@style/TextAppearance.MyTheme.Subtitle1"
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            android:gravity="center_horizontal"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/current_word_title" />
+
+        <TextView
+            android:id="@+id/copied_word_title"
+            style="@style/TextAppearance.MyTheme.Headline3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center_horizontal"
+            android:text="@string/sendingtrainer_copied_word"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/current_word" />
+
+        <TextView
+            android:id="@+id/copied_word"
+            style="@style/TextAppearance.MyTheme.Code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text=""
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/copied_word_title" />
+
+        <ImageView
+            android:id="@+id/imageStar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/image_description_imageStar"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/copied_word"
+            app:srcCompat="@drawable/ic_smiley" />
+
+        <ImageView
+            android:id="@+id/imageFail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/image_description_imageFail"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/copied_word"
+            app:srcCompat="@drawable/ic_frownie" />
+
+
+        <include layout="@layout/onscreen_paddle"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include layout="@layout/navigation_view"/>
+
+</androidx.drawerlayout.widget.DrawerLayout>
+
+

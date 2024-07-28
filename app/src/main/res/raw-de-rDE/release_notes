@@ -1,0 +1,53 @@
+=1.11.1
+* Die App wird aus dem Google Play Store entfernt und als Freie Software veröffentlicht. Details siehe Homepage.
+
+=1.11.0
+* Jetzt mit Morse Tennis, einem Spiel für zwei Spieler, zu spielen per Internet.
+* Tasten vom On-Screen-Paddle etwas größer.
+* Hilfe-Seiten verlinkt.
+
+=1.10.3
+* Titel in den Settings repariert
+* Anzeige des gespeicherten RSS-Feednamen in den Settings repariert
+
+=1.10.2
+* Verwendete Bibliotheken aktualisiert und auf Target-API-Level 33 gegangen wg. Play-Store-Anforderungen.
+
+=1.10.1
+* Problem beim Empfangen von UDP-Broadcasts auf einigen Geräten behoben (MOPP).
+* Navigation nach und in Q-Codes repariert.
+
+=1.10.0
+* Verbinde Dich mit MOPP-Servern (Morserino) und kommuniziere mit anderen Funkamateuren.
+
+=1.9.2
+* Automatische Änderung der Geschwindigkeit beim Sendetraining gefixt.
+
+=1.9.1
+* Neuer Abschnitt für Workarounds in den globalen Einstellungen
+* Workaround-Einstellung für abgeschnittenen Ton am Anfang beim Gehörlesen
+
+=1.9.0
+* Zusätzliche Trainingsmethode: Wort-Koch nach DJ3EI
+
+=1.8.1
+* Bug bei der Geschwindigkeit im Anspielen von Morse-Code in den Settings gefixt.
+
+=1.8.0
+* Nun mit Support für RSS-Feeds im Selbstdefinierten Trainer
+* Im Gehörlesen können optional nur Zeichen verwendet werden, die im Lesetraining gelernt wurden
+
+=1.7.1
+* Fix für App-Crash beim Start unter Android 12
+
+=1.7.0
+* Hilfe-Seite mit Handschrift-Tipps
+* Fix für hohen CPU-Verbrauch beim Lernen eines neuen Zeichens
+* Sendetraining zeigt nun geänderte Geschwindigkeit an
+
+=1.6.1
+* Begrenzung auf eine Anzahl der ersten Wörter für Wortlisten
+* Kurzzeitige Verlangsamung nur noch beim Lernen neuer Zeichen
+* Neue Wörter in CW-Wortliste
+* Morse-Sound wird angespielt, wenn Morse-Settings verändert werden
+* Wechsel zu Bewertung nach Abbruch eines Durchgangs

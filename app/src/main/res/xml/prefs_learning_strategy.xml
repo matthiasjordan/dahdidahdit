@@ -1,0 +1,18 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <CheckBoxPreference
+        android:key="learning_strategy_value_dahdidahdit"
+        android:defaultValue="true"
+        android:title="@string/learning_strategy_title_dahdidahdit"
+        app:summary="@string/learning_strategy_summary_dahdidahdit"
+        />
+
+    <CheckBoxPreference
+        android:key="learning_strategy_value_wordkoch"
+        android:defaultValue="false"
+        android:title="@string/learning_strategy_title_wordkoch"
+        app:summary="@string/learning_strategy_summary_wordkoch"
+        />
+
+</PreferenceScreen>

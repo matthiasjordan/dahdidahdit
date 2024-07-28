@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="OuterFrame">
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+    </style>
+
+    <style name="Widget.Dahdidahdit.AppWidget.Container" parent="android:Widget">
+        <item name="android:padding">?attr/appWidgetPadding</item>
+        <item name="android:background">?attr/colorSecondary</item>
+    </style>
+
+    <style name="Widget.Dahdidahdit.AppWidget.InnerView" parent="android:Widget">
+        <item name="android:padding">?attr/appWidgetPadding</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+    </style>
+
+    <!-- Text input styles -->
+
+    <style name="TextInputEditTextStyle.hint">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/theme_primary_darkest</item>
+    </style>
+
+    <style name="TextInputEditTextStyle.placeholder">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+
+    <style name="TextInputEditTextStyle" parent="Widget.AppCompat.EditText">
+        <!--<item name="android:textColor">@color/theme_blink1</item>--> <!-- stylt eingegebenen text -->
+        <item name="android:editTextBackground">@color/theme_blink1</item> <!-- stylt hintergrund von eingegebenem text -->
+        <item name="editTextBackground">@color/theme_blink1</item> <!-- stylt hintergrund von eingegebenem text -->
+    </style>
+
+    <style name="TextInputLayoutStyle" parent="Widget.Design.TextInputLayout">
+        <!--<item name="background">?attr/editTextBackground</item>-->
+        <item name="hintTextAppearance">@style/TextInputEditTextStyle.hint</item> <!-- stylt aktiven hint-text -->
+        <item name="android:textColorHint">@color/theme_primary_darker</item> <!-- stylt inaktiven hint -->
+
+        <item name="placeholderTextAppearance">@style/TextInputEditTextStyle.placeholder</item> <!-- stylt placeholder -->
+        <!--<item name="colorOnSurface">@color/theme_blink2</item>--> <!-- stylt eingabehintergrund und nicht-minimierten hint -->
+
+        <!--<item name="colorAccent">@color/theme_blink2</item>--> <!-- stylt markierten text -->
+        <!--<item name="colorControlActivated">@color/theme_error_TextColor</item>--> <!-- stylt cursor -->
+        <!--<item name="android:textSize">28sp</item>--> <!-- stylt hint, eingegebenen Text -->
+
+        <item name="android:background">?attr/inputBoxBackgroundColor</item> <!-- stylt hintergrund der anfasser von textmarkierungen und box-hintergrund-->
+
+        <!--<item name="android:editTextBackground">?attr/editTextBackground</item>--> <!-- stylt hintergrund von eingegebenem text -->
+        <!--<item name="editTextBackground">?attr/editTextBackground</item>--> <!-- stylt hintergrund von eingegebenem text -->
+    </style>
+
+
+
+</resources>

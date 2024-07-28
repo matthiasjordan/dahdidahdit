@@ -1,0 +1,78 @@
+plugins {
+    id 'com.android.application'
+}
+
+tasks.configureEach { task ->
+    if (task.name == 'assembleRelease') {
+//        task.dependsOn('connectedAndroidTest')
+        task.dependsOn('testDebugUnitTest')
+    }
+
+    if (task.name == 'assembleDebug')
+        task.dependsOn('testDebugUnitTest')
+
+}
+
+android {
+    ndkVersion '21.2.6472646'
+
+    defaultConfig {
+        applicationId "com.paddlesandbugs.dahdidahdit"
+        compileSdk 34
+        minSdkVersion 24
+        targetSdkVersion 34
+        versionCode appVersionCode
+        versionName appVersionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+
+        configureEach {
+            resValue "string", "app_version_name", appVersionName
+        }
+
+        release {
+            minifyEnabled true // Try @Keep on classes and methods that get pruned but shouldn't
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            pseudoLocalesEnabled true
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            version '3.10.2'
+            path 'src/main/cpp/CMakeLists.txt'
+        }
+    }
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    buildFeatures {
+        viewBinding true
+    }
+    namespace 'com.paddlesandbugs.dahdidahdit'
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.preference:preference:1.2.1'
+
+    def room_version = "2.6.1"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-core:5.6.0'
+}

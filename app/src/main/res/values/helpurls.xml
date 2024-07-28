@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="helpurl_copytraining" translatable="false">copy-training</string>
+    <string name="helpurl_customtraining" translatable="false">custom-training</string>
+    <string name="helpurl_headcopying" translatable="false">head-copying</string>
+    <string name="helpurl_breasspounder" translatable="false">brass-pounder</string>
+    <string name="helpurl_sendingtraining" translatable="false">sending-training</string>
+    <string name="helpurl_internet" translatable="false">internet</string>
+    <string name="helpurl_mainsettings" translatable="false">main-settings</string>
+</resources>

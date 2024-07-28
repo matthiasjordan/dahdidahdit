@@ -1,0 +1,30 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SeekBarPreference
+        android:defaultValue="0"
+        android:key="headcopy_stage"
+        android:max="20"
+        android:title="@string/headcopy_stage"
+        app:min="0"
+        app:showSeekBarValue="true"
+        app:useSimpleSummaryProvider="true" />
+
+    <Preference
+        app:fragment="com.paddlesandbugs.dahdidahdit.settings.HeadcopyFragmentCurrent"
+        app:key="headcopy_header_from"
+        app:summary="@string/copytrainer_summary_from"
+        app:title="@string/settings_copytrainer_header_current" />
+
+    <Preference
+        app:fragment="com.paddlesandbugs.dahdidahdit.settings.HeadcopyFragmentTo"
+        app:key="headcopy_header_to"
+        app:summary="@string/copytrainer_summary_to"
+        app:title="@string/settings_copytrainer_header_to" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="headcopy_allow_only_copytrainer_chars"
+        android:title="@string/allow_only_copytrainer_chars" />
+
+</PreferenceScreen>

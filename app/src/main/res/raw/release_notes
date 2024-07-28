@@ -1,0 +1,53 @@
+=1.11.1
+* The app will be removed from Google Play Store and published as Free Software. See homepage for details.
+
+=1.11.0
+* Added Morse Tennis, a two-player game to be played over the internet.
+* A bit larger buttons for the on-screen paddle.
+* Help pages linked.
+
+=1.10.3
+* Fix for title in settings
+* Fix for displaying saved RSS feed name in settings
+
+=1.10.2
+* Updated dependencies and moved to target API level 33 due to Play Store requirements.
+
+=1.10.1
+* Fixed problem with receiving UDP broadcast on some devices (MOPP).
+* Fixed navigation to and in Learn Q codes.
+
+=1.10.0
+* Connect to MOPP servers (Morserino) and communicate with other hams!
+
+=1.9.2
+* Fixed automatic update of speed in Sending Training.
+
+=1.9.1
+* New global prefs section for workarounds
+* Workaround for late sound start in head copying
+
+=1.9.0
+* Now supporting an additional training method: Word Koch after DJ3EI.
+
+=1.8.1
+* Fixed the speed bug in the settings preview demo player
+
+=1.8.0
+* Added support for RSS feeds in Custom Training
+* Added option to use only those characters in Head Copying that were learned in Copy Training
+
+=1.7.1
+* Fixed app crash at startup on Android 12
+
+=1.7.0
+* Help page with handwriting guides
+* Fix for high CPU usage when learning a new character
+* Sending training shows changed speed
+
+=1.6.1
+* Option to use only the first number of words from word lists
+* Making Morse code slower for a short time only when learning new letters
+* New words in the CW word list
+* Playing demo sound when Morse settings are changed
+* Show grading after stopped sessions

@@ -1,0 +1,66 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        app:fragment="com.paddlesandbugs.dahdidahdit.settings.GlobalFragment"
+        app:key="global_header"
+        app:title="@string/settings_global_header" />
+
+    <Preference
+        app:fragment="com.paddlesandbugs.dahdidahdit.settings.CopyTrainerFragment"
+        app:key="copytrainer_header"
+        app:title="@string/copytrainer_title" />
+
+    <Preference
+        app:fragment="com.paddlesandbugs.dahdidahdit.settings.SelfdefinedFragment"
+        app:key="selfdefined_header"
+        app:title="@string/selfdefined_title" />
+
+    <Preference
+        app:fragment="com.paddlesandbugs.dahdidahdit.settings.HeadcopyFragment"
+        app:key="headcopy_header"
+        app:title="@string/headcopy_title" />
+
+    <Preference
+        app:fragment="com.paddlesandbugs.dahdidahdit.settings.SendingTrainerFragment"
+        app:key="sendingtrainer_header"
+        app:title="@string/sendingtrainer_title" />
+
+    <PreferenceCategory
+        android:enabled="true"
+        android:title="@string/root_about">
+
+        <Preference
+            android:key="root_version"
+            android:defaultValue=""
+            android:enabled="true"
+            android:singleLine="true"
+            android:summary="@string/app_version_name"
+            android:title="@string/root_version" />
+
+        <Preference
+            android:key="release_notes"
+            android:defaultValue=""
+            android:enabled="true"
+            android:singleLine="true"
+            android:title="@string/settings_release_notes" />
+
+        <Preference
+            android:key="visit_homepage"
+            android:defaultValue=""
+            android:enabled="true"
+            android:singleLine="true"
+            android:summary="https://paddlesandbugs.com"
+            android:title="Project homepage" />
+
+        <Preference
+            android:key="support_bugreports"
+            android:defaultValue=""
+            android:enabled="true"
+            android:singleLine="true"
+            android:summary="@string/support_bugreports_email"
+            android:title="@string/support_bugreports" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

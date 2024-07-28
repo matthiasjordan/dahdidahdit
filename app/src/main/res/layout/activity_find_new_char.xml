@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".copytrainer.FindTheCharActivity">
+
+        <TextView
+            android:id="@+id/nextLetterText"
+            style="?attr/textAppearanceSubtitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="33dp"
+            android:text="@string/find_the"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/nextCharSampleText"
+            style="@style/TextAppearance.MyTheme.LetterSample"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/char_sample"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nextLetterText" />
+
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:onClick="onNext"
+            android:text="@string/next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/noButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:onClick="onNoButton"
+            android:text="@string/no"
+            app:layout_constraintBottom_toTopOf="@+id/nextButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/yesButton"
+            app:layout_constraintTop_toBottomOf="@+id/nextCharSampleText" />
+
+        <Button
+            android:id="@+id/yesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onYesButton"
+            android:text="@string/play"
+            app:layout_constraintBottom_toTopOf="@+id/nextButton"
+            app:layout_constraintEnd_toStartOf="@+id/noButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nextCharSampleText" />
+
+        <ImageView
+            android:id="@+id/imageStar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/image_description_imageStar"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/nextCharSampleText"
+            app:layout_constraintEnd_toEndOf="@+id/nextCharSampleText"
+            app:layout_constraintStart_toStartOf="@+id/nextCharSampleText"
+            app:layout_constraintTop_toTopOf="@+id/nextCharSampleText"
+            app:srcCompat="@drawable/ic_smiley" />
+
+        <ImageView
+            android:id="@+id/imageFail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/image_description_imageFail"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/nextCharSampleText"
+            app:layout_constraintEnd_toEndOf="@+id/nextCharSampleText"
+            app:layout_constraintStart_toStartOf="@+id/nextCharSampleText"
+            app:layout_constraintTop_toTopOf="@+id/nextCharSampleText"
+            app:srcCompat="@drawable/ic_frownie" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <include layout="@layout/navigation_view"/>
+
+</androidx.drawerlayout.widget.DrawerLayout>

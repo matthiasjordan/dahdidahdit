@@ -1,0 +1,78 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ListPreference
+        android:defaultValue="600 Hz"
+        android:entries="@array/side_tone_frequencies"
+        android:entryValues="@array/side_tone_frequencies"
+        android:key="freq_dit"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/dit_frequency"
+        app:useSimpleSummaryProvider="true" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="dah_frequency_differs"
+        android:title="@string/use_different_dah_frequency" />
+
+    <ListPreference
+        android:defaultValue="600 Hz"
+        android:entries="@array/side_tone_frequencies"
+        android:entryValues="@array/side_tone_frequencies"
+        android:key="freq_dah"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/dah_frequency"
+        app:dependency="dah_frequency_differs"
+        app:useSimpleSummaryProvider="true" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="show_morse_text_uppercase"
+        android:title="@string/show_morse_text_uppercase_title" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="wrap_morse_text_with_vvvkaar"
+        android:title="@string/wrap_morse_text_with_vvvkaar_title" />
+
+    <ListPreference
+        android:key="morse_key_type"
+        android:title="@string/morse_key_type"
+        android:defaultValue="paddles"
+        android:entries="@array/morse_key_type_labels"
+        android:entryValues="@array/morse_key_type_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        app:useSimpleSummaryProvider="true" />
+
+    <ListPreference
+        android:defaultValue="dit_dah"
+        android:entries="@array/paddle_polarity_entries"
+        android:entryValues="@array/paddle_polarity_values"
+        android:key="paddle_polarity"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/paddle_polarity"
+        app:useSimpleSummaryProvider="true"
+        app:isPreferenceVisible="true"
+        />
+
+    <Preference
+        app:fragment="com.paddlesandbugs.dahdidahdit.settings.LearningStrategyFragment"
+        app:key="learning_strategy_header"
+        android:title="@string/learning_strategy"
+        app:title="@string/learning_strategy"
+        app:summary="@string/learning_strategy_summary"
+        />
+
+    <Preference
+        app:fragment="com.paddlesandbugs.dahdidahdit.settings.WorkaroundsFragment"
+        app:key="workarounds_header"
+        android:title="@string/workarounds"
+        app:title="@string/workarounds"
+        app:summary="@string/workarounds_summary"
+        />
+
+</PreferenceScreen>

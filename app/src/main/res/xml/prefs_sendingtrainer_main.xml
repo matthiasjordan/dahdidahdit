@@ -1,0 +1,55 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SeekBarPreference
+        android:key="sendingtrainer_current_wpm"
+        android:defaultValue="@integer/default_value_wpm_sending"
+        android:max="40"
+        android:title="@string/words_per_minute"
+        app:min="10"
+        app:seekBarIncrement="1"
+        app:showSeekBarValue="true"
+        app:useSimpleSummaryProvider="true" />
+
+    <ListPreference
+        android:key="sendingtrainer_text_generator"
+        android:defaultValue="random"
+        android:entries="@array/text_generator_labels_2"
+        android:entryValues="@array/text_generator_values_2"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/text_generator_type"
+        app:useSimpleSummaryProvider="true" />
+
+    <com.paddlesandbugs.dahdidahdit.settings.NumericPreference
+        android:key="sendingtrainer_text_first_n"
+        android:defaultValue="50"
+        android:title="@string/selfdefined_text_first_n"
+        android:max="2000"
+        app:min="1"
+        app:showSeekBarValue="true"
+        app:useSimpleSummaryProvider="true" />
+
+
+    <!--EditTextPreference
+        android:key="sendingtrainer_text"
+        android:defaultValue="vvv&lt;ka&gt;"
+        android:selectAllOnFocus="true"
+        android:singleLine="false"
+        android:title="@string/custom_text"
+        app:useSimpleSummaryProvider="true" /-->
+
+    <!--Preference
+        android:key="sendingtrainer_text_chooser"
+        android:selectAllOnFocus="true"
+        android:singleLine="false"
+        android:title="@string/load_text"
+        app:useSimpleSummaryProvider="true" /-->
+
+    <!--CheckBoxPreference
+        android:key="sendingtrainer_only_koch_chars"
+        android:defaultValue="false"
+        android:title="Only letters from Copy Trainer" /-->
+
+
+</PreferenceScreen>

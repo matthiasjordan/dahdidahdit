@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<com.google.android.material.navigation.NavigationView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/nav_view"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    app:menu="@menu/nav_main"
+    app:headerLayout="@layout/nav_header_main"
+    >
+
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#0000"
+        app:elevation="0dp"
+        app:menu="@menu/nav_bottom"
+        />
+</com.google.android.material.navigation.NavigationView>

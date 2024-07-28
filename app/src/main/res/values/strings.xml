@@ -1,0 +1,274 @@
+<resources>
+    <string name="app_name" translatable="false">Dahdidahdit</string>
+    <string name="text_sent">Text sent</string>
+    <string name="text_generator_mode_static">Sending static text</string>
+    <string name="text_generator_mode_random">Sending random text</string>
+    <string name="text_generator_mode_callsigns">Sending random callsigns</string>
+    <string name="text_generator_mode_loaded">Sending loaded text</string>
+    <string name="text_generator_mode_frompreferences">Sending custom text</string>
+    <plurals name="text_duration">
+        <item quantity="one">Duration: 1 second</item>
+        <item quantity="other">Duration: %1$d seconds</item>
+    </plurals>
+    <string name="play_button">Play</string>
+    <string name="stop_button">Stop</string>
+    <string name="pause_button">Pause</string>
+    <string name="copy_trainer_header">Ready, set, go!</string>
+    <string name="copy_trainer_header_sending">Try to keep up!</string>
+    <string name="lowButtonText" translatable="false"><![CDATA[%1$d-%2$d]]></string>
+    <string name="mediumButtonText" translatable="false"><![CDATA[%1$d-%2$d]]></string>
+    <string name="highButtonText" translatable="false"><![CDATA[%1$d-%2$d]]></string>
+    <string name="action_main_settings">Main settings</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="action_help">Help</string>
+
+    <!-- Preference Titles -->
+    <string name="settings_global_header">Global</string>
+    <string name="settings_copytrainer_header">Copy Training</string>
+    <string name="dit_frequency">Side Tone Frequency</string>
+    <string name="dah_frequency">Dah Frequency</string>
+    <string name="session_length_S">Session length</string>
+    <string name="presession_pause_S">Pre-session pause (s)</string>
+    <string name="koch_level">Koch Level</string>
+    <string name="words_per_minute">Words per minute</string>
+    <string name="settings_copytrainer_header_current">Current</string>
+    <string name="settings_copytrainer_header_to">Target</string>
+    <string name="show_morse_text_uppercase_title">Morse text in uppercase</string>
+    <string name="eff_words_per_minute">Words per minute (effective)</string>
+    <string name="next_letter">Next Letter:</string>
+    <string name="char_sample" translatable="false">X</string>
+    <string name="no">No</string>
+    <string name="there_it_is">There it is!</string>
+    <string name="find_the">Find the</string>
+    <string name="play">Play</string>
+    <string name="root_version">Version</string>
+    <string name="root_about">About</string>
+    <string name="QSB" translatable="false">QSB</string>
+    <string name="QRM" translatable="false">QRM</string>
+    <string name="QRN" translatable="false">QRN</string>
+    <string name="mistakes_in_this_session">Mistakes in this session:</string>
+
+    <!-- Global Preferences -->
+
+    <!-- Copy Training Preferences -->
+    <string-array name="session_duration_labels">
+        <item>30 Seconds</item>
+        <item>60 Seconds</item>
+        <item>90 Seconds</item>
+        <item>2 Minutes</item>
+        <item>3 Minutes</item>
+        <item>5 Minutes</item>
+    </string-array>
+
+    <string-array name="QRX_labels">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="text_generator_labels">
+        <item>Random characters</item>
+        <item>Callsigns</item>
+        <item>Q-codes</item>
+        <item>Top 2000 ham radio words</item>
+        <item>QSOs</item>
+        <item>Custom text</item>
+        <item>Loaded text</item>
+        <item>RSS</item>
+    </string-array>
+
+    <string-array name="text_generator_labels_2">
+        <item>Random characters</item>
+        <item>Callsigns</item>
+        <item>Q-codes</item>
+        <item>Top 2000 ham radio words</item>
+    </string-array>
+
+    <string-array name="rss_provider_labels" translatable="false">
+        <item>Feeder</item>
+    </string-array>
+
+    <string-array name="morse_key_type_labels">
+        <item>Paddles</item>
+        <item>Straight key</item>
+    </string-array>
+
+    <string name="toast_text_level_up">You leveled up %1$s to %2$d</string>
+    <string name="toast_text_level_down">You leveled down %1$s to %2$d</string>
+    <string name="wordlength_max">Maximal word length</string>
+    <string name="cannot_get_audiofocus">Cannot play right now.</string>
+    <string name="play_while_muted">It seems like the device is muted!</string>
+    <string name="copytrainer_summary_to">The target values of the automatically increased settings. The goal of your training.</string>
+    <string name="copytrainer_summary_from">The current values of those settings that will be increased automatically as you progress.</string>
+    <string name="settings_selfdefined_header">Self-defined</string>
+    <string name="text_generator_type">Kind of text</string>
+    <string name="copytrainer_title">Copy training</string>
+    <string name="copytrainer_learn_new_title">Learn new letter</string>
+    <string name="copytrainer_find_the_title">Find the letter!</string>
+    <string name="selfdefined_title">Custom training</string>
+    <string name="action_relearn_char">Re-learn last character</string>
+    <string name="custom_text">Custom text</string>
+    <string name="load_text">Load text</string>
+    <string name="use_different_dah_frequency">Use a different frequency for dah</string>
+    <string name="text_generator_qcodes">Q-Codes</string>
+    <string name="text_generator_qsos">QSOs</string>
+    <string name="text_generator_rss">RSS Feeds</string>
+    <string name="selfdefined_chirp_description">Add a chirp to the signal</string>
+    <string name="selfdefined_chirp">Chirp</string>
+    <string name="settings_selfdefined_header_current">Morse settings</string>
+    <string name="selfdefined_summary_current">Unlike in Copytrainer, these values do not automatically increase</string>
+    <string name="selfdefined_grading_next_button_text">Done</string>
+    <string name="headcopy_title">Head copying</string>
+    <string name="text_generator_syllables">Syllables</string>
+    <string name="headcopy_grading_exit">Exit</string>
+    <string name="headcopy_grading_right">Right</string>
+    <string name="headcopy_grading_show">Show</string>
+    <string name="headcopy_grading_wrong">Wrong</string>
+    <string name="next">Next</string>
+    <string name="intro_screen_back">Back</string>
+    <string name="intro_screen_next">Next</string>
+    <string name="intro_screen_start">Start</string>
+    <string name="onboarding_welcome">Welcome!</string>
+    <string name="onboarding_welcome_text">Dahdidahdit helps you to get up to speed with Morse code. Before we start, a couple of questions. (Tap \u201CNext\u201D or swipe left!)</string>
+    <string name="onboarding_proficiency_question">How good are you at copying Morse code?</string>
+    <string name="onboarding_proficiency_notatall">Not at all</string>
+    <string name="onboarding_proficiency_afewletters">A few letters only</string>
+    <string name="onboarding_proficiency_alllettersslowly">All letters, but I\'m slow</string>
+    <string name="onboarding_proficiency_alllettersfast">All letters</string>
+    <string name="onboarding_finished">All set!</string>
+    <string name="onboarding_finished_text">You can change the settings anytime. And now have fun and good luck!</string>
+    <string name="onboarding_beginner">Cheer up!</string>
+    <string name="onboarding_beginner_text">We\'re starting with a speed of 18 words per minute. This way you concentrate on the rhythm of the letters. There will be a short pause between the letters. When you know all letters, the pause gets shorter.</string>
+    <string name="onboarding_intermediate_koch_question">Which letter do you want to continue practicing?</string>
+    <string name="onboarding_advanced_text">How fast would you like to practice?</string>
+    <string name="onboarding_tone_freq">Which side tone frequency do you prefer?</string>
+    <string name="copytrainer_intro_1_headline">Copy trainer</string>
+    <string name="copytrainer_intro_1_text">The copy trainer teaches you how to copy Morse code. It uses the Koch method with Farnsworth timing.</string>
+    <string name="copytrainer_intro_2_headline">How it works</string>
+    <string name="copytrainer_intro_2_text">In each session, Dahdidahdit plays Morse code. You try to copy it using pen and paper. After the session, the text is printed.</string>
+    <string name="copytrainer_intro_3_headline">And then &#8230;</string>
+    <string name="copytrainer_intro_3_text">You compare your copy with the actual text and count your mistakes. You state the number of mistakes using the buttons at the bottom of the screen.</string>
+    <string name="copytrainer_intro_4_headline">The kicker</string>
+    <string name="copytrainer_intro_4_text">When your copying is good enough, Dahdidahdit ups the ante: It will show a new letter or increase the speed.</string>
+    <string name="copytrainer_intro_5_headline">Tuning</string>
+    <string name="copytrainer_intro_5_text">You can set your current proficiency and learning goal in the settings. Dahdidahdit will help you to reach your target proficiency.</string>
+    <string name="copytrainer_intro_6_text_koch_0">And now you\'ll learn your first two letters: k and m.</string>
+    <string name="copytrainer_intro_6_text_koch_later">And now you\'re going to learn your next letter.</string>
+    <string name="copytrainer_intro_6_text_koch_final">And now have fun brushing up your Morse code skill!</string>
+    <string name="headcopy_intro_1_headline">Headcopying</string>
+    <string name="headcopy_intro_1_text">Headcopying means to copy Morse code without pen and paper, in your head.</string>
+    <string name="headcopy_intro_2_headline">How it works</string>
+    <string name="headcopy_intro_2_text">The headcopy trainer plays only a few letters. When it stops, you can check if you copied correctly. Then you tap the corresponding button.</string>
+    <string name="headcopy_intro_3_headline">Progress!</string>
+    <string name="headcopy_intro_3_text">When you copy well for a while, Dahdidahdit will play ever longer words or increase the speed. There will be short breaks between syllables. These breaks will eventually get shorter.</string>
+    <string name="selfdefined_intro_1_headline">Custom training</string>
+    <string name="selfdefined_intro_1_text">Here, you don\'t progress automatically. Instead, you can choose from a variety of texts. You can even practice with your own text, or with text that you received from other apps.</string>
+    <string name="learnqcodes_intro_1_headline">Learn Q codes!</string>
+    <string name="learnqcodes_intro_1_text">You have to learn Q codes and prosigns. Dahdidahdit helps you in a flash card style to do it.</string>
+    <string name="copyright_line" translatable="false">Copyright © 2021-2023 Matthias Jordan</string>
+    <string name="image_description_imageStar">Correct</string>
+    <string name="image_description_imageFail">Wrong</string>
+    <string name="support_website_url" translatable="false">https://paddlesandbugs.com</string>
+    <string name="support_website">Website</string>
+    <string name="support_bugreports_email" translatable="false">bugs@paddlesandbugs.com</string>
+    <string name="support_bugreports_email_url" translatable="false">mail:bugs@paddlesandbugs.com</string>
+    <string name="support_bugreports">Send bug reports to</string>
+    <string name="close">Close</string>
+    <string name="release_notes_title">Most recent changes</string>
+    <string name="settings_release_notes">Release Notes</string>
+    <string name="tooltip_trainer_start">Tap the start button to begin!</string>
+    <string name="tooltip_grading_countbuttons">Count your mistakes and tap the corresponding button!</string>
+    <string name="tooltip_learn_playButton">Tap as often as you want to learn what the new letter sounds like!</string>
+    <string name="selfdefined_qlf">Straight key QLF sender</string>
+    <string name="selfdefined_qlf_description">Add some weird timings to the Morse code</string>
+    <string name="show_steno">Show handwriting guide</string>
+    <string name="show_steno_summary">When learning a new letter, show a tip on how to write it quickly.</string>
+    <string name="tooltip_learn_steno">This is an idea how to write the letter. You can turn this off in the settings.</string>
+    <string name="wrap_morse_text_with_vvvkaar_title"><![CDATA[Wrap Morse texts with vvv<ka><ar>]]></string>
+    <string name="learnqcodes_title">Q Codes</string>
+    <string name="qcode_session_end">Nothing more to do!</string>
+    <plurals name="qcode_seeyousoon">
+        <item quantity="one"> (Try again in a minute.)</item>
+        <item quantity="other"> (Try again in %1$s minutes.)</item>
+    </plurals>
+    <string name="qcode_tomorrow">(Try again tomorrow.)</string>
+    <string name="action_add_cards">Learn more cards</string>
+    <string name="learnqcodes_intro_2_headline">Flash cards</string>
+    <string name="learnqcodes_intro_2_text">Dahdidahdit will play e.g. a Q code. You answer the meaning in your head and then look at the true meaning by clicking on the button. If you were right, you click on \u201Cright\u201D. Else you hit the \u201Cwrong\u201D button.</string>
+    <string name="learnqcodes_intro_3_headline">Repeat</string>
+    <string name="learnqcodes_intro_3_text">Cards that you answer correctly get repeated less often. More difficult cards will be shown more frequently. After a while, you know them by heart.</string>
+    <string name="sendingtrainer_title">Sending training</string>
+    <string name="brasspounder_title">Brass pounder</string>
+    <string name="paddle_polarity">Paddle polarity</string>
+    <string name="sendingtrainer_start_prompt">Send some letters to start!</string>
+    <string name="sendingtrainer_word_prompt">Next word:</string>
+    <string name="sendingtrainer_current_word_label">Current word:</string>
+    <string name="onscreen_paddles_tooltip">These buttons are the left and right paddle keys.</string>
+    <string name="sendingtrainer_intro_1_headline">Sending training</string>
+    <string name="sendingtrainer_intro_1_text">This is for training the sending of Morse code. Use the on-screen paddle to key. This is an experimental feature. I greatly appreciate any feedback, especially if you don\'t like it.</string>
+    <string name="sendingtrainer_headline">Send the text!</string>
+    <string name="sendingtrainer_copied_word">Copied word:</string>
+    <string name="morse_key_type">Type of Morse key</string>
+    <string name="app_widget_description">Shows how many days you have practiced in a row.</string>
+    <string name="appwidget_daysinarow_label">Days in a row</string>
+    <string name="appwidget_maxdaysinarow_label">Maximal</string>
+    <string name="app_widget_label_1x1">Dahdidahdit Small widget</string>
+    <string name="app_widget_label_2x2">Dahdidahdit Medium widget</string>
+    <string name="selfdefined_text_first_n">Number of words from list</string>
+    <string name="action_show_graffiti_cheatsheet">Show handwriting guides</string>
+    <string name="graffiti_cheatsheet_title">Handwriting guides</string>
+    <string name="rss_provider">RSS Reader</string>
+    <string name="rss_provider_feed">Feed name</string>
+    <string name="rss_permission_missing">Could not get permission</string>
+    <string name="allow_only_copytrainer_chars">Use only characters learned in Copy Training</string>
+    <string name="learning_strategy">Learning strategy</string>
+    <string name="learning_strategy_summary" >You can choose between the standard Dahdidahdit mix of Koch with Farnsworth timings and a Koch variant that uses whole words and teaches the characters in a a different sequence.</string>
+    <string name="settings_learning_strategy_header">Training method</string>
+    <string name="learning_strategy_title_dahdidahdit">Dahdidahdit</string>
+    <string name="learning_strategy_summary_dahdidahdit">Use the traditional Koch character sequence and scheme with progress at or below 10%% errors along with adaptive Farnsworth spacing.</string>
+    <string name="learning_strategy_title_wordkoch">Word Koch</string>
+    <string name="learning_strategy_summary_wordkoch">Learn characters using actual words after DJ3EI. The sequence in which characters are learned is different from the traditional Koch sequence.</string>
+    <string name="workarounds">Workarounds</string>
+    <string name="workarounds_summary">Solutions to some issues users of certain devices might experience</string>
+    <string name="morseplayer_lead_time">Initial playback pause (ms)</string>
+    <string name="headcopy_stage">Stage</string>
+    <string name="mopp_client_title">MOPP Client</string>
+    <string name="network_list_title">Network servers</string>
+    <string name="network_add_title">Add server</string>
+    <string name="network_list_menu_title">Internet</string>
+    <string name="network_add_fieldtitle_address">Server address</string>
+    <string name="network_add_fieldtitle_description">Description</string>
+    <string name="network_add_button_add">Add server</string>
+    <string name="network_list_delete_message">Do you want to delete the server %1$s?</string>
+    <string name="network_list_delete_title">Delete server</string>
+    <string name="action_mopp_show_hide_morse">Show/hide Morse text</string>
+    <string name="network_add_address_placeholder">e.g. example.com</string>
+    <string name="network_add_intro">Create a new MOPP server config with these values:</string>
+    <string name="network_error">Network error: %1$s</string>
+    <string name="action_mopp_morsetennis_play">Play Morse tennis</string>
+    <string name="action_mopp_morsetennis_stop">Stop Morse tennis</string>
+    <string name="action_mopp_morsetennis_intro">Send cq mt or wait for a QSO!</string>
+    <string name="action_mopp_morsetennis_dxendedgame">DX ended the game.</string>
+    <string name="action_mopp_morsetennis_usendedgame">You ended the game.</string>
+    <string name="action_mopp_morsetennis_outro">Send &lt;ka&gt; to restart!</string>
+    <string name="action_mopp_morsetennis_game_starts">Game starts!</string>
+    <string name="action_mopp_morsetennis_wait_for_dx">"Wait for DX to continue!</string>
+    <string name="action_mopp_morsetennis_give_word_twice">Give a word twice to send!</string>
+    <string name="action_mopp_morsetennis_challenge_passed">OK</string>
+    <string name="action_mopp_morsetennis_challenge_failed">ERR</string>
+    <string name="action_mopp_morsetennis_status_initial">Starting match</string>
+    <string name="action_mopp_morsetennis_status_invite_received">DX seeking match</string>
+    <string name="action_mopp_morsetennis_status_invite_answered">Waiting for acknowlede</string>
+    <string name="action_mopp_morsetennis_status_invite_sent">Waiting for responses</string>
+    <string name="action_mopp_morsetennis_status_invite_accepted">DX accepted. Wait for challenge!</string>
+    <string name="action_mopp_morsetennis_status_start_round_sender">Send challenge!</string>
+    <string name="action_mopp_morsetennis_status_wait_for_answer">Challenge sent. Waiting.</string>
+    <string name="action_mopp_morsetennis_status_start_round_receiver">Awaiting challenge</string>
+    <string name="action_mopp_morsetennis_status_challenge_received">Try to copy challenge!</string>
+    <string name="action_mopp_morsetennis_status_end">Match ended</string>
+    <string name="action_add">Add</string>
+
+</resources>

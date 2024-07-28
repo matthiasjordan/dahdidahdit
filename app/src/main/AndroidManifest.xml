@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="com.nononsenseapps.feeder.permission.read" />
+
+
+    <queries>
+        <provider android:authorities="com.nononsenseapps.feeder.rssprovider" />
+    </queries>
+
+
+    <application
+        android:allowBackup="true"
+        android:fullBackupContent="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="false"
+        android:theme="@style/Theme.Dahdidahdit">
+
+        <receiver
+            android:name=".widget.DaysPracticedWidget1x1"
+            android:exported="true"
+            android:label="@string/app_widget_label_1x1">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/days_practiced_widget_1x1_info" />
+        </receiver>
+        <receiver
+            android:name=".widget.DaysPracticedWidget2x2"
+            android:exported="true"
+            android:label="@string/app_widget_label_2x2">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/days_practiced_widget_2x2_info" />
+        </receiver>
+        <receiver
+            android:name=".base.BootCompletedReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".widget.DateChangedReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.paddlesandbugs.dahdidahdit.UPDATE_WIDGET" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".base.MainActivity"
+            android:exported="true"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:label="@string/title_activity_settings" />
+        <activity android:name=".onboarding.OnboardingActivity" />
+        <activity android:name=".copytrainer.CopyTrainerIntro" />
+        <activity android:name=".copytrainer.CopyTrainerActivity" />
+        <activity android:name=".copytrainer.GradingActivity" />
+        <activity android:name=".copytrainer.LearnNewCharActivity" />
+        <activity android:name=".copytrainer.FindTheCharActivity" />
+        <activity android:name=".copytrainer.FindTheKMActivity" />
+        <activity android:name=".copytrainer.GraffitiCheatSheetActivity" />
+        <activity android:name=".selfdefined.SelfdefinedIntro" />
+        <activity android:name=".selfdefined.SelfdefinedActivity" />
+        <activity android:name=".selfdefined.GradingActivity" />
+        <activity android:name=".headcopy.HeadcopyIntro" />
+        <activity android:name=".headcopy.HeadcopyActivity" />
+        <activity android:name=".headcopy.GradingActivity" />
+        <activity android:name=".learnqcodes.LearnQCodesIntro" />
+        <activity android:name=".learnqcodes.LearnQCodesActivity" />
+        <activity android:name=".learnqcodes.GradingActivity" />
+        <activity android:name=".brasspound.SendingTrainerIntro" />
+        <activity android:name=".brasspound.BrassPoundActivity" />
+        <activity android:name=".brasspound.SendingTrainerActivity" />
+        <activity android:name=".network.NetworkListActivity" />
+        <activity android:name=".network.NetworkAddActivity" />
+        <activity android:name=".network.MOPPClientActivity" />
+    </application>
+
+</manifest>

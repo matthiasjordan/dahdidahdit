@@ -1,0 +1,42 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        app:fragment="com.paddlesandbugs.dahdidahdit.settings.CopyTrainerFragmentCurrent"
+        app:key="copytrainer_header_from"
+        app:summary="@string/copytrainer_summary_from"
+        app:title="@string/settings_copytrainer_header_current" />
+
+    <Preference
+        app:fragment="com.paddlesandbugs.dahdidahdit.settings.CopyTrainerFragmentTo"
+        app:key="copytrainer_header_to"
+        app:summary="@string/copytrainer_summary_to"
+        app:title="@string/settings_copytrainer_header_to" />
+
+    <ListPreference
+        android:defaultValue="60"
+        android:entries="@array/session_duration_labels"
+        android:entryValues="@array/session_duration_values"
+        android:key="copytrainer_session_duration_S"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/session_length_S"
+        app:useSimpleSummaryProvider="true" />
+
+    <SeekBarPreference
+        android:defaultValue="3"
+        android:key="copytrainer_session_start_pause_duration_S"
+        android:max="20"
+        android:title="@string/presession_pause_S"
+        app:min="0"
+        app:showSeekBarValue="true"
+        app:useSimpleSummaryProvider="true" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="copytrainer_show_steno"
+        android:summary="@string/show_steno_summary"
+        android:title="@string/show_steno" />
+
+
+</PreferenceScreen>

@@ -1,0 +1,76 @@
+/****************************************************************************
+    Dahdidahdit - an Android Morse trainer
+    Copyright (C) 2021-2024 Matthias Jordan <matthias@paddlesandbugs.com>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+****************************************************************************/
+
+package com.paddlesandbugs.dahdidahdit.copytrainer;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import androidx.preference.PreferenceManager;
+
+import com.paddlesandbugs.dahdidahdit.params.GeneralFadedParameters;
+import com.paddlesandbugs.dahdidahdit.params.GeneralParameters;
+
+/**
+ * Settings that are to be adjusted automatically by the trainer.
+ */
+public class CopyTrainerParams extends GeneralParameters {
+
+    private static final String LOG_TAG = "CopyTrainerParams";
+    public static final int START_PAUSE_S = 3;
+    public static final int SESSION_S = 60;
+
+
+    public static final String SETTINGS_PREFIX = "copytrainer";
+
+
+    private boolean showSteno;
+
+
+    public CopyTrainerParams(Context context) {
+        super(context);
+    }
+
+
+    @Override
+    protected String getSettingsPrefix() {
+        return SETTINGS_PREFIX;
+    }
+
+
+    @Override
+    protected GeneralFadedParameters createFaded(Context context, String name) {
+        return new CopyTrainerParamsFaded(context, name);
+    }
+
+
+    @Override
+    public void update(Context context) {
+        super.update(context);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        showSteno = sharedPreferences.getBoolean("copytrainer_show_steno", false);
+    }
+
+
+    public boolean isShowSteno() {
+        return showSteno;
+    }
+
+}
+

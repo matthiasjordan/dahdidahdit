@@ -1,0 +1,47 @@
+@startuml
+
+state "Initial" as init
+state "Invite sent\nWaiting for reply" as invsent
+state "Invite answered\nWaiting for ACK" as invansw
+state "Invite accepted\nNeed to ACK" as invacc
+state "Invite received" as invrec
+state "Start round receiever" as roundrec
+state "Start round sender" as roundsend
+state "Wait for answer" as wait
+state "Challenge received" as chrec
+state "End" as end
+
+[*] --> init
+any --> end : "<sk>"
+
+init --> invrec : < cqcall
+init --> invsent : > cqcall
+
+invrec --> invrec: < cqcall
+invrec --> invsent: > cqcall
+invrec --> invansw : > dxdepat
+
+invansw --> invansw : < cqcall
+invansw --> invansw : > dxdeus
+invansw --> invsent : > cqcall
+invansw --> roundrec : < usdedx
+
+
+invsent --> invacc : < usdepat
+invsent --> invsent: < cqcall
+invsent --> invansw: > dxdeus
+
+invacc --> roundsend : > dxdeus
+
+roundsend --> wait : > challenge
+
+wait --> roundrec : < anymsg
+
+roundrec --> chrec : < "#"
+
+chrec --> roundsend : > msg
+
+end --> init : "<ka>" sent
+
+
+@enduml

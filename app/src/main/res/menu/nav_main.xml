@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item
+            android:id="@+id/nav_copytrainer"
+            android:title="@string/copytrainer_title" />
+        <item
+            android:id="@+id/nav_selfdefined"
+            android:title="@string/selfdefined_title" />
+        <item
+            android:id="@+id/nav_headcopy"
+            android:title="@string/headcopy_title" />
+        <item
+            android:id="@+id/nav_learnqcodes"
+            android:title="@string/learnqcodes_title" />
+
+        <item
+            android:id="@+id/nav_brasspounder"
+            android:title="@string/brasspounder_title" />
+
+        <item
+            android:id="@+id/nav_sending_trainer"
+            android:title="@string/sendingtrainer_title" />
+
+        <item
+            android:id="@+id/nav_network_list"
+            android:title="@string/network_list_menu_title" />
+
+        <item
+            android:id="@+id/nav_settings"
+            android:title="@string/action_main_settings" />
+
+</menu>

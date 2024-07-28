@@ -1,0 +1,26 @@
+qrg|Your frequency is ... kHz.|What's my frequency?
+qrl|I'm busy.|Are you busy?
+qth|My location is ...|What is your location?
+qrm|I have interference 1..5|Do you have interference?
+qrn|I'm troubled by static 1..5|Are you being troubled by static?
+qro|Increase power!|Shall I increase power?
+qrp|Decrease power!|Shall I decrease power?
+qrq|Send quicker!|Shall I send quicker?
+qrs|Send slower!|Shall I send slower?
+qrt|Stop sending!|Shall I stop sending?
+qrv|I'm ready.|Are you ready?
+qrz|You are being called by ... at ... kHz.|Who is calling me?
+qsb|Your signal is fading.|Does my signal fade?
+qsk|I can hear you between my signals.|Can you hear me between your signals?
+qsl|I acknowledge receipt.|Can you acknowledge receipt?
+qso|I can talk directly to ... .|Can you talk directly to ...?
+qsy|Change frequency to ... kHz.|Shall I change frequency?
+qrt|I will now stop sending.|Shall I stop sending?
+<ar>|End of transmission
+<cl>|Shutting down the station.
+<r>|Roger
+<sk>|End of the QSO
+<sos>|Emergency
+<as>|Please wait for a few minutes!
+<kn>|Over only to you
+<ka>|Begin of transmission

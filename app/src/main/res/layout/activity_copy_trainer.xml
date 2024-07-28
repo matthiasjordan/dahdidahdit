@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".copytrainer.CopyTrainerActivity"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:id="@+id/nav_host_fragment"
+        style="@style/OuterFrame"
+        >
+
+        <TextView
+            android:id="@+id/textCopyTrainHeader"
+            style="?attr/textAppearanceHeadline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:scrollHorizontally="true"
+            android:text="@string/copy_trainer_header"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textCopyTrainerSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text=""
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textCopyTrainHeader"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+        <ImageView
+            android:id="@+id/imageStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:contentDescription="@string/play_button"
+            android:focusable="true"
+            android:onClick="onStartPlay"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imagePause"
+            app:layout_constraintStart_toEndOf="@+id/imageStop"
+            app:layout_constraintTop_toBottomOf="@+id/textCopyTrainerSubtitle"
+            app:layout_constraintVertical_bias="0.275"
+            app:srcCompat="@drawable/ic_outline_play_circle_24" />
+
+        <ImageView
+            android:id="@+id/imageStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:clickable="true"
+            android:contentDescription="@string/stop_button"
+            android:focusable="true"
+            android:onClick="onStopPlay"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageStart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textCopyTrainerSubtitle"
+            app:layout_constraintVertical_bias="0.275"
+            app:srcCompat="@drawable/ic_outline_stop_circle_24" />
+
+        <ImageView
+            android:id="@+id/imagePause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:clickable="true"
+            android:contentDescription="@string/pause_button"
+            android:focusable="true"
+            android:onClick="onPausePlay"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageStart"
+            app:layout_constraintTop_toBottomOf="@+id/textCopyTrainerSubtitle"
+            app:layout_constraintVertical_bias="0.275"
+            app:srcCompat="@drawable/ic_outline_pause_circle_24" />
+
+        <TextView
+            android:id="@+id/textCopyTrainDuration"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageStart"
+            app:layout_constraintVertical_bias="0.17000002" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include layout="@layout/navigation_view"/>
+
+</androidx.drawerlayout.widget.DrawerLayout>
+
+

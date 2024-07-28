@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        tools:context=".copytrainer.GradingActivity"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:id="@+id/nav_host_fragment"
+        style="@style/OuterFrame"
+        >
+
+
+        <TextView
+            android:id="@+id/textCopyGradingHeader"
+            style="?attr/textAppearanceHeadline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/text_sent"
+            android:scrollHorizontally="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/buttonShow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textCopyGradingHeader">
+
+            <TextView
+                android:id="@+id/textSent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                style="@style/TextAppearance.MyTheme.Code"
+                />
+        </ScrollView>
+
+
+        <Button
+            android:id="@+id/buttonRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onButtonRight"
+            android:text="@string/headcopy_grading_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/buttonShow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onButtonShow"
+            android:text="@string/headcopy_grading_show"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonWrong"
+            app:layout_constraintStart_toEndOf="@+id/buttonRight" />
+
+        <Button
+            android:id="@+id/buttonWrong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onButtonWrong"
+            android:text="@string/headcopy_grading_wrong"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="OnClick" />
+
+        <CheckBox
+            android:id="@+id/exit_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/headcopy_grading_exit"
+            app:layout_constraintBottom_toBottomOf="@+id/buttonShow"
+            app:layout_constraintEnd_toStartOf="@+id/buttonWrong"
+            app:layout_constraintStart_toEndOf="@+id/buttonRight" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
+
+    <include layout="@layout/navigation_view"/>
+
+</androidx.drawerlayout.widget.DrawerLayout>

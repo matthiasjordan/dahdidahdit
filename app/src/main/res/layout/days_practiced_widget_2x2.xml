@@ -1,0 +1,99 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.Dahdidahdit.AppWidget.Container"
+    android:id="@+id/appwidget_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.Dahdidahdit">
+
+    <RelativeLayout
+        style="@style/Widget.Dahdidahdit.AppWidget.InnerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_margin="4dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        >
+
+        <RelativeLayout
+            style="@style/Widget.Dahdidahdit.AppWidget.InnerView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="top"
+            >
+
+            <TextView
+                android:id="@+id/appwidget_daysinarow_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_toStartOf="@id/appwidget_daysinarow_value"
+                android:textColor="?attr/colorOnPrimary"
+                android:contentDescription="@string/appwidget_daysinarow_label"
+                android:text="@string/appwidget_daysinarow_label"
+                android:textSize="12sp"
+                android:textStyle="" />
+
+
+            <TextView
+                android:id="@+id/appwidget_daysinarow_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="-5dp"
+                android:textColor="?attr/colorOnPrimary"
+                android:text="-"
+                android:textSize="42sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            style="@style/Widget.Dahdidahdit.AppWidget.InnerView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="bottom"
+            android:layout_alignParentBottom="true"
+            >
+
+            <TextView
+                android:id="@+id/appwidget_maxdaysinarow_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_toStartOf="@id/appwidget_maxdaysinarow_value"
+                android:textColor="?attr/colorOnPrimary"
+                android:contentDescription="@string/appwidget_maxdaysinarow_label"
+                android:text="@string/appwidget_maxdaysinarow_label"
+                android:textSize="12sp"
+                android:textStyle="" />
+
+
+            <TextView
+                android:id="@+id/appwidget_maxdaysinarow_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="-5dp"
+                android:textColor="?attr/colorOnPrimary"
+                android:text="-"
+                android:textSize="42sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

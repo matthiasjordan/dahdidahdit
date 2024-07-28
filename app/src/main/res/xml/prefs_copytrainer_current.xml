@@ -1,0 +1,69 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ListPreference
+        android:defaultValue="@string/default_value_copytrainer_current_koch_level"
+        android:key="copytrainer_current_sequence_level"
+    />
+
+    <SeekBarPreference
+        android:defaultValue="@integer/default_value_wpm_general"
+        android:key="copytrainer_current_wpm"
+        android:max="40"
+        android:title="@string/words_per_minute"
+        app:min="10"
+        app:seekBarIncrement="1"
+        app:showSeekBarValue="true"
+        app:useSimpleSummaryProvider="true" />
+
+    <SeekBarPreference
+        android:defaultValue="@integer/default_value_effwpm_general"
+        android:key="copytrainer_current_effwpm"
+        android:max="40"
+        android:title="@string/eff_words_per_minute"
+        app:min="10"
+        app:seekBarIncrement="1"
+        app:showSeekBarValue="true"
+        app:useSimpleSummaryProvider="true" />
+
+    <SeekBarPreference
+        android:defaultValue="@integer/default_value_wordlength"
+        android:key="copytrainer_current_wordlength_max"
+        android:max="12"
+        android:title="@string/wordlength_max"
+        app:min="3"
+        app:seekBarIncrement="1"
+        app:showSeekBarValue="true"
+        app:useSimpleSummaryProvider="true" />
+
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/QRX_labels"
+        android:entryValues="@array/QRX_values"
+        android:key="copytrainer_current_qsb"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/QSB"
+        app:useSimpleSummaryProvider="true" />
+
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/QRX_labels"
+        android:entryValues="@array/QRX_values"
+        android:key="copytrainer_current_qrm"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/QRM"
+        app:useSimpleSummaryProvider="true" />
+
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/QRX_labels"
+        android:entryValues="@array/QRX_values"
+        android:key="copytrainer_current_qrn"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/QRN"
+        app:useSimpleSummaryProvider="true" />
+
+</PreferenceScreen>

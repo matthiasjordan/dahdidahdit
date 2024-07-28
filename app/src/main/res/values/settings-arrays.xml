@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="session_duration_values">
+        <item>30</item>
+        <item>60</item>
+        <item>90 </item>
+        <item>120</item>
+        <item>180</item>
+        <item>300</item>
+    </string-array>
+
+    <string-array name="QRX_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3 </item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="side_tone_frequencies">
+        <item>475 Hz</item>
+        <item>500 Hz</item>
+        <item>525 Hz</item>
+        <item>550 Hz</item>
+        <item>575 Hz</item>
+        <item>600 Hz</item>
+        <item>625 Hz</item>
+        <item>650 Hz</item>
+    </string-array>
+
+    <string-array name="text_generator_values">
+        <item>random</item>
+        <item>callsigns</item>
+        <item>qcodes</item>
+        <item>2000words</item>
+        <item>qsos</item>
+        <item>frompreferences</item>
+        <item>loaded</item>
+        <item>rss</item>
+    </string-array>
+
+    <string-array name="text_generator_values_2">
+        <item>random</item>
+        <item>callsigns</item>
+        <item>qcodes</item>
+        <item>2000words</item>
+    </string-array>
+
+    <string-array name="rss_provider_values">
+        <item>com.nononsenseapps.feeder.rssprovider</item>
+    </string-array>
+
+    <string-array name="paddle_polarity_entries">
+        <item>. -</item>
+        <item>- .</item>
+    </string-array>
+
+    <string-array name="paddle_polarity_values">
+        <item>dit_dah</item>
+        <item>dah_dit</item>
+    </string-array>
+
+    <string-array name="morse_key_type_values">
+        <item>paddles</item>
+        <item>straightkey</item>
+    </string-array>
+
+</resources>

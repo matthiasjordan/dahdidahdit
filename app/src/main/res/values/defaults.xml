@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="default_value_wpm_general">18</integer>
+    <integer name="default_value_effwpm_general">12</integer>
+    <integer name="default_value_wpm_pro">20</integer>
+    <integer name="default_value_wpm_sending">12</integer>
+    <integer name="default_value_wordlength">5</integer>
+    <string name="default_value_frequency_general" translatable="false">600 Hz</string>
+    <string name="default_value_copytrainer_current_koch_level" translatable="false">0</string>
+</resources>

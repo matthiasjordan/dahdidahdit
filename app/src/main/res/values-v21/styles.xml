@@ -1,0 +1,12 @@
+<resources>
+
+    <style name="Widget.Dahdidahdit.AppWidget.Container" parent="android:Widget">
+        <item name="android:padding">?attr/appWidgetPadding</item>
+        <item name="android:background">?attr/colorSecondary</item>
+    </style>
+
+    <style name="Widget.Dahdidahdit.AppWidget.InnerView" parent="android:Widget">
+        <item name="android:padding">?attr/appWidgetPadding</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+    </style>
+</resources>
