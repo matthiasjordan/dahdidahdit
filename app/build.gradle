@@ -35,7 +35,6 @@ android {
 
         release {
             minifyEnabled true // Try @Keep on classes and methods that get pruned but shouldn't
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 
         debug {
