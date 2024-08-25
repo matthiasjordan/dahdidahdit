@@ -5,7 +5,6 @@
         android:title="@string/action_mopp_show_hide_morse"
         android:icon="@drawable/baseline_visibility_off_24"
         app:showAsAction="always"
-        android:showAsAction="always"
     />
 
     <item android:id="@+id/action_play_morsetennis"
