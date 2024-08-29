@@ -1,0 +1,1 @@
+An actual Morse code trainer, not just a Morse code generator
