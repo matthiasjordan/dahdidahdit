@@ -14,7 +14,7 @@ tasks.configureEach { task ->
 }
 
 android {
-    ndkVersion '21.2.6472646'
+    ndkVersion '28.0.12433566'
 
     defaultConfig {
         applicationId "com.paddlesandbugs.dahdidahdit"
@@ -44,11 +44,10 @@ android {
 
     externalNativeBuild {
         cmake {
-            version '3.28.3'
+            version '3.30.5'
             path 'src/main/cpp/CMakeLists.txt'
         }
     }
-
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
