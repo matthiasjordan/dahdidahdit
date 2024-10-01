@@ -97,11 +97,14 @@ public class CopyTrainerLearningStrategy extends DefaultLearningStrategy impleme
         qrXstate.add(new ParameterFader.Prio(Field.QRM, 1));
         qrXstate.add(new ParameterFader.Prio(Field.QRN, 1));
 
+        ParameterFader.Stage distributionStage = ParameterFader.Stage.single(Field.DISTRIBUTION, 10);
+
         ParameterFader.Config config = new ParameterFader.Config();
         config.add(kochStage);
         config.add(farnsworthStage);
         config.add(wpmStage);
         config.add(qrXstate);
+        config.add(distributionStage);
 
         config.add(new ParameterFader.Invariant() {
             @Override

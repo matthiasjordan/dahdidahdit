@@ -1,17 +1,17 @@
 package com.paddlesandbugs.dahdidahdit.text;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import com.paddlesandbugs.dahdidahdit.MorseCode;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class StaticTextGeneratorTest extends AbstractTextGeneratorTest {
     @Test
     public void testGenerateOnce1() {
         StaticTextGenerator sut = new StaticTextGenerator("f");
 
-        MorseCode.CharacterList res = read(sut, 10);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 10);
         System.out.println(res);
 
         assertEquals(new MorseCode.MutableCharacterList("f"), res);
@@ -22,7 +22,7 @@ public class StaticTextGeneratorTest extends AbstractTextGeneratorTest {
     public void testGenerateOnce2() {
         StaticTextGenerator sut = new StaticTextGenerator("foo");
 
-        MorseCode.CharacterList res = read(sut, 2);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 2);
         System.out.println(res);
 
         assertEquals(new MorseCode.MutableCharacterList("fo"), res);
@@ -33,7 +33,7 @@ public class StaticTextGeneratorTest extends AbstractTextGeneratorTest {
     public void testGenerateOnce3() {
         StaticTextGenerator sut = new StaticTextGenerator("foo");
 
-        MorseCode.CharacterList res = read(sut, 10);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 10);
         System.out.println(res);
 
         assertEquals(new MorseCode.MutableCharacterList("foo"), res);
@@ -44,7 +44,7 @@ public class StaticTextGeneratorTest extends AbstractTextGeneratorTest {
     public void testGenerateRepeat1a() {
         StaticTextGenerator sut = new StaticTextGenerator("f", true);
 
-        MorseCode.CharacterList res = read(sut, 1);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 1);
         System.out.println(res);
 
         assertEquals(new MorseCode.MutableCharacterList("f"), res);
@@ -55,7 +55,7 @@ public class StaticTextGeneratorTest extends AbstractTextGeneratorTest {
     public void testGenerateRepeat1b() {
         StaticTextGenerator sut = new StaticTextGenerator("f", true);
 
-        MorseCode.CharacterList res = read(sut, 2);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 2);
         System.out.println(res);
 
         assertEquals(new MorseCode.MutableCharacterList("f "), res);
@@ -66,7 +66,7 @@ public class StaticTextGeneratorTest extends AbstractTextGeneratorTest {
     public void testGenerateRepeat2() {
         StaticTextGenerator sut = new StaticTextGenerator("foo", true);
 
-        MorseCode.CharacterList res = read(sut, 2);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 2);
         System.out.println(res);
 
         assertEquals(new MorseCode.MutableCharacterList("fo"), res);
@@ -77,7 +77,7 @@ public class StaticTextGeneratorTest extends AbstractTextGeneratorTest {
     public void testGenerateRepeat3() {
         StaticTextGenerator sut = new StaticTextGenerator("foo", true);
 
-        MorseCode.CharacterList res = read(sut, 10);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 10);
         System.out.println(res);
 
         assertEquals(new MorseCode.MutableCharacterList("foo foo fo"), res);

@@ -12,6 +12,7 @@ import com.paddlesandbugs.dahdidahdit.copytrainer.CopyTrainer;
 import com.paddlesandbugs.dahdidahdit.copytrainer.KochSequence;
 import com.paddlesandbugs.dahdidahdit.copytrainer.TextGeneratorFactory;
 import com.paddlesandbugs.dahdidahdit.text.RandomTextGenerator;
+import com.paddlesandbugs.dahdidahdit.text.TextTestUtils;
 
 public class FrequencyDistributionFunctionTest {
 
@@ -186,7 +187,7 @@ public class FrequencyDistributionFunctionTest {
 
         System.out.println(base);
 
-        Map<MorseCode.CharacterData, Double> res = DistributionTest.runMonteCarlo(base.compile());
+        Map<MorseCode.CharacterData, Double> res = TextTestUtils.runMonteCarlo(base.compile());
         System.out.println(res);
 
         final MorseCode sut = MorseCode.getInstance();
@@ -216,7 +217,7 @@ public class FrequencyDistributionFunctionTest {
 
         System.out.println(base);
 
-        Map<MorseCode.CharacterData, Double> res = DistributionTest.runMonteCarlo(base.compile());
+        Map<MorseCode.CharacterData, Double> res = TextTestUtils.runMonteCarlo(base.compile());
         System.out.println(res);
 
         final MorseCode sut = MorseCode.getInstance();
@@ -256,7 +257,7 @@ public class FrequencyDistributionFunctionTest {
 
         System.out.println(base);
 
-        Map<MorseCode.CharacterData, Double> res = DistributionTest.runMonteCarlo(base.compile());
+        Map<MorseCode.CharacterData, Double> res = TextTestUtils.runMonteCarlo(base.compile());
         System.out.println(res);
 
         final MorseCode sut = MorseCode.getInstance();
@@ -288,7 +289,7 @@ public class FrequencyDistributionFunctionTest {
 
         System.out.println(base);
 
-        Map<MorseCode.CharacterData, Double> res = DistributionTest.runMonteCarlo(base.compile());
+        Map<MorseCode.CharacterData, Double> res = TextTestUtils.runMonteCarlo(base.compile());
         System.out.println(res);
 
         final MorseCode sut = MorseCode.getInstance();

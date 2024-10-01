@@ -1,24 +1,23 @@
 package com.paddlesandbugs.dahdidahdit.text;
 
-import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.paddlesandbugs.dahdidahdit.Distribution;
 import com.paddlesandbugs.dahdidahdit.MorseCode;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class RandomTextGeneratorTest extends AbstractTextGeneratorTest {
     @Test
     public void testGenerate() {
         RandomTextGenerator sut = RandomTextGenerator.createUniformRandomTextGenerator();
 
-        MorseCode.CharacterList res = read(sut, 10);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 10);
         System.out.println(res);
 
         assertTrue(res.size() <= 20);
@@ -35,11 +34,11 @@ public class RandomTextGeneratorTest extends AbstractTextGeneratorTest {
         Distribution<MorseCode.CharacterData> dist = RandomTextGenerator.createUniformDistribution(cs);
         RandomTextGenerator sut = new RandomTextGenerator(dist.compile());
 
-        MorseCode.CharacterList res = read(sut, 200);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 200);
         System.out.println(res);
 
         assertTrue(res.size() <= 200);
-        Map<MorseCode.CharacterData, Integer> counts = count(res);
+        Map<MorseCode.CharacterData, Double> counts = TextTestUtils.count(res);
         assertTrue(counts.size() <= 4);
         final Set<MorseCode.CharacterData> keyset = counts.keySet();
 
@@ -64,7 +63,7 @@ public class RandomTextGeneratorTest extends AbstractTextGeneratorTest {
         RandomTextGenerator sut = RandomTextGenerator.createUniformRandomTextGenerator();
         sut.setWordLengthMax(maxWordLength);
 
-        MorseCode.CharacterList res = read(sut, 500);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 500);
         System.out.println(res);
 
         int minSeen = Integer.MAX_VALUE;
@@ -89,22 +88,6 @@ public class RandomTextGeneratorTest extends AbstractTextGeneratorTest {
 
         assertEquals("min", RandomTextGenerator.MIN_WORD_LENGTH, minSeen);
         assertEquals("max", maxWordLength, maxSeen);
-    }
-
-
-    private Map<MorseCode.CharacterData, Integer> count(MorseCode.CharacterList res) {
-        Map<MorseCode.CharacterData, Integer> map = new HashMap<>();
-
-        for (MorseCode.CharacterData c : res) {
-            Integer count = map.get(c);
-            if (count == null) {
-                count = 0;
-            }
-            count += 1;
-            map.put(c, count);
-        }
-
-        return map;
     }
 
 }

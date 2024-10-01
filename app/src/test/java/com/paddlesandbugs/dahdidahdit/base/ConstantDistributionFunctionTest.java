@@ -16,6 +16,7 @@ import com.paddlesandbugs.dahdidahdit.copytrainer.CopyTrainerParamsFaded;
 import com.paddlesandbugs.dahdidahdit.copytrainer.KochSequence;
 import com.paddlesandbugs.dahdidahdit.copytrainer.TextGeneratorFactory;
 import com.paddlesandbugs.dahdidahdit.text.RandomTextGenerator;
+import com.paddlesandbugs.dahdidahdit.text.TextTestUtils;
 
 public class ConstantDistributionFunctionTest {
 
@@ -40,7 +41,7 @@ public class ConstantDistributionFunctionTest {
 
         System.out.println(base);
 
-        Map<MorseCode.CharacterData, Double> res = DistributionTest.runMonteCarlo(base.compile());
+        Map<MorseCode.CharacterData, Double> res = TextTestUtils.runMonteCarlo(base.compile());
         System.out.println(res);
 
         final MorseCode sut = MorseCode.getInstance();
@@ -67,7 +68,7 @@ public class ConstantDistributionFunctionTest {
 
         System.out.println(base);
 
-        Map<MorseCode.CharacterData, Double> res = DistributionTest.runMonteCarlo(base.compile());
+        Map<MorseCode.CharacterData, Double> res = TextTestUtils.runMonteCarlo(base.compile());
         System.out.println(res);
 
         final MorseCode sut = MorseCode.getInstance();
@@ -97,7 +98,7 @@ public class ConstantDistributionFunctionTest {
 
         System.out.println(base);
 
-        Map<MorseCode.CharacterData, Double> res = DistributionTest.runMonteCarlo(base.compile());
+        Map<MorseCode.CharacterData, Double> res = TextTestUtils.runMonteCarlo(base.compile());
         System.out.println(res);
 
         final MorseCode sut = MorseCode.getInstance();

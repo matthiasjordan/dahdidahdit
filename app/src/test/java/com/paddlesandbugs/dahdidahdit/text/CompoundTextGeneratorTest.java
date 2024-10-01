@@ -20,6 +20,21 @@ public class CompoundTextGeneratorTest {
         Assert.assertEquals(text1.length() + 1 + text2.length(), str.length());
     }
 
+    @Test
+    public void testAllNonRepeatingDifferentLength() {
+        final String text1 = "abc def ghi abc def ghi abc def ghi abc def ghi abc def ghi abc def ghi abc def ghi";
+        final String text2 = "123 456 789";
+        StaticTextGenerator gen1 = new StaticTextGenerator(text1);
+        StaticTextGenerator gen2 = new StaticTextGenerator(text2);
+        CompoundTextGenerator sut = new CompoundTextGenerator(0, gen1, gen2);
+
+        String str = TextTestUtils.pullString(sut, 10000);
+
+        Assert.assertTrue(str.contains("abc"));
+        Assert.assertTrue(str.contains("123"));
+        Assert.assertEquals(text1.length() + 1 + text2.length(), str.length());
+    }
+
 
     @Test
     public void testOneRepeating() {

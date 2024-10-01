@@ -13,8 +13,8 @@ public class VvvKaArDecoratorTest extends AbstractTextGeneratorTest {
         TextGenerator delegate = new StaticTextGenerator(null);
         VvvKaArDecorator sut = new VvvKaArDecorator(delegate);
 
-        MorseCode.CharacterList res = read(sut, 100);
-        MorseCode.CharacterList resPrinted = readPrinted(sut, 100);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 100);
+        MorseCode.CharacterList resPrinted = TextTestUtils.readPrinted(sut, 100);
         System.out.println(res);
 
         assertEquals(new MorseCode.MutableCharacterList("vvv<ka>  <ar>"), res);
@@ -26,8 +26,8 @@ public class VvvKaArDecoratorTest extends AbstractTextGeneratorTest {
         TextGenerator delegate = new StaticTextGenerator("");
         VvvKaArDecorator sut = new VvvKaArDecorator(delegate);
 
-        MorseCode.CharacterList res = read(sut, 100);
-        MorseCode.CharacterList resPrinted = readPrinted(sut, 100);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 100);
+        MorseCode.CharacterList resPrinted = TextTestUtils.readPrinted(sut, 100);
         System.out.println(res);
 
         assertEquals(new MorseCode.MutableCharacterList("vvv<ka>  <ar>"), res);
@@ -39,8 +39,8 @@ public class VvvKaArDecoratorTest extends AbstractTextGeneratorTest {
         TextGenerator delegate = new StaticTextGenerator("hallo");
         VvvKaArDecorator sut = new VvvKaArDecorator(delegate);
 
-        MorseCode.CharacterList res = read(sut, 100);
-        MorseCode.CharacterList resPrinted = readPrinted(sut, 100);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 100);
+        MorseCode.CharacterList resPrinted = TextTestUtils.readPrinted(sut, 100);
         System.out.println(res);
 
         assertEquals(new MorseCode.MutableCharacterList("vvv<ka> hallo <ar>"), res);
@@ -52,7 +52,7 @@ public class VvvKaArDecoratorTest extends AbstractTextGeneratorTest {
         TextGenerator delegate = new StaticTextGenerator("hallo");
         VvvKaArDecorator sut = new VvvKaArDecorator(delegate);
 
-        MorseCode.CharacterList res = readPrinted(sut, 100);
+        MorseCode.CharacterList res = TextTestUtils.readPrinted(sut, 100);
         System.out.println(res);
 
         assertEquals(new MorseCode.MutableCharacterList("hallo"), res);
@@ -64,7 +64,7 @@ public class VvvKaArDecoratorTest extends AbstractTextGeneratorTest {
         TextGenerator delegate = new StaticTextGenerator("hallo");
         VvvKaArDecorator sut = new VvvKaArDecorator(delegate);
 
-        MorseCode.CharacterList res = read(sut, 6);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 6);
         System.out.println(res);
 
         assertEquals(new MorseCode.MutableCharacterList("vvv<ka> h <ar>"), res);
@@ -76,7 +76,7 @@ public class VvvKaArDecoratorTest extends AbstractTextGeneratorTest {
         TextGenerator delegate = new StaticTextGenerator("hallo");
         VvvKaArDecorator sut = new VvvKaArDecorator(delegate);
 
-        MorseCode.CharacterList res = read(sut, 9);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 9);
         System.out.println(res);
 
         assertEquals(new MorseCode.MutableCharacterList("vvv<ka> hall <ar>"), res);

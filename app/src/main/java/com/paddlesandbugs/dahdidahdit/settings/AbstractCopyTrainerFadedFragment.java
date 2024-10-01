@@ -1,20 +1,20 @@
 /****************************************************************************
-    Dahdidahdit - an Android Morse trainer
-    Copyright (C) 2021-2024 Matthias Jordan <matthias@paddlesandbugs.com>
+ Dahdidahdit - an Android Morse trainer
+ Copyright (C) 2021-2024 Matthias Jordan <matthias@paddlesandbugs.com>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-****************************************************************************/
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
 
 package com.paddlesandbugs.dahdidahdit.settings;
 
@@ -27,6 +27,7 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
+import androidx.preference.SeekBarPreference;
 
 import com.paddlesandbugs.dahdidahdit.R;
 import com.paddlesandbugs.dahdidahdit.base.MainActivity;
@@ -81,5 +82,54 @@ public abstract class AbstractCopyTrainerFadedFragment extends AbstractFadedFrag
 
     protected abstract String getKochDefaultValue();
 
+
+    protected void setDistributionSummary(String infix) {
+        final String key = "copytrainer_" + infix + "_distribution";
+        final Preference preference = findPreference(key);
+        if (preference == null) {
+            return;
+        }
+
+        preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
+                // Seems to be necessary to update the summary.
+                ((SeekBarPreference) preference).setValue((Integer) newValue);
+                return true;
+            }
+        });
+        preference.setSummaryProvider(new Preference.SummaryProvider() {
+            @Override
+            public CharSequence provideSummary(@NonNull Preference preference) {
+                if (!(preference instanceof SeekBarPreference)) {
+                    return "";
+                }
+
+                int value = ((SeekBarPreference) preference).getValue();
+                if ((value < 0) || (10 < value)) {
+                    return "";
+                }
+
+                final int percent = value * 10;
+                final String message;
+                switch (value) {
+                    case 0: {
+                        message = getResources().getString(R.string.prefs_summary_distribution_0);
+                        break;
+                    }
+                    case 10: {
+                        message = getResources().getString(R.string.prefs_summary_distribution_10);
+                        break;
+                    }
+                    default: {
+                        message = getResources().getString(R.string.prefs_summary_distribution_x, percent, 100 - percent);
+                        break;
+                    }
+                }
+
+                return message;
+            }
+        });
+    }
 
 }

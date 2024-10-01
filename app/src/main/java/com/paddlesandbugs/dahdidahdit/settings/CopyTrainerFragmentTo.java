@@ -18,6 +18,8 @@
 
 package com.paddlesandbugs.dahdidahdit.settings;
 
+import android.os.Bundle;
+
 import androidx.annotation.Keep;
 
 import com.paddlesandbugs.dahdidahdit.R;
@@ -28,6 +30,12 @@ import com.paddlesandbugs.dahdidahdit.params.GeneralFadedParameters;
 
 @Keep
 public class CopyTrainerFragmentTo extends AbstractCopyTrainerFadedFragment {
+
+    @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        super.onCreatePreferences(savedInstanceState, rootKey);
+        setDistributionSummary("to");
+    }
 
 
     @Override

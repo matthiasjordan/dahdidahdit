@@ -17,7 +17,7 @@ public class AprilFoolsGeneratorTest extends AbstractTextGeneratorTest {
     public void test() {
         AprilFoolsGenerator sut = new AprilFoolsGenerator(CONTEXT);
 
-        MorseCode.CharacterList s = read(sut, 100);
+        MorseCode.CharacterList s = TextTestUtils.read(sut, 100);
         final String res = s.asString();
         System.out.println(res);
 

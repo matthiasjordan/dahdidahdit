@@ -18,7 +18,7 @@ public class QSOTextGeneratorTest extends AbstractTextGeneratorTest {
         for (int i = 0; (i < RUNS); i++) {
             QSOTextGenerator sut = new QSOTextGenerator();
 
-            MorseCode.CharacterList actual = read(sut, 400);
+            MorseCode.CharacterList actual = TextTestUtils.read(sut, 400);
 
             String actualStr = actual.asString();
             System.out.println("qso: " + actualStr);

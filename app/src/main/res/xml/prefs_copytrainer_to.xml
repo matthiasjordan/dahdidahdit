@@ -65,4 +65,15 @@
         android:title="@string/QRN"
         app:useSimpleSummaryProvider="true" />
 
+    <SeekBarPreference
+        android:defaultValue="@integer/default_value_distribution"
+        android:key="copytrainer_to_distribution"
+        android:max="10"
+        android:title="@string/distribution"
+        app:min="0"
+        app:seekBarIncrement="1"
+        app:showSeekBarValue="true"
+        app:updatesContinuously="true"
+        app:useSimpleSummaryProvider="false" />
+
 </PreferenceScreen>

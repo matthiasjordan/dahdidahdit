@@ -20,7 +20,7 @@ public class GarbageWordTextGeneratorTest extends AbstractTextGeneratorTest {
         GarbageWordGenerator sut = new GarbageWordGenerator(new Stopwords(), false);
         sut.setWordLengthMax(3);
 
-        MorseCode.CharacterList res = read(sut, 10);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 10);
         System.out.println(res);
 
         assertTrue(res.size() <= 20);

@@ -20,7 +20,7 @@ public class CallsignGeneratorTest extends AbstractTextGeneratorTest {
     public void testGenerate1() {
         CallsignGenerator sut = new CallsignGenerator(stopwords);
 
-        MorseCode.CharacterList res = read(sut, 3);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 3);
         System.out.println(res);
 
         assertTrue(res.size() >= 3);
@@ -31,7 +31,7 @@ public class CallsignGeneratorTest extends AbstractTextGeneratorTest {
     public void testGenerate2() {
         CallsignGenerator sut = new CallsignGenerator(stopwords);
 
-        MorseCode.CharacterList res = read(sut, 7);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 7);
         System.out.println(res);
 
         assertTrue(res.size() >= 7);
@@ -43,7 +43,7 @@ public class CallsignGeneratorTest extends AbstractTextGeneratorTest {
         Set<MorseCode.CharacterData> allowed = MorseCode.asSet("abc12");
         CallsignGenerator sut = new CallsignGenerator(stopwords, allowed);
 
-        MorseCode.CharacterList res = read(sut, 100);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 100);
 
         Set<MorseCode.CharacterData> found = new HashSet<>();
         for (MorseCode.CharacterData c : res) {
