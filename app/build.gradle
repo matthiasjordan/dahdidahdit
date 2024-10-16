@@ -14,7 +14,7 @@ tasks.configureEach { task ->
 }
 
 android {
-    ndkVersion '28.0.12433566'
+    ndkVersion '27.1.12297006'
 
     defaultConfig {
         applicationId "com.paddlesandbugs.dahdidahdit"
