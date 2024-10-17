@@ -60,7 +60,7 @@ public class PrefsBasedTextGeneratorFactory {
 
         switch (generatorType) {
             case "callsigns": {
-                tg = new CallsignGenerator(MainActivity.stopwords);
+                tg = new CallsignGenerator(context, MainActivity.stopwords);
                 break;
             }
             case "frompreferences": {

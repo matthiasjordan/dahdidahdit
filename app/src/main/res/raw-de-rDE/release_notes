@@ -1,4 +1,6 @@
 = 1.12.0
+* Der Rufzeichen-Generator benutzt nun existierende ITU-Prefixe.
+* Der QSO-Generator kennt verschiedene OPs, von denen einige weiblich sind.
 * Lesetraining kann Zeichen-Häufigkeiten in Richtung der in natürlichsprachlichen Texten verändern.
 
 =1.11.3

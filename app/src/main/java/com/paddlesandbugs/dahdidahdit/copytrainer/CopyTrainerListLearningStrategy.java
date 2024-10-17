@@ -151,7 +151,7 @@ public class CopyTrainerListLearningStrategy extends DefaultLearningStrategy imp
             gens.add(new ListRandomWordTextGenerator(getContext(), MainActivity.stopwords, stream));
 
             try {
-                gens.add(new CallsignGenerator(MainActivity.stopwords, allowed));
+                gens.add(new CallsignGenerator(getContext(), MainActivity.stopwords, allowed));
             } catch (IllegalArgumentException e) {
                 // no biggie, there just are no callsigns to build with the given letters
             }

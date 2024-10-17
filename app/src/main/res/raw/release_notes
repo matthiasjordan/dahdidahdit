@@ -1,4 +1,6 @@
 = 1.12.0
+* The callsign generator now uses proper ITU prefixes.
+* The QSO generator knows some operators, some of which are female.
 * Copy Training can shift letter frequencies to what occurs in natural language text.
 
 = 1.11.3
