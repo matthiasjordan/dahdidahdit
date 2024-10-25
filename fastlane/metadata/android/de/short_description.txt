@@ -1,0 +1,1 @@
+Ein echter Morse-Trainer, nicht nur ein Morse-Generator
