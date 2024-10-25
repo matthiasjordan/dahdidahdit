@@ -1,21 +1,11 @@
-<p>
-Ham radio ops who like QRP will sooner or later want to learn Morse code so they 
-can communicate using CW. This app teaches not only amateur radio enthusiasts 
-how Morse code works and trains practitioners so they get faster.
+Ham radio ops who like QRP will sooner or later want to learn Morse code so they can communicate using CW. This app teaches not only amateur radio enthusiasts how Morse code works and trains practitioners so they get faster.
 
-<p>
-You set your current level of proficiency and what you aim for (e.g. all letters 
-with 20 words per minute). Dahdidahdit guides you from where you are to where 
-to want to be: it teaches you new letters when you are ready and increases your 
-speed when you seem bored. The only things you need other than a phone and the 
-app is a sheet of paper and a pen. When you start the session, Dahdidahdit
-plays Morse code letters you know at the speed you are comfortable with. You jot 
-down the letters you recognized. When the session ends, Dahdidahdit shows you 
-what it sent and you compare notes. Then you tap the button that shows the 
-proper number of mistakes. When you complete enough practice sessions with only 
-few mistakes, Dahdidahdit starts the next lesson - be it by introducing a new 
-letter or by increasing the speed.
+You set your current level of proficiency and what you aim for (e.g. all letters with 20 words per minute). Dahdidahdit guides you from where you are to where to want to be: it teaches you new letters when you are ready and increases your speed when you seem bored. The only things you need other than a phone and the app is a sheet of paper and a pen. When you start the session, Dahdidahdit plays Morse code letters you know at the speed you are comfortable with. You jot down the letters you recognized. When the session ends, Dahdidahdit shows you what it sent and you compare notes. Then you tap the button that shows the proper number of mistakes. When you complete enough practice sessions with only few mistakes, Dahdidahdit starts the next lesson - be it by introducing a new letter or by increasing the speed.
 
-<p>
-Other features include learning Q-code and sending practice using either an 
-on-screen or an actual paddle, connected by USB.
+Other features include
+<ul>
+<li>Learning Q-codes</li>
+<li>Sending practice using either an on-screen or an actual paddle, connected by USB</li>
+<li>Morse QSOs via internet with Morserino- or Dahdidahdit users</li>
+<li>Game: Morse Tennis</li>
+</ul>
