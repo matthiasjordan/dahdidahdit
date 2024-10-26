@@ -25,6 +25,7 @@ increases the speed.
     * Uses Koch/Farnsworth combination.
     * Can also do Word Koch.
     * Plays slower after adding a new letter.
+    * The frequency of new letters is higher than for older ones.
     * Can show hints on faster note taking.
 * Generates Morse code for individual practice
     * Can add white noise and spherics.
