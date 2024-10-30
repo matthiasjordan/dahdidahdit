@@ -230,9 +230,9 @@ public class RandomSyllableGenerator extends AbstractWordTextGenerator {
 
     private Type getType() {
         int maxLen = getSyllableLen();
+        final Type[] values = Type.values();
         Type res;
         do {
-            final Type[] values = Type.values();
             int t = random.nextInt(values.length);
             res = values[t];
         } while (res.getLength() > maxLen);
