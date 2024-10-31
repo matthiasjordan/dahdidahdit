@@ -84,6 +84,7 @@ tasks.register('tidy', Delete) {
 
 
 tasks.register('apk') {
+    doLast {
 	group = "Build"
 	description = "Generates a signed APK ready for installing"
 
@@ -113,6 +114,7 @@ tasks.register('apk') {
 	}
 
 	println("Aligned and signed APK at ${outputDir}/${apkName}");
+    }
 }
 
 
