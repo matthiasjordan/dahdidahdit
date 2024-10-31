@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id "com.github.hierynomus.license" version "0.16.1"
 }
 
 tasks.configureEach { task ->
@@ -78,8 +79,35 @@ dependencies {
 }
 
 
+license {
+    header = file('LICENSE.txt')
+    include "**/*.java"
+    skipExistingHeaders false
+    ext.year = Calendar.getInstance().get(Calendar.YEAR)
+
+    mapping {
+        java='dahdidahdit'
+    }
+
+    headerDefinitions {
+        dahdidahdit {
+            firstLine = ""
+            endLine   = "\n"
+            firstLineDetectionPattern = "/Copyright/"
+            lastLineDetectionPattern  = "//"
+            allowBlankLines = false
+            skipLinePattern = "//"
+            isMultiline = false
+        }
+    }
+}
+
+
 tasks.register('tidy', Delete) {
-    delete project.buildDir
+    doLast {
+        println("Deleting build directory")
+        delete project.buildDir
+    }
 }
 
 
@@ -124,3 +152,7 @@ task printVersionName {
     }
 }
 
+
+preBuild {
+    dependsOn tasks.named("license")
+}
