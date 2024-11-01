@@ -20,6 +20,8 @@ package com.paddlesandbugs.dahdidahdit.text;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.paddlesandbugs.dahdidahdit.Distribution;
 import com.paddlesandbugs.dahdidahdit.MorseCode;
 import com.paddlesandbugs.dahdidahdit.R;
@@ -38,20 +40,67 @@ import java.util.Set;
  */
 public class CallsignGenerator extends AbstractWordTextGenerator implements TextGenerator {
 
+    /**
+     * The callsigns known to be cool.
+     */
+    static final String[] coolCallsigns = new String[]{
+            /* ISS. */
+            "RS0ISS",
+            "NA1SS",
+            "DP0ISS",
+            "OR4ISS",
+            "IR0ISS",
+            /* Organizations. */
+            "4U1UN",
+            "W1AW",
+            /* Individuals. */
+            "K4SWL",
+            "N4JAW",
+    };
+    /**
+     * The approximate percentage of cool call signs to emit.
+     */
+    static final int COOL_CALLSIGN_PROBABILITY_PERCENT = 1;
     private static final Random random = new Random();
-
     private static final MorseCode code = MorseCode.getInstance();
-
+    /**
+     * Distribution from which to draw single letters.
+     */
     private final Distribution.Compiled<MorseCode.CharacterData> letters;
+
+    /**
+     * Distribution from which to draw single numbers.
+     */
     private final Distribution.Compiled<MorseCode.CharacterData> numbers;
+
+    /**
+     * Distribution to draw callsign prefixes from.
+     */
     private final Distribution.Compiled<String> prefixes;
 
+    /**
+     * Are cool callsigns allowed to be generated?
+     */
+    private boolean allowCoolCallsigns = true;
 
+    /**
+     * Create a generator that allows all letters and generates a stream of callsigns.
+     *
+     * @param context   the context
+     * @param stopwords the stopwords
+     */
     public CallsignGenerator(Context context, Stopwords stopwords) {
         this(context, stopwords, null);
     }
 
 
+    /**
+     * Create a generator that allows only some letters.
+     *
+     * @param context   the context
+     * @param stopwords the stopwords
+     * @param allowed   the set of allowed letters
+     */
     public CallsignGenerator(Context context, Stopwords stopwords, Set<MorseCode.CharacterData> allowed) throws IllegalArgumentException {
         super(stopwords, true);
 
@@ -60,6 +109,16 @@ public class CallsignGenerator extends AbstractWordTextGenerator implements Text
         prefixes = generatePrefixDistribution(context).compile();
     }
 
+    /**
+     * Sets if cool callsigns are allowed to be generated.
+     * <p>
+     * This is mainly intended for test usage.
+     *
+     * @param allowCoolCallsigns true, if cool callsigns may be generated. Else false.
+     */
+    public void setAllowCoolCallsigns(boolean allowCoolCallsigns) {
+        this.allowCoolCallsigns = allowCoolCallsigns;
+    }
 
     private Set<MorseCode.CharacterData> set(Set<MorseCode.CharacterData> base, Set<MorseCode.CharacterData> allowed) {
         if (allowed == null) {
@@ -80,13 +139,29 @@ public class CallsignGenerator extends AbstractWordTextGenerator implements Text
 
     @Override
     protected MorseCode.CharacterList generateNextWord() {
-        int prefixLen = 1 + random.nextInt(2);
-        int suffixLen = 1 + random.nextInt(3);
+        if (allowCoolCallsigns && random.nextInt(100) < COOL_CALLSIGN_PROBABILITY_PERCENT) {
+            // With 5% probability, return a cool call sign.
+            return generateCoolCallsign();
+        } else {
+            return generateRandomCallsign();
+        }
+    }
 
+    @NonNull
+    static MorseCode.CharacterList generateCoolCallsign() {
+        final String callsignStr = coolCallsigns[random.nextInt(coolCallsigns.length)];
+        final MorseCode.MutableCharacterList callsignCL = new MorseCode.MutableCharacterList(callsignStr);
+        return new MorseCode.UnmodifiableCharacterList(callsignCL);
+    }
+
+    @NonNull
+    private MorseCode.CharacterList generateRandomCallsign() {
+        int suffixLen = 1 + random.nextInt(3);
+        final String prefixStr = prefixes.next();
         MorseCode.CharacterList res = new MorseCode.MutableCharacterList();
 
-        for (int i = 0; (i < prefixLen); i++) {
-            res.add(letters.next());
+        for (int i = 0; (i < prefixStr.length()); i++) {
+            res.add(MorseCode.getInstance().get(String.valueOf(prefixStr.charAt(i))));
         }
 
         res.add(numbers.next());
