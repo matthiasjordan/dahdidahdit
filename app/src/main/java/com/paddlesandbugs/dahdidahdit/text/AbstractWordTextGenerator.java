@@ -137,6 +137,10 @@ public abstract class AbstractWordTextGenerator extends AbstractTextGenerator im
                 return null;
             }
 
+            if (containsNull(testWord)) {
+                continue;
+            }
+
             boolean lengthOkay = lengthOkay(testWord);
             boolean filterOkay = allCharsAllowed(testWord);
             boolean stopwordsOkay = stopWordsOkay(testWord);
@@ -155,6 +159,16 @@ public abstract class AbstractWordTextGenerator extends AbstractTextGenerator im
         } while (attempts < MAX_ATTEMPTS_TO_FIND_WORD);
 
         return word;
+    }
+
+    private boolean containsNull(MorseCode.CharacterList testWord) {
+        for (MorseCode.CharacterData characterData : testWord) {
+            if (characterData == null) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 

@@ -19,6 +19,7 @@
 package com.paddlesandbugs.dahdidahdit.text;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -61,6 +62,7 @@ public class CallsignGenerator extends AbstractWordTextGenerator implements Text
      * The approximate percentage of cool call signs to emit.
      */
     static final int COOL_CALLSIGN_PROBABILITY_PERCENT = 1;
+    private static final String LOG_TAG = "CallsignGenerator";
     private static final Random random = new Random();
     private static final MorseCode code = MorseCode.getInstance();
     /**
@@ -140,7 +142,7 @@ public class CallsignGenerator extends AbstractWordTextGenerator implements Text
     @Override
     protected MorseCode.CharacterList generateNextWord() {
         if (allowCoolCallsigns && random.nextInt(100) < COOL_CALLSIGN_PROBABILITY_PERCENT) {
-            // With 5% probability, return a cool call sign.
+            // With n% probability, return a cool call sign.
             return generateCoolCallsign();
         } else {
             return generateRandomCallsign();
@@ -158,10 +160,18 @@ public class CallsignGenerator extends AbstractWordTextGenerator implements Text
     private MorseCode.CharacterList generateRandomCallsign() {
         int suffixLen = 1 + random.nextInt(3);
         final String prefixStr = prefixes.next();
-        MorseCode.CharacterList res = new MorseCode.MutableCharacterList();
+        final MorseCode.CharacterList res = new MorseCode.MutableCharacterList();
+        final MorseCode instance = MorseCode.getInstance();
 
         for (int i = 0; (i < prefixStr.length()); i++) {
-            res.add(MorseCode.getInstance().get(String.valueOf(prefixStr.charAt(i))));
+            final char currentChar = prefixStr.charAt(i);
+            final String currentCharStr = String.valueOf(currentChar);
+            final MorseCode.CharacterData currentCharData = instance.get(currentCharStr);
+            if (currentCharData != null) {
+                res.add(currentCharData);
+            } else {
+                res.add(instance.get("x"));
+            }
         }
 
         res.add(numbers.next());
@@ -182,13 +192,17 @@ public class CallsignGenerator extends AbstractWordTextGenerator implements Text
 
             String line;
             while ((line = br.readLine()) != null) {
-                List<String> prefixes = PrefixExploder.explodePrefixes(line.trim());
-
+                if (line.isBlank() || line.startsWith("#")) {
+                    continue;
+                }
+                List<String> prefixes = PrefixExploder.explodePrefixes(line.toLowerCase().trim());
                 prefixes.forEach(prefix -> distribution.setWeight(prefix, 1.0f));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        Log.d(LOG_TAG, "Generated prefix distribution with " + distribution.size() + " values");
 
         return distribution;
     }
