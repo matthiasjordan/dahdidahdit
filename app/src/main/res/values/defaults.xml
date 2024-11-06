@@ -7,4 +7,5 @@
     <integer name="default_value_wordlength">5</integer>
     <string name="default_value_frequency_general" translatable="false">600 Hz</string>
     <string name="default_value_copytrainer_current_koch_level" translatable="false">0</string>
+    <integer name="default_value_distribution" translatable="false">10</integer>
 </resources>

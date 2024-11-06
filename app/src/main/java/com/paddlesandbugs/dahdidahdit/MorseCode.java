@@ -1,24 +1,26 @@
 /****************************************************************************
-    Dahdidahdit - an Android Morse trainer
-    Copyright (C) 2021-2024 Matthias Jordan <matthias@paddlesandbugs.com>
+ Dahdidahdit - an Android Morse trainer
+ Copyright (C) 2021-2024 Matthias Jordan <matthias@paddlesandbugs.com>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-****************************************************************************/
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
 
 package com.paddlesandbugs.dahdidahdit;
 
 import androidx.annotation.NonNull;
+
+import com.paddlesandbugs.dahdidahdit.base.Equivalence;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,8 +34,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
-
-import com.paddlesandbugs.dahdidahdit.base.Equivalence;
 
 public class MorseCode {
 
@@ -61,20 +61,16 @@ public class MorseCode {
      * Break between syllables.
      */
     public static final CharacterData SYLLABLEBREAK = new CharacterData("", "", "<xsyb>", R.drawable.ic_smiley, INTERNAL);
-
-    private final Map<String, CharacterData> nameToData = new TreeMap<>();
-    private final Map<String, CharacterData> morseToData = new HashMap<>();
-
+    private static final MorseCode instance = new MorseCode();
     public final Set<CharacterData> letters;
     public final Set<CharacterData> numbers;
     public final Set<CharacterData> vowels;
     public final Set<CharacterData> consonants;
     public final Set<CharacterData> prosigns;
-
+    public final Set<CharacterData> specials;
+    private final Map<String, CharacterData> nameToData = new TreeMap<>();
+    private final Map<String, CharacterData> morseToData = new HashMap<>();
     private final Equivalence<CharacterData> similarCharacters = new Equivalence<>();
-
-
-    private static final MorseCode instance = new MorseCode();
 
 
     private MorseCode() {
@@ -144,6 +140,7 @@ public class MorseCode {
         this.vowels = Collections.unmodifiableSet(collect(VOWEL));
         this.consonants = Collections.unmodifiableSet(collect(CONSONANT));
         this.prosigns = Collections.unmodifiableSet(collect(PROSIGN));
+        this.specials = Collections.unmodifiableSet(collect(SPECIAL));
 
         addSimilar("a", "n");
         addSimilar("b", "d");
@@ -156,6 +153,58 @@ public class MorseCode {
         addSimilar("j", "w");
     }
 
+    public static MorseCode getInstance() {
+        return instance;
+    }
+
+    /**
+     * Converts the given plain text to Morse text in the form ".... .-".
+     *
+     * @param text the text to convert
+     * @return the dits and dahs
+     */
+    public static String textToMorse(String text) {
+        CharacterList data = new MutableCharacterList(text);
+        ExplodedCharacterList exploded = new ExplodedCharacterList(data);
+        return exploded.asCWString();
+    }
+
+    public static Set<CharacterData> asSet(String text) {
+        Set<CharacterData> set = new HashSet<>();
+        for (char c : text.toCharArray()) {
+            set.add(getInstance().get(String.valueOf(c)));
+        }
+        return set;
+    }
+
+    public static Set<CharacterData> asSet(CharacterList text) {
+        Set<CharacterData> set = new HashSet<>();
+        for (CharacterData c : text) {
+            set.add(c);
+        }
+        return set;
+    }
+
+    public static Set<CharacterData> asSet(Collection<CharacterList> lists) {
+        Set<CharacterData> set = new HashSet<>();
+        for (CharacterList list : lists) {
+            Set<CharacterData> c = asSet(list);
+            set.addAll(c);
+        }
+        return set;
+    }
+
+    /**
+     * Counts the raw Morse characters (w/o white space and counting prosigns as one character) in the string.
+     *
+     * @param plainText the Morse text given as plain text string (e.g. "cq de foo <kn>")
+     * @return the number of actual Morse characters in the string (in the example: 8)
+     */
+    public static int countRawChars(CharSequence plainText) {
+        final String onlyChars = plainText.toString().replaceAll("\\s+", "");
+        MorseCode.CharacterList l = new MutableCharacterList(onlyChars);
+        return l.size();
+    }
 
     private void addSimilar(String a, String b) {
         final CharacterData t1 = get(a);
@@ -164,7 +213,6 @@ public class MorseCode {
             similarCharacters.put(t1, t2);
         }
     }
-
 
     private Set<CharacterData> collect(int flags) {
         final Set<CharacterData> toSet = new HashSet<>();
@@ -176,9 +224,8 @@ public class MorseCode {
         return toSet;
     }
 
-
     @SafeVarargs
-    private final void add(CharacterData d, Set<CharacterData>... additionalSets) {
+    private void add(CharacterData d, Set<CharacterData>... additionalSets) {
         nameToData.put(String.valueOf(d.getPlain()), d);
         morseToData.put(d.cw, d);
 
@@ -193,82 +240,35 @@ public class MorseCode {
         }
     }
 
-
-    public static MorseCode getInstance() {
-        return instance;
-    }
-
-
+    /**
+     * Returns the Morse code character for the given name.
+     *
+     * @param name the name of the character - e.g. "a" or "<sk>"
+     * @return the character or null, of the Morse code character could not be found
+     */
     public CharacterData get(String name) {
         return nameToData.get(name);
     }
-
 
     /**
      * Returns similar characters.
      *
      * @param d the original character
-     *
      * @return the set of characters similar to the original one
      */
     public Set<CharacterData> getSimilar(CharacterData d) {
         return similarCharacters.get(d);
     }
 
-
-    /**
-     * Converts the given plain text to Morse text in the form ".... .-".
-     *
-     * @param text the text to convert
-     *
-     * @return the dits and dahs
-     */
-    public static String textToMorse(String text) {
-        CharacterList data = new MutableCharacterList(text);
-        ExplodedCharacterList exploded = new ExplodedCharacterList(data);
-        return exploded.asCWString();
-    }
-
-
     /**
      * Finds the character that belongs to the morse code given in the form "-.-.".
      *
      * @param morse the morse input (a single character)
-     *
      * @return the character, or null, if no corresponding character was found
      */
     public CharacterData morseToText(String morse) {
         return morseToData.get(morse);
     }
-
-
-    public static Set<CharacterData> asSet(String text) {
-        Set<CharacterData> set = new HashSet<>();
-        for (char c : text.toCharArray()) {
-            set.add(getInstance().get(String.valueOf(c)));
-        }
-        return set;
-    }
-
-
-    public static Set<CharacterData> asSet(CharacterList text) {
-        Set<CharacterData> set = new HashSet<>();
-        for (CharacterData c : text) {
-            set.add(c);
-        }
-        return set;
-    }
-
-
-    public static Set<CharacterData> asSet(Collection<CharacterList> lists) {
-        Set<CharacterData> set = new HashSet<>();
-        for (CharacterList list : lists) {
-            Set<CharacterData> c = asSet(list);
-            set.addAll(c);
-        }
-        return set;
-    }
-
 
     public CharacterList getCharacters() {
         CharacterList res = new MutableCharacterList();
@@ -278,109 +278,6 @@ public class MorseCode {
         return res;
     }
 
-
-    /**
-     * Counts the raw Morse characters (w/o white space and counting prosigns as one character) in the string.
-     *
-     * @param plainText the Morse text given as plain text string (e.g. "cq de foo <kn>")
-     *
-     * @return the number of actual Morse characters in the string (in the example: 8)
-     */
-    public static int countRawChars(CharSequence plainText) {
-        final String onlyChars = plainText.toString().replaceAll("\\s+", "");
-        MorseCode.CharacterList l = new MutableCharacterList(onlyChars);
-        return l.size();
-    }
-
-
-    public static class CharacterData implements Comparable<CharacterData> {
-        private final String plain; // "a"
-        private final String cw; // ".-"
-        private final String prosign;
-        private final int flags;
-        private final int imgRsrc;
-
-
-        public CharacterData(String plain, String cw, String prosign, int rsrc, int flags) {
-            Objects.requireNonNull(plain, "plain must not be null");
-            Objects.requireNonNull(cw, "cw must not be null");
-            this.plain = plain;
-            this.cw = cw;
-            this.prosign = prosign;
-            this.imgRsrc = rsrc;
-            this.flags = flags;
-        }
-
-
-        public String getPlain() {
-            return plain;
-        }
-
-
-        public String getCw() {
-            return cw;
-        }
-
-
-        public String getProsign() {
-            return prosign;
-        }
-
-
-        public boolean is(int flag) {
-            return ((this.flags & flag) != 0);
-        }
-
-
-        public String makeDisplayString() {
-            final String nextChar = getPlain();
-            final String text;
-            if (is(MorseCode.LETTER)) {
-                text = String.valueOf(nextChar).toUpperCase() + String.valueOf(nextChar).toLowerCase();
-
-            } else {
-                text = String.valueOf(nextChar);
-            }
-            return text;
-        }
-
-
-        @NonNull
-        @Override
-        public String toString() {
-            return plain;
-        }
-
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            CharacterData that = (CharacterData) o;
-            return Objects.equals(plain, that.plain);
-        }
-
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(plain);
-        }
-
-
-        @Override
-        public int compareTo(CharacterData o) {
-            return plain.compareTo(o.plain);
-        }
-
-
-        public int getImage() {
-            return imgRsrc;
-        }
-    }
 
     public interface CharacterList extends Iterable<MorseCode.CharacterData> {
 
@@ -411,7 +308,6 @@ public class MorseCode {
          * Returns the i-th character.
          *
          * @param i the index of the character to return
-         *
          * @return the i-th character
          */
         CharacterData get(int i);
@@ -473,6 +369,101 @@ public class MorseCode {
         int countChars();
     }
 
+    public static class CharacterData implements Comparable<CharacterData> {
+        private final String plain; // "a"
+        private final String cw; // ".-"
+        private final String prosign;
+        private final int flags;
+        private final int imgRsrc;
+
+
+        public CharacterData(String plain, String cw, String prosign, int rsrc, int flags) {
+            Objects.requireNonNull(plain, "plain must not be null");
+            Objects.requireNonNull(cw, "cw must not be null");
+            this.plain = plain;
+            this.cw = cw;
+            this.prosign = prosign;
+            this.imgRsrc = rsrc;
+            this.flags = flags;
+        }
+
+
+        public String getPlain() {
+            return plain;
+        }
+
+
+        public String getCw() {
+            return cw;
+        }
+
+
+        public String getProsign() {
+            return prosign;
+        }
+
+
+        public boolean is(int flag) {
+            return ((this.flags & flag) != 0);
+        }
+
+
+        public String makeDisplayString() {
+            final String nextChar = getPlain();
+            final String text;
+            if (is(MorseCode.LETTER)) {
+                text = String.valueOf(nextChar).toUpperCase() + String.valueOf(nextChar).toLowerCase();
+
+            } else {
+                text = String.valueOf(nextChar);
+            }
+            return text;
+        }
+
+
+        /**
+         * Returns the character as a String.
+         * <p>
+         * This might be as simple as "c" but may also be "<sk>".
+         *
+         * @return the character as String
+         */
+        @NonNull
+        @Override
+        public String toString() {
+            return plain;
+        }
+
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            CharacterData that = (CharacterData) o;
+            return Objects.equals(plain, that.plain);
+        }
+
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(plain);
+        }
+
+
+        @Override
+        public int compareTo(CharacterData o) {
+            return plain.compareTo(o.plain);
+        }
+
+
+        public int getImage() {
+            return imgRsrc;
+        }
+    }
 
     public static abstract class AbstractCharacterList implements CharacterList {
         protected List<CharacterData> data;
@@ -622,11 +613,7 @@ public class MorseCode {
         @Override
         @NonNull
         public Set<MorseCode.CharacterData> asSet() {
-            Set<MorseCode.CharacterData> set = new HashSet<>();
-            for (CharacterData characterData : this) {
-                set.add(characterData);
-            }
-            return set;
+            return MorseCode.asSet(this);
         }
 
     }
@@ -718,6 +705,9 @@ public class MorseCode {
             this.data = res;
         }
 
+        public static CharacterList create(CharacterData... charData) {
+            return new MutableCharacterList(Arrays.asList(charData));
+        }
 
         private Res findProsign(String text, int startPos) {
             Res res = new Res();
@@ -732,22 +722,14 @@ public class MorseCode {
             return res;
         }
 
-
         public CharacterList reverse() {
             return super.reverse();
         }
-
 
         @Override
         protected CharacterList create(List<CharacterData> data) {
             return new MutableCharacterList(data);
         }
-
-
-        public static CharacterList create(CharacterData... charData) {
-            return new MutableCharacterList(Arrays.asList(charData));
-        }
-
 
         public ExplodedCharacterList explode() {
             return new ExplodedCharacterList(this);

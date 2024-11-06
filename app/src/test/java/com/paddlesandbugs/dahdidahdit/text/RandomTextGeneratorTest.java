@@ -1,24 +1,41 @@
+/****************************************************************************
+    Dahdidahdit - an Android Morse trainer
+    Copyright (C) 2021-2024 Matthias Jordan <matthias@paddlesandbugs.com>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
+
 package com.paddlesandbugs.dahdidahdit.text;
 
-import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.paddlesandbugs.dahdidahdit.Distribution;
 import com.paddlesandbugs.dahdidahdit.MorseCode;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class RandomTextGeneratorTest extends AbstractTextGeneratorTest {
     @Test
     public void testGenerate() {
         RandomTextGenerator sut = RandomTextGenerator.createUniformRandomTextGenerator();
 
-        MorseCode.CharacterList res = read(sut, 10);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 10);
         System.out.println(res);
 
         assertTrue(res.size() <= 20);
@@ -35,11 +52,11 @@ public class RandomTextGeneratorTest extends AbstractTextGeneratorTest {
         Distribution<MorseCode.CharacterData> dist = RandomTextGenerator.createUniformDistribution(cs);
         RandomTextGenerator sut = new RandomTextGenerator(dist.compile());
 
-        MorseCode.CharacterList res = read(sut, 200);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 200);
         System.out.println(res);
 
         assertTrue(res.size() <= 200);
-        Map<MorseCode.CharacterData, Integer> counts = count(res);
+        Map<MorseCode.CharacterData, Double> counts = TextTestUtils.count(res);
         assertTrue(counts.size() <= 4);
         final Set<MorseCode.CharacterData> keyset = counts.keySet();
 
@@ -64,7 +81,7 @@ public class RandomTextGeneratorTest extends AbstractTextGeneratorTest {
         RandomTextGenerator sut = RandomTextGenerator.createUniformRandomTextGenerator();
         sut.setWordLengthMax(maxWordLength);
 
-        MorseCode.CharacterList res = read(sut, 500);
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 500);
         System.out.println(res);
 
         int minSeen = Integer.MAX_VALUE;
@@ -89,22 +106,6 @@ public class RandomTextGeneratorTest extends AbstractTextGeneratorTest {
 
         assertEquals("min", RandomTextGenerator.MIN_WORD_LENGTH, minSeen);
         assertEquals("max", maxWordLength, maxSeen);
-    }
-
-
-    private Map<MorseCode.CharacterData, Integer> count(MorseCode.CharacterList res) {
-        Map<MorseCode.CharacterData, Integer> map = new HashMap<>();
-
-        for (MorseCode.CharacterData c : res) {
-            Integer count = map.get(c);
-            if (count == null) {
-                count = 0;
-            }
-            count += 1;
-            map.put(c, count);
-        }
-
-        return map;
     }
 
 }

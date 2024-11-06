@@ -1,3 +1,21 @@
+/****************************************************************************
+    Dahdidahdit - an Android Morse trainer
+    Copyright (C) 2021-2024 Matthias Jordan <matthias@paddlesandbugs.com>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
+
 package com.paddlesandbugs.dahdidahdit.text;
 
 import org.junit.Assert;
@@ -8,6 +26,21 @@ public class CompoundTextGeneratorTest {
     @Test
     public void testAllNonRepeating() {
         final String text1 = "abc def ghi";
+        final String text2 = "123 456 789";
+        StaticTextGenerator gen1 = new StaticTextGenerator(text1);
+        StaticTextGenerator gen2 = new StaticTextGenerator(text2);
+        CompoundTextGenerator sut = new CompoundTextGenerator(0, gen1, gen2);
+
+        String str = TextTestUtils.pullString(sut, 10000);
+
+        Assert.assertTrue(str.contains("abc"));
+        Assert.assertTrue(str.contains("123"));
+        Assert.assertEquals(text1.length() + 1 + text2.length(), str.length());
+    }
+
+    @Test
+    public void testAllNonRepeatingDifferentLength() {
+        final String text1 = "abc def ghi abc def ghi abc def ghi abc def ghi abc def ghi abc def ghi abc def ghi";
         final String text2 = "123 456 789";
         StaticTextGenerator gen1 = new StaticTextGenerator(text1);
         StaticTextGenerator gen2 = new StaticTextGenerator(text2);

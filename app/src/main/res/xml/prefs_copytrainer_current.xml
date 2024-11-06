@@ -66,4 +66,15 @@
         android:title="@string/QRN"
         app:useSimpleSummaryProvider="true" />
 
+    <SeekBarPreference
+        android:defaultValue="0"
+        android:key="copytrainer_current_distribution"
+        android:max="10"
+        android:title="@string/distribution"
+        app:min="0"
+        app:seekBarIncrement="1"
+        app:showSeekBarValue="true"
+        app:updatesContinuously="true"
+        app:useSimpleSummaryProvider="false" />
+
 </PreferenceScreen>

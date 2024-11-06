@@ -169,10 +169,10 @@
     <string name="action_add_cards">Mehr Karten lernen</string>
     <string name="learnqcodes_intro_1_headline">Lerne Q-Gruppen!</string>
     <string name="learnqcodes_intro_1_text">Im Morse-Betrieb werden Q-Gruppen und Verkehrszeichen benutzt, um weniger Zeichen geben zu müssen. Beim Lernen dieser Zeichen hilft Dahdidahdit mit dem Lernkartenansatz aus der bekannten App \u201EAnki\u201C.</string>
-    <string name="learnqcodes_intro_2_headline" >Lernkarten</string>
-    <string name="learnqcodes_intro_2_text" >Dahdidahdit spielt dabei z.B. eine Q-Gruppe ab. Danach nennst Du im Kopf die Bedeutung und deckst die Antwort mittels Button auf. Wenn Du richtig geraten hast, klickst Du auf \u201Erichtig\u201C, sonst auf \u201Efalsch\u201C.</string>
-    <string name="learnqcodes_intro_3_headline" >Wiederholen</string>
-    <string name="learnqcodes_intro_3_text" >Karten, die Du richtig beantwortet hast, werden seltener wieder abgefragt. Schwierigere Karten kommen häufiger dran. Nach einer Weile kannst Du die Codes auswendig.</string>
+    <string name="learnqcodes_intro_2_headline">Lernkarten</string>
+    <string name="learnqcodes_intro_2_text">Dahdidahdit spielt dabei z.B. eine Q-Gruppe ab. Danach nennst Du im Kopf die Bedeutung und deckst die Antwort mittels Button auf. Wenn Du richtig geraten hast, klickst Du auf \u201Erichtig\u201C, sonst auf \u201Efalsch\u201C.</string>
+    <string name="learnqcodes_intro_3_headline">Wiederholen</string>
+    <string name="learnqcodes_intro_3_text">Karten, die Du richtig beantwortet hast, werden seltener wieder abgefragt. Schwierigere Karten kommen häufiger dran. Nach einer Weile kannst Du die Codes auswendig.</string>
     <string name="brasspounder_title">Freies Morsen</string>
     <string name="sendingtrainer_title">Sendetraining</string>
     <string name="paddle_polarity">Paddle-Polarität</string>
@@ -198,7 +198,7 @@
     <string name="rss_permission_missing">Berechtigung fehlt</string>
     <string name="allow_only_copytrainer_chars">Nur Zeichen verwenden, die im Lesetraining gelernt wurden</string>
     <string name="learning_strategy">Lern-Strategie</string>
-    <string name="learning_strategy_summary" >Du kannst wählen zwischen dem Standard-Dahdidahdit-Mix aus Koch mit Farnsworth-Pausen und einer Koch-Variante, die vollständige Wörter verwendet und die Zeichen in einer anderen Reihenfolge vermittelt.</string>
+    <string name="learning_strategy_summary">Du kannst wählen zwischen dem Standard-Dahdidahdit-Mix aus Koch mit Farnsworth-Pausen und einer Koch-Variante, die vollständige Wörter verwendet und die Zeichen in einer anderen Reihenfolge vermittelt.</string>
     <string name="settings_learning_strategy_header">Trainingsmethode</string>
     <string name="learning_strategy_title_dahdidahdit">Dahdidahdit</string>
     <string name="learning_strategy_summary_dahdidahdit">Verwende die traditionelle Zeichenreihenfolge von Koch mit Fortschritt bei 10% Fehlern oder darunter zusammen mit adaptiven Farnsworth-Pausen.</string>
@@ -243,6 +243,10 @@
     <string name="action_mopp_morsetennis_status_challenge_received">Versuche, Challenge zu wiederholen!</string>
     <string name="action_mopp_morsetennis_status_end">Match beendet</string>
     <string name="action_add">Hinzufügen</string>
+    <string name="distribution">Wahrscheinlichkeit der Zeichen</string>
+    <string name="prefs_summary_distribution_0">Jedes Zeichen tritt mit derselben Wahrscheinlichkeit auf wie jedes andere Zeichen (gleichverteilt).</string>
+    <string name="prefs_summary_distribution_x">Jedes Zeichen ist mit einer Wahrscheinlichkeit von %1$d%% so wahrscheinlich wie in normaler englischer Sprache und mit %2$d %% Wahrscheinlichkeit so wahrscheinlich wie jedes andere Zeichen.</string>
+    <string name="prefs_summary_distribution_10">Jedes Zeichen ist so wahrscheinlich wie in normaler englischer Sprache.</string>
 
 
 </resources>

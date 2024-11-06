@@ -22,22 +22,24 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Set;
 
 import com.paddlesandbugs.dahdidahdit.Distribution;
 import com.paddlesandbugs.dahdidahdit.MorseCode;
 import com.paddlesandbugs.dahdidahdit.base.MainActivity;
-import com.paddlesandbugs.dahdidahdit.params.FadedParameters;
 import com.paddlesandbugs.dahdidahdit.params.Field;
 import com.paddlesandbugs.dahdidahdit.params.GeneralFadedParameters;
-import com.paddlesandbugs.dahdidahdit.params.Parameters;
 import com.paddlesandbugs.dahdidahdit.text.AprilFoolsGenerator;
+import com.paddlesandbugs.dahdidahdit.text.NaturalLanguageTextGenerator;
 import com.paddlesandbugs.dahdidahdit.text.RandomTextGenerator;
 import com.paddlesandbugs.dahdidahdit.text.TextGenerator;
+import com.paddlesandbugs.dahdidahdit.text.WeightedCompoundTextGenerator;
 
 public class TextGeneratorFactory {
 
@@ -74,21 +76,40 @@ public class TextGeneratorFactory {
             String thisYear = new SimpleDateFormat("yyyy").format(now);
             if (!playYear.equals(thisYear)) {
                 prefs.edit().putString(APRILPLAYED, thisYear).apply();
+                Log.d(LOG_TAG, "Using April Fools Day generator");
                 return new AprilFoolsGenerator(context);
             }
         }
 
-        Distribution<MorseCode.CharacterData> dist = getCharacterDataDistribution();
-        return new RandomTextGenerator(dist.compile());
+        return getWeightedCompoundTextGenerator();
     }
 
 
-    Distribution<MorseCode.CharacterData> getCharacterDataDistribution() {
-        int kochLevel = pf.get(Field.KOCH_LEVEL);
-        Distribution<MorseCode.CharacterData> dist = RandomTextGenerator.createKochTextDistribution(MainActivity.getCopyTrainer(context), kochLevel);
-        dist = distributionFunction.applyWeights(dist);
-        Log.d(LOG_TAG, "getCharDataDist(" + kochLevel + ", ): " + dist);
-        return dist;
+    @NonNull
+    private WeightedCompoundTextGenerator getWeightedCompoundTextGenerator() {
+        final CopyTrainer trainer = MainActivity.getCopyTrainer(context);
+
+        final int kochLevel = pf.get(Field.KOCH_LEVEL);
+        final Set<MorseCode.CharacterData> kochSet = trainer.getCharsFlat(kochLevel).asSet();
+
+        final Distribution<MorseCode.CharacterData> dist = getCharacterDistributionByKochLevel(kochSet);
+        final TextGenerator randomTextGenerator = new RandomTextGenerator(dist.compile());
+
+        final TextGenerator naturalLanguageGenerator = new NaturalLanguageTextGenerator(context, 1, kochSet, 2);
+        final int randomTGID = randomTextGenerator.getTextID();
+
+        final WeightedCompoundTextGenerator weighted = new WeightedCompoundTextGenerator(randomTGID, randomTextGenerator, naturalLanguageGenerator);
+        final int distribution = pf.getDistribution(); // 0 .. 10
+        weighted.setWeight(0, 10, distribution);
+        Log.d(LOG_TAG, "Using weighted generator with weight " + distribution);
+
+        return weighted;
+    }
+
+
+    private Distribution<MorseCode.CharacterData> getCharacterDistributionByKochLevel(Set<MorseCode.CharacterData> kochSet) {
+        final Distribution<MorseCode.CharacterData> dist = new Distribution<>(kochSet);
+        return distributionFunction.applyWeights(dist);
     }
 
 }

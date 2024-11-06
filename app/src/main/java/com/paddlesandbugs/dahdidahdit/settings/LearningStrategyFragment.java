@@ -29,11 +29,11 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.paddlesandbugs.dahdidahdit.R;
 import com.paddlesandbugs.dahdidahdit.base.MainActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Keep
 public class LearningStrategyFragment extends PreferenceFragmentCompat {
@@ -48,7 +48,7 @@ public class LearningStrategyFragment extends PreferenceFragmentCompat {
 
 
     private void makeCheckBoxPrefsMutuallyExclusive() {
-        List<String> keys = new ArrayList<>(); //Arrays.asList("");
+        List<String> keys = new ArrayList<>();
 
         final PreferenceScreen preferenceScreen = getPreferenceScreen();
         final int count = preferenceScreen.getPreferenceCount();
@@ -61,8 +61,19 @@ public class LearningStrategyFragment extends PreferenceFragmentCompat {
             findPreference(key).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(@NonNull Preference preference) {
-                    final String clickedKey = preference.getKey();
+                    if (!(preference instanceof  CheckBoxPreference)) {
+                        return false;
+                    }
 
+                    final CheckBoxPreference checkBoxPreference = (CheckBoxPreference) preference;
+                    if (!checkBoxPreference.isChecked()) {
+                        // Clicked box was already checked and is now unchecked.
+                        // Check again and bail out to not unclick it.
+                        checkBoxPreference.setChecked(true);
+                        return true;
+                    }
+
+                    final String clickedKey = preference.getKey();
                     final String learnStratName = getName(clickedKey);
                     getPreferenceManager().getSharedPreferences().edit().putString(MainActivity.LEARNING_STRATEGY_PREFS_KEY, learnStratName).apply();
                     Log.i(SettingsActivity.LOG_TAG, "Setting learning strategy to " + learnStratName);

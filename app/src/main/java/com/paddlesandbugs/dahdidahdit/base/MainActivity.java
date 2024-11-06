@@ -221,7 +221,8 @@ public class MainActivity extends AbstractNavigationActivity {
                 R.xml.prefs_headcopy_to, //
                 R.xml.prefs_root, //
                 R.xml.prefs_selfdefined_current, //
-                R.xml.prefs_selfdefined_main, R.xml.prefs_sendingtrainer_main, //
+                R.xml.prefs_selfdefined_main, //
+                R.xml.prefs_sendingtrainer_main, //
         };
 
         for (int pref : prefs) {

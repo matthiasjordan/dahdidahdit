@@ -94,7 +94,7 @@ public class NullLearningStrategy implements LearningStrategy {
 
         switch (p.getTextGenerator()) {
             case "callsigns": {
-                tg = new CallsignGenerator(MainActivity.stopwords);
+                tg = new CallsignGenerator(context, MainActivity.stopwords);
                 break;
             }
             case "frompreferences": {
@@ -115,7 +115,7 @@ public class NullLearningStrategy implements LearningStrategy {
                 break;
             }
             case "qsos": {
-                tg = new QSOTextGenerator();
+                tg = new QSOTextGenerator(context);
                 break;
             }
             case "rss": {

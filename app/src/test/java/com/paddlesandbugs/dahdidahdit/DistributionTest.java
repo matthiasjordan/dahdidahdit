@@ -1,3 +1,21 @@
+/****************************************************************************
+    Dahdidahdit - an Android Morse trainer
+    Copyright (C) 2021-2024 Matthias Jordan <matthias@paddlesandbugs.com>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
+
 package com.paddlesandbugs.dahdidahdit;
 
 import org.junit.Assert;
@@ -10,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.paddlesandbugs.dahdidahdit.Distribution.Compiled;
+import com.paddlesandbugs.dahdidahdit.text.TextTestUtils;
 
 public class DistributionTest {
 
@@ -26,7 +45,7 @@ public class DistributionTest {
 
         // Execute
 
-        Map<Integer, Double> itemsDrawn = runMonteCarlo(sut);
+        Map<Integer, Double> itemsDrawn = TextTestUtils.runMonteCarlo(sut, RUNS);
 
         // Check
 
@@ -44,7 +63,7 @@ public class DistributionTest {
 
         // Execute
 
-        Map<Integer, Double> itemsDrawn = runMonteCarlo(sut);
+        Map<Integer, Double> itemsDrawn = TextTestUtils.runMonteCarlo(sut, RUNS);
 
         // Check
 
@@ -60,21 +79,6 @@ public class DistributionTest {
         Assert.assertEquals(ratio02, 2.0d, 1.0d);
     }
 
-
-    public static <T> Map<T, Double> runMonteCarlo(Compiled<T> sut) {
-        Map<T, Double> res = new HashMap<>();
-        for (int i = 0; (i < RUNS); i++) {
-            T event = sut.next();
-
-            Double old = res.get(event);
-            if (old == null) {
-                old = new Double(0);
-            }
-            old += 1;
-            res.put(event, old);
-        }
-        return res;
-    }
 
 
 
@@ -115,7 +119,7 @@ public class DistributionTest {
 
 
     private void runTest(Distribution<Integer> sut) {
-        Map<Integer, Double> res = runMonteCarlo(sut.compile());
+        Map<Integer, Double> res = TextTestUtils.runMonteCarlo(sut.compile(), RUNS);
         int count = sut.size();
 
         System.out.println("Monte Carlo result: " + res);
@@ -141,7 +145,7 @@ public class DistributionTest {
     public void testSetWeight1() {
         Distribution<Integer> sut = dist(5);
         sut.setWeight(1, 2.0f);
-        Map<Integer, Double> res = runMonteCarlo(sut.compile());
+        Map<Integer, Double> res = TextTestUtils.runMonteCarlo(sut.compile(), RUNS);
         System.out.println(res);
 
         double delta = RUNS/1000;
@@ -159,7 +163,7 @@ public class DistributionTest {
         sut.setWeight(4, 2.0f);
         final Compiled<Integer> compiled = sut.compile();
         System.out.println("compiled: " + compiled);
-        Map<Integer, Double> res = runMonteCarlo(compiled);
+        Map<Integer, Double> res = TextTestUtils.runMonteCarlo(compiled, RUNS);
         System.out.println(res);
 
         final int hitsPerBin = RUNS / 5;
@@ -182,7 +186,7 @@ public class DistributionTest {
 
         sut.multWeight(2222, 2.0f); // Makes nothing because there is no such value in the distribution
 
-        Map<Integer, Double> res = runMonteCarlo(sut.compile());
+        Map<Integer, Double> res = TextTestUtils.runMonteCarlo(sut.compile(), RUNS);
         System.out.println(res);
 
         final int delta = 6 * RUNS/1000;
@@ -203,7 +207,7 @@ public class DistributionTest {
         sut.setWeight(4, 2.0f);
         final Compiled<Integer> compiled = sut.compile();
         System.out.println("compiled: " + compiled);
-        Map<Integer, Double> res = runMonteCarlo(compiled);
+        Map<Integer, Double> res = TextTestUtils.runMonteCarlo(compiled, RUNS);
         System.out.println(res);
 
         final int hitsPerBin = RUNS / 5;
@@ -248,7 +252,7 @@ public class DistributionTest {
 
         System.out.println(compiled);
 
-        Map<Integer, Double> res = runMonteCarlo(compiled);
+        Map<Integer, Double> res = TextTestUtils.runMonteCarlo(compiled, RUNS);
 
         System.out.println(res);
 
@@ -276,7 +280,7 @@ public class DistributionTest {
 
         System.out.println(compiled);
 
-        Map<Integer, Double> res = runMonteCarlo(compiled);
+        Map<Integer, Double> res = TextTestUtils.runMonteCarlo(compiled, RUNS);
 
         System.out.println(res);
 

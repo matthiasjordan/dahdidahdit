@@ -1,20 +1,20 @@
 /****************************************************************************
-    Dahdidahdit - an Android Morse trainer
-    Copyright (C) 2021-2024 Matthias Jordan <matthias@paddlesandbugs.com>
+ Dahdidahdit - an Android Morse trainer
+ Copyright (C) 2021-2024 Matthias Jordan <matthias@paddlesandbugs.com>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-****************************************************************************/
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
 
 package com.paddlesandbugs.dahdidahdit.headcopy;
 
@@ -22,9 +22,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
-
-import java.util.List;
 
 import com.paddlesandbugs.dahdidahdit.Config;
 import com.paddlesandbugs.dahdidahdit.MorseCode;
@@ -35,17 +34,23 @@ import com.paddlesandbugs.dahdidahdit.base.LearningProgress;
 import com.paddlesandbugs.dahdidahdit.base.LearningStrategy;
 import com.paddlesandbugs.dahdidahdit.base.LearningValue;
 import com.paddlesandbugs.dahdidahdit.base.MainActivity;
+import com.paddlesandbugs.dahdidahdit.copytrainer.CopyTrainer;
 import com.paddlesandbugs.dahdidahdit.copytrainer.CopyTrainerParamsFaded;
 import com.paddlesandbugs.dahdidahdit.params.Field;
 import com.paddlesandbugs.dahdidahdit.params.GeneralFadedParameters;
 import com.paddlesandbugs.dahdidahdit.params.ParameterFader;
 import com.paddlesandbugs.dahdidahdit.params.ParameterMap;
 import com.paddlesandbugs.dahdidahdit.sound.MorsePlayer;
+import com.paddlesandbugs.dahdidahdit.sound.MorsePlayerI;
 import com.paddlesandbugs.dahdidahdit.text.AbstractWordTextGenerator;
 import com.paddlesandbugs.dahdidahdit.text.CountedWordsTextGenerator;
+import com.paddlesandbugs.dahdidahdit.text.GarbageWordGenerator;
 import com.paddlesandbugs.dahdidahdit.text.ListRandomWordTextGenerator;
 import com.paddlesandbugs.dahdidahdit.text.RandomSyllableGenerator;
 import com.paddlesandbugs.dahdidahdit.text.TextGenerator;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * Idea:
@@ -77,60 +82,50 @@ import com.paddlesandbugs.dahdidahdit.text.TextGenerator;
 public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrategy {
 
 
-    private static final String LOG_TAG = "HEAD_LEARN";
-
-
-    /**
-     * Settings key used to store the current stage.
-     */
-    private static final String STAGE_KEY = "headcopy_stage";
-
-    /**
-     * Settings key used to store the number of sessions spent on the current stage.
-     */
-    private static final String SESSION_KEY = "headcopy_session_count";
-
-    /**
-     * Settings key used to store the history of learning results (low, medium, high).
-     */
-    private static final String LEARNING_KEY = "headcopy_learning_progress";
-
-    /**
-     * Settings key used to store the fader steps for the last stage.
-     */
-    private static final String FADERSTEPS_KEY = "headcopy_fader_steady_stage";
-
-    /**
-     * How many session results to keep.
-     */
-    private static final int MAX_SAVED_STEPS = 50;
-
     /**
      * How many errors in the last MAX_SAVED_STEPS sessions before progress.
      */
     public static final int PROGRESS_MAX_ERRORS = 5;
-
     /**
      * How many sessions have to be done w/o ease before progress to next stage.
      */
     public static final int MIN_SESSIONS_WO_EASE_BEFORE_PROGRESS = 20;
-
-    /**
-     * How many most recent sessions to examine when determining whether to decrease ease.
-     */
-    private static final int MAX_RECENT_STEPS = 10;
-
     /**
      * How many errors in the last MAX_RECENT_STEPS sessions before ease is reduced.
      */
     public static final int EASE_MAX_ERRORS = 2;
-
-
+    /**
+     * Settings key used to store the current stage.
+     */
+    static final String STAGE_KEY = "headcopy_stage";
+    /**
+     * Log tag.
+     */
+    private static final String LOG_TAG = "HEAD_LEARN";
+    /**
+     * Settings key used to store the number of sessions spent on the current stage.
+     */
+    private static final String SESSION_KEY = "headcopy_session_count";
+    /**
+     * Settings key used to store the history of learning results (low, medium, high).
+     */
+    private static final String LEARNING_KEY = "headcopy_learning_progress";
+    /**
+     * Settings key used to store the fader steps for the last stage.
+     */
+    private static final String FADERSTEPS_KEY = "headcopy_fader_steady_stage";
+    /**
+     * How many session results to keep.
+     */
+    private static final int MAX_SAVED_STEPS = 50;
+    /**
+     * How many most recent sessions to examine when determining whether to decrease ease.
+     */
+    private static final int MAX_RECENT_STEPS = 10;
     /**
      * Initial inter-syllable break in milliseconds.
      */
     private static final int DEFAULT_SYLLABLE_BREAK_MS = 1000;
-
     /**
      * Reduce inter-syllable break by this amount in milliseconds.
      */
@@ -157,9 +152,7 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
 
     @Override
     public void onSettingsChanged(String key) {
-        HeadcopyParams p = new HeadcopyParams(context);
-        p.update(context);
-
+        HeadcopyParams p = getHeadcopyParams();
         new LearningFader(prefs, FADERSTEPS_KEY).update(p, getFaderConfig());
         handleSettingsChanged(key);
     }
@@ -202,16 +195,27 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
 
     @Override
     public final SessionConfig getSessionConfig() {
-        Config gc = new Config();
-        gc.update(context);
-
-        HeadcopyParams p = new HeadcopyParams(context);
-        p.update(context);
+        Config gc = getConfig();
+        HeadcopyParams p = getHeadcopyParams();
 
         MorsePlayer.Config config = getStage().createConfig(gc, p);
         config.chirp = p.isChirp();
 
         return new SessionConfig(config);
+    }
+
+    @NonNull
+    private HeadcopyParams getHeadcopyParams() {
+        HeadcopyParams p = new HeadcopyParams(context);
+        p.update(context);
+        return p;
+    }
+
+    @NonNull
+    private Config getConfig() {
+        Config gc = new Config();
+        gc.update(context);
+        return gc;
     }
 
 
@@ -222,11 +226,23 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
         Log.i(LOG_TAG, "Initialized stage");
     }
 
+    private boolean isRestrictedCharSet(HeadcopyParams p) {
+        final CopyTrainer copyTrainer = MainActivity.getCopyTrainer(context);
+        final int kochLevel = getKochLevel();
+        final int maxLevel = copyTrainer.getSequence().getMax();
+        final boolean restrictedCharSet = (kochLevel < maxLevel) && p.isOnlyCopyTrainerChars();
+        return restrictedCharSet;
+    }
+
 
     private Stage getStage() {
-        int stageNo = this.stageNo.get();
-        Log.i(LOG_TAG, "We are in stage " + stageNo);
-        switch (stageNo) {
+        final int stageNo = this.stageNo.get();
+        HeadcopyParams p = getHeadcopyParams();
+        final int maximumSyllableStage = 2;
+        final int effectiveStageNo = isRestrictedCharSet(p) ? Math.min(stageNo, maximumSyllableStage) : stageNo;
+        Log.i(LOG_TAG, "We are in stage " + stageNo + " and effectively in stage " + effectiveStageNo);
+
+        switch (effectiveStageNo) {
             case 0:
                 return new SyllableStage(context, 2);
             case 1:
@@ -262,19 +278,38 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
         return null;
     }
 
+    private void handleCopyTrainerCharacterFilter(HeadcopyParams p, AbstractWordTextGenerator tg) {
+        if (p.isOnlyCopyTrainerChars()) {
+            int kochLevel = getKochLevel();
+            List<MorseCode.CharacterList> kochChars = MainActivity.getCopyTrainer(context).getChars(kochLevel);
+            final Set<MorseCode.CharacterData> kochCharsSet = MorseCode.asSet(kochChars);
+            tg.setAllowed(kochCharsSet);
+        }
+    }
 
-    /**
-     * How stages work.
-     */
-    private interface Stage {
-        /**
-         * Called when stage is first entered.
-         */
-        void init();
+    private int getKochLevel() {
+        CopyTrainerParamsFaded cpf = new CopyTrainerParamsFaded(context, "current");
+        cpf.update(context);
+        int kochLevel = cpf.getKochLevel();
+        return kochLevel;
+    }
 
-        MorsePlayer.Config createConfig(Config gc, HeadcopyParams p);
+    private boolean hasVowelsAndConsonants(Set<MorseCode.CharacterData> kochChars) {
+        boolean hasVowel = false;
+        boolean hasConsonant = false;
+        for (MorseCode.CharacterData kochChar : kochChars) {
+            if (kochChar.is(MorseCode.CONSONANT)) {
+                hasConsonant = true;
+            } else if (kochChar.is(MorseCode.VOWEL)) {
+                hasVowel = true;
+            }
 
-        void handle(LearningProgress.Mistake mistake);
+            if (hasConsonant && hasVowel) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -282,11 +317,13 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
      */
     private abstract class AbstractStage implements Stage {
 
+        protected final int wordLength;
         private final Context context;
 
 
-        AbstractStage(Context context) {
+        AbstractStage(Context context, int wordLength) {
             this.context = context;
+            this.wordLength = wordLength;
         }
 
 
@@ -296,8 +333,26 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
             GeneralFadedParameters pf = p.current();
 
             // Assemble final temp config for playing
-            return new MorsePlayer.Config().from(pf).from(gc);
+            final MorsePlayerI.Config config = new MorsePlayer.Config().from(pf).from(gc);
+
+            final boolean restrictedCharSet = isRestrictedCharSet(p);
+            final TextGenerator textGenerator;
+            if (restrictedCharSet) {
+                AbstractWordTextGenerator tg = new GarbageWordGenerator(MainActivity.stopwords, false);
+                tg.setWordLengthMax(wordLength);
+                handleCopyTrainerCharacterFilter(p, tg);
+                textGenerator = tg;
+            } else {
+                textGenerator = createTextGenerator(p);
+            }
+
+            config.textGenerator = textGenerator;
+            return config;
         }
+
+
+        @NonNull
+        protected abstract TextGenerator createTextGenerator(HeadcopyParams p);
 
 
         @Override
@@ -358,34 +413,27 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
      */
     private class SyllableStage extends AbstractStage {
 
-        private final int wordLength;
-
 
         private SyllableStage(Context context, int wordLength) {
-            super(context);
-            this.wordLength = wordLength;
+            super(context, wordLength);
             Log.i(LOG_TAG, "SyllableStage " + wordLength);
         }
 
 
         @Override
         public void init() {
-            HeadcopyParams p = new HeadcopyParams(context);
-            p.update(context);
+            HeadcopyParams p = getHeadcopyParams();
             learningEase.recreate(p.current());
         }
 
 
         @Override
-        public MorsePlayer.Config createConfig(Config gc, HeadcopyParams p) {
-            final MorsePlayer.Config config = super.createConfig(gc, p);
-            RandomSyllableGenerator tg = new RandomSyllableGenerator(MainActivity.stopwords, false);
+        protected AbstractWordTextGenerator createTextGenerator(HeadcopyParams p) {
+            final RandomSyllableGenerator tg = new RandomSyllableGenerator(MainActivity.stopwords, false);
             tg.setWordLengthMax(wordLength);
-
             handleCopyTrainerCharacterFilter(p, tg);
 
-            config.textGenerator = tg;
-            return config;
+            return tg;
         }
 
 
@@ -408,20 +456,17 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
 
     }
 
-
     /**
      * The stage where the user learns to copy whole words.
      */
     private class WordStage extends AbstractStage {
 
-        private final int wordLength;
 
         private final LearningValue syllPause = new LearningValue(context, "headcopy_syllable_pause", DEFAULT_SYLLABLE_BREAK_MS);
 
 
         private WordStage(Context context, int wordLength) {
-            super(context);
-            this.wordLength = wordLength;
+            super(context, wordLength);
             Log.i(LOG_TAG, "WordStage " + wordLength);
         }
 
@@ -435,14 +480,18 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
         @Override
         public MorsePlayer.Config createConfig(Config gc, HeadcopyParams p) {
             final MorsePlayer.Config config = super.createConfig(gc, p);
-            ListRandomWordTextGenerator tg = new ListRandomWordTextGenerator(context, MainActivity.stopwords);
-            tg.setWordLengthMax(wordLength);
 
-            handleCopyTrainerCharacterFilter(p, tg);
-
-            config.textGenerator = new CountedWordsTextGenerator(tg, 1);
             config.syllablePauseMs = syllPause.get();
             return config;
+        }
+
+        @NonNull
+        @Override
+        protected TextGenerator createTextGenerator(HeadcopyParams p) {
+            ListRandomWordTextGenerator tg = new ListRandomWordTextGenerator(context, MainActivity.stopwords);
+            tg.setWordLengthMax(wordLength);
+            handleCopyTrainerCharacterFilter(p, tg);
+            return new CountedWordsTextGenerator(tg, 1);
         }
 
 
@@ -473,29 +522,14 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
 
     }
 
-
-    private void handleCopyTrainerCharacterFilter(HeadcopyParams p, AbstractWordTextGenerator tg) {
-        if (p.isOnlyCopyTrainerChars()) {
-            CopyTrainerParamsFaded cpf = new CopyTrainerParamsFaded(context, "current");
-            cpf.update(context);
-            int kochLevel = cpf.getKochLevel();
-            List<MorseCode.CharacterList> kochChars = MainActivity.getCopyTrainer(context).getChars(kochLevel);
-            tg.setAllowed(MorseCode.asSet(kochChars));
-        }
-    }
-
-
     /**
      * The stage where the user learns to copy pairs of words and progresses her faded parameters.
      */
     private class WordpairStage extends AbstractStage {
 
-        private final int wordLength;
-
 
         private WordpairStage(Context context, int wordLength) {
-            super(context);
-            this.wordLength = wordLength;
+            super(context, wordLength);
             Log.i(LOG_TAG, "SteadyStage " + wordLength);
         }
 
@@ -506,21 +540,19 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
         }
 
 
+        @NonNull
         @Override
-        public MorsePlayer.Config createConfig(Config gc, HeadcopyParams p) {
-            final MorsePlayer.Config config = super.createConfig(gc, p);
-            TextGenerator tg = new ListRandomWordTextGenerator(context, MainActivity.stopwords);
+        protected TextGenerator createTextGenerator(HeadcopyParams p) {
+            ListRandomWordTextGenerator tg = new ListRandomWordTextGenerator(context, MainActivity.stopwords);
             tg.setWordLengthMax(wordLength);
-            config.textGenerator = new CountedWordsTextGenerator(tg, 2);
-            return config;
+            return new CountedWordsTextGenerator(tg, 2);
         }
 
 
         @Override
         protected void progressToNextStage() {
             super.progressToNextStage();
-            HeadcopyParams p = new HeadcopyParams(context);
-            p.update(context);
+            HeadcopyParams p = getHeadcopyParams();
 
             final LearningFader learningFader = new LearningFader(prefs, FADERSTEPS_KEY);
             ParameterFader.FadeStep step = learningFader.nextFaderStep();
@@ -536,6 +568,20 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
             return true;
         }
 
+    }
+
+    /**
+     * How stages work.
+     */
+    private interface Stage {
+        /**
+         * Called when stage is first entered.
+         */
+        void init();
+
+        MorsePlayer.Config createConfig(Config gc, HeadcopyParams p);
+
+        void handle(LearningProgress.Mistake mistake);
     }
 
 }

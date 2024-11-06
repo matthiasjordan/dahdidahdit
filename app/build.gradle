@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id "com.github.hierynomus.license" version "0.16.1"
 }
 
 tasks.configureEach { task ->
@@ -53,9 +54,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
+
     buildFeatures {
         viewBinding true
     }
+
     namespace 'com.paddlesandbugs.dahdidahdit'
 }
 
@@ -76,9 +79,88 @@ dependencies {
 }
 
 
+license {
+    header = file('LICENSE.txt')
+    include "**/*.java"
+    skipExistingHeaders false
+    ext.year = Calendar.getInstance().get(Calendar.YEAR)
+
+    mapping {
+        java='dahdidahdit'
+    }
+
+    headerDefinitions {
+        dahdidahdit {
+            firstLine = ""
+            endLine   = "\n"
+            firstLineDetectionPattern = "/Copyright/"
+            lastLineDetectionPattern  = "//"
+            allowBlankLines = false
+            skipLinePattern = "//"
+            isMultiline = false
+        }
+    }
+}
+
+
+tasks.register('tidy', Delete) {
+    doLast {
+        println("Deleting build directory")
+        delete project.buildDir
+    }
+}
+
+
+tasks.register('apk') {
+    doLast {
+	group = "Build"
+	description = "Generates a signed APK ready for installing"
+
+	def Properties properties = new Properties()
+	properties.load(project.rootProject.file("local.properties").newDataInputStream())
+	def String keystoreDir = properties.getProperty("keystore.dir", "")
+
+	def outputDir = "${buildDir}/outputs/apk/release/";
+	def apkName = "dahdidahdit-${project.android.defaultConfig.versionCode}.apk";
+	println("Building APK")
+	println("Project name: ${project.name}")
+	println("Build dir: ${buildDir}")
+	println("SDK dir: ${project.android.sdkDirectory}")
+	println("Version: ${project.android.defaultConfig.versionCode}")
+	println("Keystore dir: ${keystoreDir}")
+
+	exec {
+		workingDir "${outputDir}"
+		executable "${project.android.sdkDirectory}/build-tools/33.0.1/zipalign"
+		args '-v', '-p', '4', '-f', "app-release-unsigned.apk", "dahdidahdit-unsigned-aligned.apk"
+	}
+	exec {
+		workingDir "${outputDir}"
+		executable "${project.android.sdkDirectory}/build-tools/33.0.1/apksigner"
+		args 'sign', '--ks',  "${keystoreDir}/android-keystore-dahdidahdit-production.jks", '--out', "${apkName}", 'dahdidahdit-unsigned-aligned.apk'
+		standardInput System.in
+	}
+
+	println("Aligned and signed APK at ${outputDir}/${apkName}");
+    }
+}
+
+
 task printVersionName {
     doLast {
         println android.defaultConfig.versionName
     }
+}
+
+
+// Copy resources to intermediates so they can be accessed during unit testing.
+task copyResDirectoryToClassesMain(type: Copy){
+    from "${projectDir}/src/main/res"
+    into "${buildDir}/intermediates/javac/debugUnitTest/classes/"
+}
+
+preBuild {
+    dependsOn tasks.named("license")
+    dependsOn(copyResDirectoryToClassesMain)
 }
 

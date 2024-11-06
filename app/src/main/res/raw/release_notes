@@ -1,7 +1,14 @@
-= 1.11.3
+=1.12.0
+* The callsign generator now uses proper ITU prefixes and can also generate a few callsigns you might know.
+* The QSO generator knows some operators, some of which are female.
+* Copy Training can shift letter frequencies to what occurs in natural language text.
+* Settings no longer allow do deselect all learning strategies.
+* Headcopy trainer now generates letters even if only vowels or only consonants are allowed.
+
+=1.11.3
 * This is the first version available on F-Droid.
 
-= 1.11.2
+=1.11.2
 * The app is now Free Software and available on GitHub.
 
 =1.11.1

@@ -270,5 +270,9 @@
     <string name="action_mopp_morsetennis_status_challenge_received">Try to copy challenge!</string>
     <string name="action_mopp_morsetennis_status_end">Match ended</string>
     <string name="action_add">Add</string>
+    <string name="distribution">Probability of letters</string>
+    <string name="prefs_summary_distribution_0">Each letter is as likely to occur as any other letter (uniformly distributed).</string>
+    <string name="prefs_summary_distribution_x">Each letter is with a %1$d%% probability as likely to occur as in normal English words and with %2$d%% probability as likely as any other letter.</string>
+    <string name="prefs_summary_distribution_10">Each letter is as likely to occur as it is in normal English words.</string>
 
 </resources>

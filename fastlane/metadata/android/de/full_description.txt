@@ -1,0 +1,11 @@
+Funkamateure, die QRP mögen, werden früher oder später morsen lernen wollen, um in CW zu kommunizieren. Diese App bringt nicht nur Freunden des Amateurfunks bei, wie der Morse-Code funktioniert, und trainiert CW-Ops, damit sie schneller werden.
+
+Man stellt den aktuellen Grad an Morse-Kenntnissen ein und auch das Trainings-Ziel (z.B. "alle Buchstaben mit 20 Wörtern pro Minute"). Dahdidahdit führt dann vom aktuallen Stand zum Wunschziel: Es bringt neue Buchstaben bei, wenn man so weit ist, oder erhöht die Geschwindigkeit, wenn man die gelernten Zeichen schon gut kann. Alles, was man braucht, ist ein Smartphone und Zettel und Stift. Wenn ein Durchgang gestartet wird, spielt Dahdidahdit Buchstaben, und man versucht, die gehörten Buchstaben auf einem Zettel zu notieren. (Das handschriftliche Notieren bewirkt, dass man Buchstaben nicht mit Tastenpositionen verknüpft, sondern mit den Buchstaben selbst.) Am Ende wird angezeigt, was tatsächlich gesendet wurde. Nun geht man seine Aufzeichnungen durch und zählt die Fehler. Am unteren Rand tippt man dann auf den Button, der die entsprechende Fehleranzahl enthält. Wenn man genug Durchgänge mit wenig Fehlern absolviert, startet Dahdidahdit die nächste Lektion - z.B. indem es einen neuen Buchstaben vorstellt oder die Geschwindigkeit erhöht.
+
+Andere Features sind:
+<ul>
+<li>Q-Code-Lernen</li>
+<li>Sende-Training mit On-Screen-Paddle oder USB-Paddle</li>
+<li>Morsen im Internet mit Morserino- oder Dahdidahdit-Usern</li>
+<li>Spiel: Morse-Tennis</li>
+</ul>

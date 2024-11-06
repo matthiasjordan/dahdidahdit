@@ -104,10 +104,10 @@ public class CompoundTextGenerator implements TextGenerator {
 
     private TextGenerator chooseGenerator() {
         int attempts = 20;
-        int current = random.nextInt(generators.length);
 
         TextGenerator generator;
         do {
+            int current = random.nextInt(generators.length);
             generator = generators[current];
         } while ((!generator.hasNext() && (attempts-- > 0)));
 
