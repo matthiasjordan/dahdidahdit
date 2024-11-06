@@ -26,7 +26,7 @@ import java.util.List;
 public class PrefixExploderTest {
 
     @Test
-    public void test1() {
+    public void testFindNextPrefix_Letters() {
         Assert.assertEquals("aab", PrefixExploder.findNextPrefix("aaa"));
         Assert.assertEquals("aac", PrefixExploder.findNextPrefix("aab"));
         Assert.assertEquals("abb", PrefixExploder.findNextPrefix("aba"));
@@ -42,7 +42,7 @@ public class PrefixExploderTest {
     }
 
     @Test
-    public void test2() {
+    public void testFindNextPrefix_Numbers() {
         Assert.assertEquals("aa2", PrefixExploder.findNextPrefix("aa1"));
         Assert.assertEquals("aa3", PrefixExploder.findNextPrefix("aa2"));
         Assert.assertEquals("a1b", PrefixExploder.findNextPrefix("a1a"));
@@ -57,11 +57,13 @@ public class PrefixExploderTest {
 
 
     @Test
-    public void testExlode1() {
+    public void testExplode1() {
         Assert.assertEquals(List.of("aa", "ab", "ac", "ad"), PrefixExploder.explodePrefixes("aa-ad"));
         Assert.assertEquals(List.of("ax", "ay", "az", "ba", "bb"), PrefixExploder.explodePrefixes("ax-bb"));
         Assert.assertEquals(List.of("4a", "4b", "4c"), PrefixExploder.explodePrefixes("4a-4c"));
         Assert.assertEquals(List.of("y2", "y3", "y4"), PrefixExploder.explodePrefixes("y2-y4"));
         Assert.assertEquals(List.of("y8", "y9", "z0", "z1", "z2"), PrefixExploder.explodePrefixes("y8-z2"));
+
+        Assert.assertEquals(List.of("Y8", "Y9", "Z0", "Z1", "Z2"), PrefixExploder.explodePrefixes("Y8-Z2"));
     }
 }

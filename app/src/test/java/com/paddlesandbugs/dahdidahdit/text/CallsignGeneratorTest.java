@@ -30,10 +30,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
-import java.io.ByteArrayInputStream;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,24 +39,21 @@ public class CallsignGeneratorTest extends AbstractTextGeneratorTest {
     private static final Stopwords stopwords = new Stopwords();
 
     private Context context;
+    private Resources resources;
 
     @Before
     public void setup() {
         context = Mockito.mock(Context.class);
-        Resources resources = Mockito.mock(Resources.class);
+        resources = Mockito.mock(Resources.class);
         Mockito.when(context.getResources()).thenReturn(resources);
-
-        Mockito.when(resources.openRawResource(Mockito.anyInt())).then(new Answer<ByteArrayInputStream>() {
-
-            @Override
-            public ByteArrayInputStream answer(InvocationOnMock invocation) {
-                return new ByteArrayInputStream("ab\nba-bc\n1a-1b\n".getBytes());
-            }
-        });
+        Mockito.when(resources.openRawResource(Mockito.anyInt())).then(fakeRawResourceMulti("ab\nba-bc\n1a-1b\n"));
     }
 
     @Test
     public void testGenerate1() {
+        // Use actual prefix file to test with production data.
+        Mockito.when(resources.openRawResource(Mockito.anyInt())).then(fakeRawFileResourceMulti("/raw/itu_prefixes"));
+
         for (int i = 0; (i < 1000); i++) {
             CallsignGenerator sut = new CallsignGenerator(context, stopwords);
             MorseCode.CharacterList res = TextTestUtils.read(sut, 3);
@@ -71,6 +65,9 @@ public class CallsignGeneratorTest extends AbstractTextGeneratorTest {
 
     @Test
     public void testGenerate2() {
+        // Use actual prefix file to test with production data.
+        Mockito.when(resources.openRawResource(Mockito.anyInt())).then(fakeRawFileResourceMulti("/raw/itu_prefixes"));
+
         for (int i = 0; (i < 1000); i++) {
             CallsignGenerator sut = new CallsignGenerator(context, stopwords);
             MorseCode.CharacterList res = TextTestUtils.read(sut, 7);
@@ -111,6 +108,28 @@ public class CallsignGeneratorTest extends AbstractTextGeneratorTest {
 
         Assert.assertEquals(Set.of("ab", "ba", "bb", "bc", "1a", "1b"), prefixesSeen);
     }
+
+    @Test
+    public void testProductionDistribution() {
+        // Use actual prefix file to test with production data.
+        Mockito.when(resources.openRawResource(Mockito.anyInt())).then(fakeRawFileResourceMulti("/raw/itu_prefixes"));
+
+        Distribution<String> d = CallsignGenerator.generatePrefixDistribution(context);
+        Distribution.Compiled<String> sut = d.compile();
+
+        Set<String> prefixesSeen = new HashSet<>();
+
+        for (int i = 0; (i < 10000); i++) {
+            prefixesSeen.add(sut.next());
+        }
+
+        // We assume these prefixes to get expanded.
+        Assert.assertTrue(prefixesSeen.contains("ab"));
+        Assert.assertTrue(prefixesSeen.contains("dl"));
+
+        Assert.assertEquals(785, d.size());
+    }
+
 
     @Test
     public void testCoolCallsign() {

@@ -22,43 +22,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PrefixExploder {
-    private static final char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-    private static final char[] numbers = "0123456789".toCharArray();
-
-
-    public static List<String> explodePrefixes(String spec) {
-        if (!spec.contains("-")) {
-            return List.of(spec);
-        }
-
-        String[] parts = spec.split("-");
-        if (parts.length != 2) {
-            return List.of(parts[0]);
-        }
-
-        ArrayList<String> res = new ArrayList<>();
-        final String last = parts[1];
-        String current = parts[0];
-        do {
-            res.add(current);
-            current = findNextPrefix(current);
-        }
-        while ((current != null) && !current.equals(last));
-        res.add(last);
-
-        return res;
-    }
+    public static final String RANGE_CHAR = "-";
 
     static String findNextPrefix(String current) {
-        final String str = current.toLowerCase();
-
-        char[] chars = str.toCharArray();
+        char[] chars = current.toCharArray();
         int currentIndex = chars.length - 1;
         boolean finished = false;
 
         do {
             if (chars[currentIndex] == 'z') {
                 chars[currentIndex] = 'a';
+                currentIndex -= 1;
+            } else if (chars[currentIndex] == 'Z') {
+                chars[currentIndex] = 'A';
                 currentIndex -= 1;
             } else if (chars[currentIndex] == '9') {
                 chars[currentIndex] = '0';
@@ -74,5 +50,28 @@ public class PrefixExploder {
         } while (!finished);
 
         return new String(chars);
+    }
+
+    public static List<String> explodePrefixes(String spec) {
+        if (!spec.contains(RANGE_CHAR)) {
+            return List.of(spec);
+        }
+
+        String[] parts = spec.split(RANGE_CHAR);
+        if (parts.length != 2) {
+            return List.of(parts[0]);
+        }
+
+        ArrayList<String> res = new ArrayList<>();
+        final String last = parts[1];
+        String current = parts[0];
+        do {
+            res.add(current);
+            current = findNextPrefix(current);
+        }
+        while ((current != null) && !current.equals(last));
+        res.add(last);
+
+        return res;
     }
 }

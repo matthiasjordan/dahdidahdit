@@ -153,6 +153,14 @@ task printVersionName {
 }
 
 
+// Copy resources to intermediates so they can be accessed during unit testing.
+task copyResDirectoryToClassesMain(type: Copy){
+    from "${projectDir}/src/main/res"
+    into "${buildDir}/intermediates/javac/debugUnitTest/classes/"
+}
+
 preBuild {
     dependsOn tasks.named("license")
+    dependsOn(copyResDirectoryToClassesMain)
 }
+

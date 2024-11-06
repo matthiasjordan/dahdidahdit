@@ -1,7 +1,9 @@
-= 1.12.0
-* Der Rufzeichen-Generator benutzt nun existierende ITU-Prefixe.
+=1.12.0
+* Der Rufzeichen-Generator benutzt nun existierende ITU-Prefixe und kann auch ein paar Rufzeichen generieren, die man kennen könnte.
 * Der QSO-Generator kennt verschiedene OPs, von denen einige weiblich sind.
 * Lesetraining kann Zeichen-Häufigkeiten in Richtung der in natürlichsprachlichen Texten verändern.
+* In den Einstellungen kann man nicht mehr alle Lernstrategien abwählen.
+* Der Gehörlesen-Trainer generiert nun auch Wörter, wenn nur Vokale oder nur Konsonanten erlaubt sind.
 
 =1.11.3
 * Das ist die erste Version, die auf F-Droid verfügbar ist.
