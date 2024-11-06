@@ -1,0 +1,5 @@
+• The callsign generator now uses proper ITU prefixes and can also generate a few callsigns you might know.
+• The QSO generator knows some operators, some of which are female.
+• Copy Training can shift letter frequencies to what occurs in natural language text.
+• Settings no longer allow do deselect all learning strategies.
+• Headcopy trainer now generates letters even if only vowels or only consonants are allowed.
