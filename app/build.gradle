@@ -116,17 +116,18 @@ tasks.register('apk') {
 	group = "Build"
 	description = "Generates a signed APK ready for installing"
 
-	def Properties properties = new Properties()
+	Properties properties = new Properties()
 	properties.load(project.rootProject.file("local.properties").newDataInputStream())
-	def String keystoreDir = properties.getProperty("keystore.dir", "")
+	String keystoreDir = properties.getProperty("keystore.dir", "")
 
-	def outputDir = "${buildDir}/outputs/apk/release/";
-	def apkName = "dahdidahdit-${project.android.defaultConfig.versionCode}.apk";
+	def outputDir = "${buildDir}/outputs/apk/release"
+	def version = project.android.defaultConfig.versionName
+	def apkName = "dahdidahdit-${version}.apk"
 	println("Building APK")
 	println("Project name: ${project.name}")
 	println("Build dir: ${buildDir}")
 	println("SDK dir: ${project.android.sdkDirectory}")
-	println("Version: ${project.android.defaultConfig.versionCode}")
+	println("Version: ${version}")
 	println("Keystore dir: ${keystoreDir}")
 
 	exec {
@@ -141,12 +142,19 @@ tasks.register('apk') {
 		standardInput System.in
 	}
 
-	println("Aligned and signed APK at ${outputDir}/${apkName}");
+	copy {
+		from ("${outputDir}") {
+			include apkName
+		}
+		into "${projectDir}/.."
+	}
+	
+	println("Aligned and signed APK at ${apkName}")
     }
 }
 
 
-task printVersionName {
+tasks.register('printVersionName') {
     doLast {
         println android.defaultConfig.versionName
     }
@@ -154,10 +162,13 @@ task printVersionName {
 
 
 // Copy resources to intermediates so they can be accessed during unit testing.
-task copyResDirectoryToClassesMain(type: Copy){
-    from "${projectDir}/src/main/res"
-    into "${buildDir}/intermediates/javac/debugUnitTest/classes/"
+tasks.register('copyResDirectoryToClassesMain', Copy) {
+    doLast {
+        from "${projectDir}/src/main/res"
+        into "${buildDir}/intermediates/javac/debugUnitTest/classes/"
+    }
 }
+
 
 preBuild {
     dependsOn tasks.named("license")
