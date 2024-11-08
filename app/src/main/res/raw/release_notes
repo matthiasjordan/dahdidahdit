@@ -1,3 +1,6 @@
+=1.13.0
+* The on-screen paddle buttons grew larger and larger when returning from settings. This needed to stop. And it did.
+
 =1.12.0
 * The callsign generator now uses proper ITU prefixes and can also generate a few callsigns you might know.
 * The QSO generator knows some operators, some of which are female.
