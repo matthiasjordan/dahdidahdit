@@ -162,10 +162,12 @@ tasks.register('printVersionName') {
 
 
 // Copy resources to intermediates so they can be accessed during unit testing.
-tasks.register('copyResDirectoryToClassesMain', Copy) {
+tasks.register("copyResDirectoryToClassesMain") {
     doLast {
-        from "${projectDir}/src/main/res"
-        into "${buildDir}/intermediates/javac/debugUnitTest/classes/"
+        copy {
+            from "${projectDir}/src/main/res"
+            into "${buildDir}/intermediates/javac/debugUnitTest/classes/"
+        }
     }
 }
 
