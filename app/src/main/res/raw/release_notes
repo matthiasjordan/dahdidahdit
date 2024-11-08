@@ -1,4 +1,5 @@
 =1.13.0
+* Added option to use only those characters in Sending Training that were learned in Copy Training.
 * The on-screen paddle buttons grew larger and larger when returning from settings. This needed to stop. And it did.
 
 =1.12.0

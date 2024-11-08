@@ -1,4 +1,5 @@
 =1.13.0
+* Im Sendetraining können optional nur Zeichen verwendet werden, die im Lesetraining gelernt wurden.
 * Die Buttons des On-Screen-Paddles wurden immer größer, wenn man aus den Settings zurückkehrte. Das musste aufhören. Und das tat es.
 
 =1.12.0
