@@ -235,6 +235,9 @@
     <string name="workarounds_summary">Solutions to some issues users of certain devices might experience</string>
     <string name="morseplayer_lead_time">Initial playback pause (ms)</string>
     <string name="headcopy_stage">Stage</string>
+    <string name="headcopy_stage_summary_syllable">Syllables with up to %1$d letters</string>
+    <string name="headcopy_stage_summary_word">Words with up to %1$d letters</string>
+    <string name="headcopy_stage_summary_wordpair">Pairs of words with up to %1$d letters each</string>
     <string name="mopp_client_title">MOPP Client</string>
     <string name="network_list_title">Network servers</string>
     <string name="network_add_title">Add server</string>
