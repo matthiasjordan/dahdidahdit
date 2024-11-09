@@ -18,6 +18,7 @@
 
 package com.paddlesandbugs.dahdidahdit.settings;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -45,10 +46,16 @@ public abstract class AbstractCopyTrainerFadedFragment extends AbstractFadedFrag
 
 
     private void addKochList() {
-        CharSequence[] charList = MainActivity.getCopyTrainer(getContext()).getAllCharLabels();
+        final Context context = getContext();
+
+        if (context == null) {
+            return;
+        }
+
+        CharSequence[] charList = MainActivity.getCopyTrainer(context).getAllCharLabels();
         CharSequence[] intList = getIntList(charList.length);
 
-        String prefsKey = Field.KOCH_LEVEL.getPrefsKey(getContext(), getPrefsKeyPrefix(), getInfix());
+        String prefsKey = Field.KOCH_LEVEL.getPrefsKey(context, getPrefsKeyPrefix(), getInfix());
         final String listKeyKoch = "copytrainer_" + getInfix() + "_sequence_level";
 
         Log.i(SettingsActivity.LOG_TAG, "LIST KEY IS NOW " + listKeyKoch);
@@ -66,7 +73,7 @@ public abstract class AbstractCopyTrainerFadedFragment extends AbstractFadedFrag
         lp.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
-                PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString(prefsKey, (String) newValue).apply();
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putString(prefsKey, (String) newValue).apply();
                 Log.i(SettingsActivity.LOG_TAG, "WOULD CHANGE PREF " + prefsKey + " to " + newValue);
                 lp.setValue((String) newValue);
                 return false;
@@ -74,7 +81,7 @@ public abstract class AbstractCopyTrainerFadedFragment extends AbstractFadedFrag
         });
 
         PreferenceScreen screen = getPreferenceScreen();
-        lp.setValue(PreferenceManager.getDefaultSharedPreferences(getContext()).getString(prefsKey, "0"));
+        lp.setValue(PreferenceManager.getDefaultSharedPreferences(context).getString(prefsKey, "0"));
         screen.addPreference(lp);
         setPreferenceScreen(screen);
     }
@@ -90,22 +97,13 @@ public abstract class AbstractCopyTrainerFadedFragment extends AbstractFadedFrag
             return;
         }
 
-        preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        SettingsUtils.setAutoupdatingSummaryProvider(((SeekBarPreference) preference), new Preference.SummaryProvider<SeekBarPreference>() {
             @Override
-            public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
-                // Seems to be necessary to update the summary.
-                ((SeekBarPreference) preference).setValue((Integer) newValue);
-                return true;
-            }
-        });
-        preference.setSummaryProvider(new Preference.SummaryProvider() {
-            @Override
-            public CharSequence provideSummary(@NonNull Preference preference) {
-                if (!(preference instanceof SeekBarPreference)) {
+            public CharSequence provideSummary(@NonNull SeekBarPreference pref) {
+                if (pref != preference) {
                     return "";
                 }
-
-                int value = ((SeekBarPreference) preference).getValue();
+                int value = pref.getValue();
                 if ((value < 0) || (10 < value)) {
                     return "";
                 }
