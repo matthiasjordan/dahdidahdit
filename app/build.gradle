@@ -8,10 +8,20 @@ tasks.configureEach { task ->
 //        task.dependsOn('connectedAndroidTest')
         task.dependsOn('testDebugUnitTest')
     }
-
-    if (task.name == 'assembleDebug')
+    
+    if (task.name == 'assembleDebug') {
         task.dependsOn('testDebugUnitTest')
+    }
 
+    // Copy resources so we can use them in unit tests before running the unit tests.
+    if (task.name == 'testDebugUnitTest') {
+        task.dependsOn('copyResDirectoryToClassesMain')
+    }
+
+    // Before copying resources, make sure compileDebugUnitTestJavaWithJavac is run because this deletes all resources.
+    if (task.name == 'copyResDirectoryToClassesMain') {
+        task.dependsOn('compileDebugUnitTestJavaWithJavac')
+    }
 }
 
 android {
@@ -61,6 +71,7 @@ android {
 
     namespace 'com.paddlesandbugs.dahdidahdit'
 }
+
 
 dependencies {
 
@@ -162,11 +173,13 @@ tasks.register('printVersionName') {
 
 
 // Copy resources to intermediates so they can be accessed during unit testing.
-tasks.register("copyResDirectoryToClassesMain") {
+task copyResDirectoryToClassesMain () {
     doLast {
+        def targetDir = "${buildDir}/intermediates/javac/debugUnitTest/compileDebugUnitTestJavaWithJavac/classes/"
+        println("Copying resources to ${targetDir}")
         copy {
             from "${projectDir}/src/main/res"
-            into "${buildDir}/intermediates/javac/debugUnitTest/classes/"
+            into targetDir
         }
     }
 }
@@ -174,6 +187,4 @@ tasks.register("copyResDirectoryToClassesMain") {
 
 preBuild {
     dependsOn tasks.named("license")
-    dependsOn(copyResDirectoryToClassesMain)
 }
-
