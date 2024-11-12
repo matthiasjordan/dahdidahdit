@@ -17,6 +17,11 @@ The learner then counts how many errors were made. Dahdidahdit keeps track
 about this and, when the learner makes progress, teaches a new letter or
 increases the speed.
 
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/com.paddlesandbugs.dahdidahdit/)
+
+Or download the latest APK from the [Releases Section](https://github.com/matthiasjordan/dahdidahdit/releases/latest).
 
 ## Features
 
