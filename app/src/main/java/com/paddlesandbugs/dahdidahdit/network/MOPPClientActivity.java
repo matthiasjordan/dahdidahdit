@@ -28,7 +28,6 @@ import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +36,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+
+import com.paddlesandbugs.dahdidahdit.Config;
+import com.paddlesandbugs.dahdidahdit.MorseCode;
+import com.paddlesandbugs.dahdidahdit.R;
+import com.paddlesandbugs.dahdidahdit.base.LearningValue;
+import com.paddlesandbugs.dahdidahdit.base.MainActivity;
+import com.paddlesandbugs.dahdidahdit.brasspound.AbstractPaddleInputActivity;
+import com.paddlesandbugs.dahdidahdit.brasspound.Decoder;
+import com.paddlesandbugs.dahdidahdit.network.mopp.MOPPClient;
+import com.paddlesandbugs.dahdidahdit.network.mopp.Packet;
+import com.paddlesandbugs.dahdidahdit.sound.InstantMorsePlayer;
+import com.paddlesandbugs.dahdidahdit.sound.MorsePlayerI;
+import com.paddlesandbugs.dahdidahdit.sound.MorseTiming;
+import com.paddlesandbugs.dahdidahdit.tennis.TennisMachine;
+import com.paddlesandbugs.dahdidahdit.text.StaticTextGenerator;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -47,26 +61,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-import com.paddlesandbugs.dahdidahdit.Config;
-import com.paddlesandbugs.dahdidahdit.MorseCode;
-import com.paddlesandbugs.dahdidahdit.R;
-import com.paddlesandbugs.dahdidahdit.base.AbstractNavigationActivity;
-import com.paddlesandbugs.dahdidahdit.base.LearningValue;
-import com.paddlesandbugs.dahdidahdit.base.MainActivity;
-import com.paddlesandbugs.dahdidahdit.brasspound.AudioHelper;
-import com.paddlesandbugs.dahdidahdit.brasspound.Decoder;
-import com.paddlesandbugs.dahdidahdit.brasspound.MorseInput;
-import com.paddlesandbugs.dahdidahdit.brasspound.PaddleMorseInput;
-import com.paddlesandbugs.dahdidahdit.brasspound.StraightMorseInput;
-import com.paddlesandbugs.dahdidahdit.network.mopp.MOPPClient;
-import com.paddlesandbugs.dahdidahdit.network.mopp.Packet;
-import com.paddlesandbugs.dahdidahdit.sound.InstantMorsePlayer;
-import com.paddlesandbugs.dahdidahdit.sound.MorsePlayerI;
-import com.paddlesandbugs.dahdidahdit.sound.MorseTiming;
-import com.paddlesandbugs.dahdidahdit.tennis.TennisMachine;
-import com.paddlesandbugs.dahdidahdit.text.StaticTextGenerator;
-
-public class MOPPClientActivity extends AbstractNavigationActivity {
+public class MOPPClientActivity extends AbstractPaddleInputActivity {
 
     private static final String LOG_TAG = "MOPPClAct";
 
@@ -82,8 +77,6 @@ public class MOPPClientActivity extends AbstractNavigationActivity {
 
     private ScrollView sv;
 
-    private MorseInput morseInput;
-
     private MOPPClient moppClient;
 
     private String addressStr;
@@ -94,7 +87,6 @@ public class MOPPClientActivity extends AbstractNavigationActivity {
 
     private Mode mode = standardMode;
 
-    private LearningValue wpm;
 
 
     public static void callMe(Context context, NetworkConfig config) {
@@ -198,15 +190,12 @@ public class MOPPClientActivity extends AbstractNavigationActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainActivity.setActivity(this, MainActivity.MOPPCLIENT);
 
         final Bundle extras = getIntent().getExtras();
         if (extras != null) {
             addressStr = extras.getString(EXTRA_ADDRESS);
         }
-
-        takeKeyEvents(true);
-        setDefaultKeyMode(DEFAULT_KEYS_DISABLE);
-        MainActivity.setActivity(this, MainActivity.MOPPCLIENT);
     }
 
 
@@ -216,13 +205,7 @@ public class MOPPClientActivity extends AbstractNavigationActivity {
 
         Log.i(LOG_TAG, "onResume()");
 
-        Config config = new Config();
-        config.update(this);
-
-        int freq = config.freqDit;
-        AudioHelper.start(this, freq);
-
-        this.dxFrequency = getDxFrequency(config);
+        this.dxFrequency = getDxFrequency(getConfig());
 
         tt = findViewById(R.id.output);
         sv = findViewById(R.id.scroller);
@@ -257,16 +240,19 @@ public class MOPPClientActivity extends AbstractNavigationActivity {
             exceptionConsumer.accept(e);
             finish();
         }
+    }
 
-        wpm = getWpm();
 
-        if (config.isPaddles) {
-            morseInput = new PaddleMorseInput(this, wpm);
-        } else {
-            morseInput = new StraightMorseInput(this, wpm);
-        }
+    @NonNull
+    protected LearningValue getInitialWpm() {
+        final int defaultWpm = getResources().getInteger(R.integer.default_value_wpm_sending);
+        return new LearningValue(this, "brasspounder_current_wpm", 1, defaultWpm, 40);
+    }
 
-        morseInput.init(new Decoder.CharListener() {
+
+    @Override
+    protected Decoder.CharListener getCharListener() {
+        return new Decoder.CharListener() {
 
             final MorseCode.MutableCharacterList currentWord = new MorseCode.MutableCharacterList();
 
@@ -297,14 +283,7 @@ public class MOPPClientActivity extends AbstractNavigationActivity {
 
 
             }
-        });
-    }
-
-
-    @NonNull
-    private LearningValue getWpm() {
-        final int defaultWpm = getResources().getInteger(R.integer.default_value_wpm_sending);
-        return new LearningValue(this, "brasspounder_current_wpm", 1, defaultWpm, 40);
+        };
     }
 
 
@@ -383,26 +362,16 @@ public class MOPPClientActivity extends AbstractNavigationActivity {
 
     @Override
     protected void onPause() {
-        Log.i(LOG_TAG, "onPause()");
-        AudioHelper.stopPlaying();
-        AudioHelper.shutdown();
+        super.onPause();
         if (moppClient != null) {
             moppClient.close();
         }
-        super.onPause();
     }
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-    }
-
-
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        morseInput.handleKey(event);
-        return super.dispatchKeyEvent(event);
     }
 
 
@@ -442,9 +411,10 @@ public class MOPPClientActivity extends AbstractNavigationActivity {
 
         @Override
         public void send(MorseCode.CharacterList currentWord) throws IOException {
-            moppClient.send(new Packet(currentWord, getWpm().get()), false);
+            moppClient.send(new Packet(currentWord, getInitialWpm().get()), false);
         }
     }
+
 
     private class MorseTennisMode implements Mode {
         private final MorseTennis morseTennis;
@@ -460,7 +430,7 @@ public class MOPPClientActivity extends AbstractNavigationActivity {
 
         private void sendMessage(String msg) {
             try {
-                final int wpm = getWpm().get();
+                final int wpm = getInitialWpm().get();
                 Log.i(LOG_TAG, "Sending via MOPP client: " + msg + " with " + wpm + " wpm");
                 String[] words = msg.split(" ");
                 int pos = 0;
@@ -511,7 +481,7 @@ public class MOPPClientActivity extends AbstractNavigationActivity {
 
         @Override
         public void start() {
-            morseTennis.start(MOPPClientActivity.this, MOPPClientActivity.this.wpm);
+            morseTennis.start(MOPPClientActivity.this, getInitialWpm());
             findViewById(R.id.morse_tennis_status).setVisibility(View.VISIBLE);
             scrollToEnd();
         }

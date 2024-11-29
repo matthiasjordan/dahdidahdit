@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 
 import androidx.annotation.Keep;
 import androidx.appcompat.app.ActionBar;
@@ -34,12 +35,12 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import com.paddlesandbugs.dahdidahdit.R;
 import com.paddlesandbugs.dahdidahdit.base.MainActivity;
 import com.paddlesandbugs.dahdidahdit.headcopy.HeadcopyTrainer;
 import com.paddlesandbugs.dahdidahdit.selfdefined.SelfdefinedTrainer;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SettingsActivity extends AppCompatActivity implements PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
@@ -248,6 +249,13 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
         }
         onBackPressed();
         return true;
+    }
+
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        Log.i("CCCCCC", "Key event seen");
+        return super.dispatchKeyEvent(event);
     }
 
 
