@@ -174,7 +174,7 @@ tasks.register('printVersionName') {
 
 
 // Copy resources to intermediates so they can be accessed during unit testing.
-task copyResDirectoryToClassesMain () {
+tasks.register('copyResDirectoryToClassesMain') {
     doLast {
         def targetDir = "${buildDir}/intermediates/javac/debugUnitTest/compileDebugUnitTestJavaWithJavac/classes/"
         println("Copying resources to ${targetDir}")
