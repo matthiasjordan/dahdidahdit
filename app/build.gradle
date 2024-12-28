@@ -22,6 +22,10 @@ tasks.configureEach { task ->
     if (task.name == 'copyResDirectoryToClassesMain') {
         task.dependsOn('compileDebugUnitTestJavaWithJavac')
     }
+
+    if (task.name == 'tidy') {
+        task.dependsOn('clean')
+    }
 }
 
 android {
