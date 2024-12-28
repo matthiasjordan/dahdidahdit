@@ -1,6 +1,7 @@
 =1.13.0
 * Added option to use only those characters in Sending Training that were learned in Copy Training.
 * The on-screen paddle buttons grew larger and larger when returning from settings. This needed to stop. And it did.
+* Nicer stage preference for Headcopy trainer.
 
 =1.12.0
 * The callsign generator now uses proper ITU prefixes and can also generate a few callsigns you might know.
