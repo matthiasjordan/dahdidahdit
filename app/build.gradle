@@ -67,6 +67,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        buildConfig = true
     }
 
     namespace 'com.paddlesandbugs.dahdidahdit'
