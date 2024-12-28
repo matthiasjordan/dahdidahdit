@@ -12,6 +12,7 @@ local.properties
 /release
 /app/release/app-release.apk
 /app/release/output-metadata.json
+/app/.attach_pid*
 *~
 *.apk
 *.idsig
