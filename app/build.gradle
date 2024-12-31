@@ -8,10 +8,24 @@ tasks.configureEach { task ->
 //        task.dependsOn('connectedAndroidTest')
         task.dependsOn('testDebugUnitTest')
     }
-
-    if (task.name == 'assembleDebug')
+    
+    if (task.name == 'assembleDebug') {
         task.dependsOn('testDebugUnitTest')
+    }
 
+    // Copy resources so we can use them in unit tests before running the unit tests.
+    if (task.name == 'testDebugUnitTest') {
+        task.dependsOn('copyResDirectoryToClassesMain')
+    }
+
+    // Before copying resources, make sure compileDebugUnitTestJavaWithJavac is run because this deletes all resources.
+    if (task.name == 'copyResDirectoryToClassesMain') {
+        task.dependsOn('compileDebugUnitTestJavaWithJavac')
+    }
+
+    if (task.name == 'tidy') {
+        task.dependsOn('clean')
+    }
 }
 
 android {
@@ -57,10 +71,12 @@ android {
 
     buildFeatures {
         viewBinding true
+        buildConfig = true
     }
 
     namespace 'com.paddlesandbugs.dahdidahdit'
 }
+
 
 dependencies {
 
@@ -68,6 +84,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.preference:preference:1.2.1'
+    implementation 'androidx.test:monitor:1.7.2'
 
     def room_version = "2.6.1"
 
@@ -116,17 +133,18 @@ tasks.register('apk') {
 	group = "Build"
 	description = "Generates a signed APK ready for installing"
 
-	def Properties properties = new Properties()
+	Properties properties = new Properties()
 	properties.load(project.rootProject.file("local.properties").newDataInputStream())
-	def String keystoreDir = properties.getProperty("keystore.dir", "")
+	String keystoreDir = properties.getProperty("keystore.dir", "")
 
-	def outputDir = "${buildDir}/outputs/apk/release/";
-	def apkName = "dahdidahdit-${project.android.defaultConfig.versionCode}.apk";
+	def outputDir = "${buildDir}/outputs/apk/release"
+	def version = project.android.defaultConfig.versionName
+	def apkName = "dahdidahdit-${version}.apk"
 	println("Building APK")
 	println("Project name: ${project.name}")
 	println("Build dir: ${buildDir}")
 	println("SDK dir: ${project.android.sdkDirectory}")
-	println("Version: ${project.android.defaultConfig.versionCode}")
+	println("Version: ${version}")
 	println("Keystore dir: ${keystoreDir}")
 
 	exec {
@@ -141,12 +159,19 @@ tasks.register('apk') {
 		standardInput System.in
 	}
 
-	println("Aligned and signed APK at ${outputDir}/${apkName}");
+	copy {
+		from ("${outputDir}") {
+			include apkName
+		}
+		into "${projectDir}/.."
+	}
+	
+	println("Aligned and signed APK at ${apkName}")
     }
 }
 
 
-task printVersionName {
+tasks.register('printVersionName') {
     doLast {
         println android.defaultConfig.versionName
     }
@@ -154,13 +179,18 @@ task printVersionName {
 
 
 // Copy resources to intermediates so they can be accessed during unit testing.
-task copyResDirectoryToClassesMain(type: Copy){
-    from "${projectDir}/src/main/res"
-    into "${buildDir}/intermediates/javac/debugUnitTest/classes/"
+tasks.register('copyResDirectoryToClassesMain') {
+    doLast {
+        def targetDir = "${buildDir}/intermediates/javac/debugUnitTest/compileDebugUnitTestJavaWithJavac/classes/"
+        println("Copying resources to ${targetDir}")
+        copy {
+            from "${projectDir}/src/main/res"
+            into targetDir
+        }
+    }
 }
+
 
 preBuild {
     dependsOn tasks.named("license")
-    dependsOn(copyResDirectoryToClassesMain)
 }
-

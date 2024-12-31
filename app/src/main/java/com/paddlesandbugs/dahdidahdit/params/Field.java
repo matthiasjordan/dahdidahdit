@@ -32,7 +32,7 @@ public enum Field {
     QSB('b', 1, 's', "%s_%s_qsb", R.string.QSB), //
     QRM('m', 1, 's', "%s_%s_qrm", R.string.QRM), //
     QRN('n', 1, 's', "%s_%s_qrn", R.string.QRN), //
-    DISTRIBUTION('d', 1, 'i', "%s_%s_distribution", R.string.distribution); //
+    DISTRIBUTION('d', 0, 'i', "%s_%s_distribution", R.string.distribution); //
 
     public final Integer defaultValue;
     private final char seq;

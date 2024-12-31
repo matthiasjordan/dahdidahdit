@@ -215,7 +215,25 @@ public class NaturalLanguageTextGeneratorTest extends AbstractTextGeneratorTest 
         Assert.assertEquals(1.0d, map.get('a') / map.get('a'), 1.0d);
         Assert.assertEquals(2.0d, map.get('h') / map.get('a'), 1.0d);
         Assert.assertEquals(2.0d, map.get(' ') / map.get('a'), 1.0d);
+    }
 
+    @Test
+    public void testGenerator2_withPermittedSet_withAdditionals() {
+        Context context = mock(Context.class);
+        Resources resources = mock(Resources.class);
+        when(resources.openRawResource(R.raw.wordlist)).thenReturn(fakeRawResource(HALLO_HELL));
+        when(context.getResources()).thenReturn(resources);
+
+        Set<MorseCode.CharacterData> testSet = MorseCode.asSet("hal"); // Only h, a, l should be in the output.
+        NaturalLanguageTextGenerator sut = new NaturalLanguageTextGenerator(context, 1, testSet, 20);
+
+        Map<Character, Double> map = TextTestUtils.runMonteCarlo(sut);
+
+        Assert.assertEquals(Set.of('h', 'a', 'l', ' '), map.keySet());
+        Assert.assertEquals(4.0d, map.get('l') / map.get('a'), 1.5d);
+        Assert.assertEquals(1.0d, map.get('a') / map.get('a'), 1.0d);
+        Assert.assertEquals(2.0d, map.get('h') / map.get('a'), 1.0d);
+        Assert.assertEquals(2.0d, map.get(' ') / map.get('a'), 1.0d);
     }
 
     @Test

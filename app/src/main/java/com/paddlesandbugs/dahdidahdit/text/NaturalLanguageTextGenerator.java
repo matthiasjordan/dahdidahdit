@@ -32,6 +32,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -83,6 +84,7 @@ public class NaturalLanguageTextGenerator extends AbstractTextGenerator {
      * Creates a {@link TextGenerator} that uses a distribution of n-grams.
      *
      * @param context the {@link Context}
+     * @param n            the n in n-gram
      */
     public NaturalLanguageTextGenerator(Context context, int n) {
         this(context, n, null);
@@ -127,7 +129,7 @@ public class NaturalLanguageTextGenerator extends AbstractTextGenerator {
 
         addFromWordList(context, n, permittedSet, frequencies);
         if (moreCharactersPercent > 0) {
-            addMoreCharacters(frequencies, moreCharactersPercent);
+            addMoreCharacters(frequencies, moreCharactersPercent, permittedSet);
         }
 
         final Distribution<String> dist = new Distribution<>(frequencies.keySet());
@@ -138,20 +140,21 @@ public class NaturalLanguageTextGenerator extends AbstractTextGenerator {
         return dist;
     }
 
-    private static void addMoreCharacters(Map<String, AtomicReference<Float>> frequencies, int weightInPercent) {
-        final Set<MorseCode.CharacterData> specials = MorseCode.getInstance().specials;
-        final Set<MorseCode.CharacterData> numbers = MorseCode.getInstance().numbers;
-        Float previousTotalWeight = frequencies.values().stream().collect(Collectors.reducing(0.0f, AtomicReference::get, (a, b) -> a + b));
+    private static void addMoreCharacters(Map<String, AtomicReference<Float>> frequencies, int weightInPercent, Set<MorseCode.CharacterData> permittedSet) {
+        final Set<MorseCode.CharacterData> additionals = new HashSet<>();
+        additionals.addAll(MorseCode.getInstance().specials);
+        additionals.addAll(MorseCode.getInstance().numbers);
+        if (permittedSet != null) {
+            additionals.retainAll(permittedSet);
+        }
+
+        Float previousTotalWeight = frequencies.values().stream().map(AtomicReference::get).reduce(0.0f, (a, b) -> a + b);
         // Idea: characters of the additional classes should make up weightIntPercent% of the total.
-        int numAdditionalCharacters = specials.size() + numbers.size();
+        int numAdditionalCharacters = additionals.size();
         float addCharsWeight = previousTotalWeight * weightInPercent / (100 - weightInPercent);
         float weightOfEachAdditionalCharacter = addCharsWeight / numAdditionalCharacters;
 
-        for (MorseCode.CharacterData character : specials) {
-            frequencies.put(character.toString(), new AtomicReference<>(weightOfEachAdditionalCharacter));
-        }
-
-        for (MorseCode.CharacterData character : numbers) {
+        for (MorseCode.CharacterData character : additionals) {
             frequencies.put(character.toString(), new AtomicReference<>(weightOfEachAdditionalCharacter));
         }
     }

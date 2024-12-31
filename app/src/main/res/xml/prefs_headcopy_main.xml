@@ -8,6 +8,7 @@
         android:title="@string/headcopy_stage"
         app:min="0"
         app:showSeekBarValue="true"
+        app:updatesContinuously="true"
         app:useSimpleSummaryProvider="true" />
 
     <Preference

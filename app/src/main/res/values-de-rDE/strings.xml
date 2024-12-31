@@ -208,6 +208,9 @@
     <string name="workarounds_summary">Lösungen für Probleme, die auf manchen Geräten auftreten können</string>
     <string name="morseplayer_lead_time">Pause vor Tonausgabe (ms)</string>
     <string name="headcopy_stage">Stufe</string>
+    <string name="headcopy_stage_summary_syllable">Silben mit bis zu %1$d Buchstaben</string>
+    <string name="headcopy_stage_summary_word">Wörter mit bis zu %1$d Buchstaben</string>
+    <string name="headcopy_stage_summary_wordpair">Paare von Wörtern mit jeweils bis zu  %1$d Buchstaben</string>
     <string name="mopp_client_title">MOPP-Client</string>
     <string name="network_list_title">Netzwerk-Server</string>
     <string name="network_add_title">Server hinzufügen</string>

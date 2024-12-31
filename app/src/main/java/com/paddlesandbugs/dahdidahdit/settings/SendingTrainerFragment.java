@@ -1,20 +1,20 @@
 /****************************************************************************
-    Dahdidahdit - an Android Morse trainer
-    Copyright (C) 2021-2024 Matthias Jordan <matthias@paddlesandbugs.com>
+ Dahdidahdit - an Android Morse trainer
+ Copyright (C) 2021-2024 Matthias Jordan <matthias@paddlesandbugs.com>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-****************************************************************************/
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
 
 package com.paddlesandbugs.dahdidahdit.settings;
 
@@ -23,13 +23,17 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.paddlesandbugs.dahdidahdit.R;
 import com.paddlesandbugs.dahdidahdit.brasspound.SendingTrainerActivity;
 import com.paddlesandbugs.dahdidahdit.onboarding.OnboardingActivity;
+import com.paddlesandbugs.dahdidahdit.text.PrefsBasedTextGeneratorFactory;
 
 @Keep
 public class SendingTrainerFragment extends PreferenceFragmentCompat {
@@ -44,26 +48,29 @@ public class SendingTrainerFragment extends PreferenceFragmentCompat {
 
         SettingsActivity.addWordListChangeListener(this, "sendingtrainer_text_generator", "sendingtrainer_text_first_n");
 
-        Preference pref = findPreference("sendingtrainer_text_chooser");
+        ListPreference pref = findPreference("sendingtrainer_text_generator");
         if (pref != null) {
-            pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                    intent.setType("text/*");
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    // Only the system receives the ACTION_OPEN_DOCUMENT, so no need to test.
-                    startActivityForResult(intent, 1);
+                public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
+                    updateKochOnly(newValue);
                     return true;
                 }
+
+                private void updateKochOnly(Object value) {
+                    Preference p = findPreference("sendingtrainer_only_koch_chars");
+                    if ((p != null) && (value instanceof String)) {
+                        if (PrefsBasedTextGeneratorFactory.isHonoringKochLevel((String) value)) {
+                            p.setEnabled(true);
+                        } else {
+                            p.setEnabled(false);
+                        }
+                    }
+                }
+
             });
-        }
-        String fileHead = new ReceivedFile(getContext(), SendingTrainerActivity.RECEIVED_FILE_NAME).head();
-        if (fileHead.length() != 0) {
-            Preference p = findPreference("sendingtrainer_text_chooser");
-            if (p != null) {
-                p.setSummary(fileHead);
-            }
+
+            pref.callChangeListener(pref.getValue());
         }
 
         final OnboardingActivity.Values v = new OnboardingActivity.Values(getContext());
@@ -101,6 +108,9 @@ public class SendingTrainerFragment extends PreferenceFragmentCompat {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle(R.string.sendingtrainer_title);
+        final FragmentActivity activity = getActivity();
+        if (activity != null) {
+            activity.setTitle(R.string.sendingtrainer_title);
+        }
     }
 }

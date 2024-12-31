@@ -27,6 +27,7 @@ import androidx.preference.PreferenceManager;
 
 import com.paddlesandbugs.dahdidahdit.Config;
 import com.paddlesandbugs.dahdidahdit.MorseCode;
+import com.paddlesandbugs.dahdidahdit.R;
 import com.paddlesandbugs.dahdidahdit.base.GradingStrategy;
 import com.paddlesandbugs.dahdidahdit.base.LearningEase;
 import com.paddlesandbugs.dahdidahdit.base.LearningFader;
@@ -237,7 +238,12 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
 
     private Stage getStage() {
         final int stageNo = this.stageNo.get();
-        HeadcopyParams p = getHeadcopyParams();
+        return getStage(stageNo);
+    }
+
+    @NonNull
+    private AbstractStage getStage(int stageNo) {
+        final HeadcopyParams p = getHeadcopyParams();
         final int maximumSyllableStage = 2;
         final int effectiveStageNo = isRestrictedCharSet(p) ? Math.min(stageNo, maximumSyllableStage) : stageNo;
         Log.i(LOG_TAG, "We are in stage " + stageNo + " and effectively in stage " + effectiveStageNo);
@@ -255,11 +261,28 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
                 return new WordStage(context, 6);
             case 5:
                 return new WordStage(context, 7);
+            case 6:
+                return new WordpairStage(context, 4);
+            case 7:
+                return new WordpairStage(context, 5);
+            case 8:
+                return new WordpairStage(context, 6);
+            case 9:
+                return new WordpairStage(context, 7);
+            case 10:
+                return new WordpairStage(context, 8);
+            case 11:
+                return new WordpairStage(context, 9);
             default:
                 return new WordpairStage(context, 10);
         }
     }
 
+    public String getSummaryForStage(int stageNo) {
+        final Stage stage = getStage(stageNo);
+        final String summary = stage.getSummary();
+        return summary;
+    }
 
     private void handle(LearningProgress.Mistake mistake) {
         Stage stage = getStage();
@@ -294,23 +317,6 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
         return kochLevel;
     }
 
-    private boolean hasVowelsAndConsonants(Set<MorseCode.CharacterData> kochChars) {
-        boolean hasVowel = false;
-        boolean hasConsonant = false;
-        for (MorseCode.CharacterData kochChar : kochChars) {
-            if (kochChar.is(MorseCode.CONSONANT)) {
-                hasConsonant = true;
-            } else if (kochChar.is(MorseCode.VOWEL)) {
-                hasVowel = true;
-            }
-
-            if (hasConsonant && hasVowel) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     /**
      * A general stage.
@@ -428,6 +434,12 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
 
 
         @Override
+        public String getSummary() {
+            return context.getResources().getString(R.string.headcopy_stage_summary_syllable, wordLength);
+        }
+
+
+        @Override
         protected AbstractWordTextGenerator createTextGenerator(HeadcopyParams p) {
             final RandomSyllableGenerator tg = new RandomSyllableGenerator(MainActivity.stopwords, false);
             tg.setWordLengthMax(wordLength);
@@ -474,6 +486,11 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
         @Override
         public void init() {
             learningEase.flush();
+        }
+
+        @Override
+        public String getSummary() {
+            return context.getResources().getString(R.string.headcopy_stage_summary_word, wordLength);
         }
 
 
@@ -540,6 +557,12 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
         }
 
 
+        @Override
+        public String getSummary() {
+            return context.getResources().getString(R.string.headcopy_stage_summary_wordpair, wordLength);
+        }
+
+
         @NonNull
         @Override
         protected TextGenerator createTextGenerator(HeadcopyParams p) {
@@ -582,6 +605,8 @@ public class HeadcopyLearningStrategy implements LearningStrategy, GradingStrate
         MorsePlayer.Config createConfig(Config gc, HeadcopyParams p);
 
         void handle(LearningProgress.Mistake mistake);
+
+        String getSummary();
     }
 
 }

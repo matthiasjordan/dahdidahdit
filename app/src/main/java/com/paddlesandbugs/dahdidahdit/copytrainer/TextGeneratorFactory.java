@@ -25,11 +25,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Set;
-
 import com.paddlesandbugs.dahdidahdit.Distribution;
 import com.paddlesandbugs.dahdidahdit.MorseCode;
 import com.paddlesandbugs.dahdidahdit.base.MainActivity;
@@ -40,6 +35,11 @@ import com.paddlesandbugs.dahdidahdit.text.NaturalLanguageTextGenerator;
 import com.paddlesandbugs.dahdidahdit.text.RandomTextGenerator;
 import com.paddlesandbugs.dahdidahdit.text.TextGenerator;
 import com.paddlesandbugs.dahdidahdit.text.WeightedCompoundTextGenerator;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Set;
 
 public class TextGeneratorFactory {
 
@@ -94,11 +94,11 @@ public class TextGeneratorFactory {
 
         final Distribution<MorseCode.CharacterData> dist = getCharacterDistributionByKochLevel(kochSet);
         final TextGenerator randomTextGenerator = new RandomTextGenerator(dist.compile());
+        final int textID = randomTextGenerator.getTextID();
 
         final TextGenerator naturalLanguageGenerator = new NaturalLanguageTextGenerator(context, 1, kochSet, 2);
-        final int randomTGID = randomTextGenerator.getTextID();
 
-        final WeightedCompoundTextGenerator weighted = new WeightedCompoundTextGenerator(randomTGID, randomTextGenerator, naturalLanguageGenerator);
+        final WeightedCompoundTextGenerator weighted = new WeightedCompoundTextGenerator(textID, randomTextGenerator, naturalLanguageGenerator);
         final int distribution = pf.getDistribution(); // 0 .. 10
         weighted.setWeight(0, 10, distribution);
         Log.d(LOG_TAG, "Using weighted generator with weight " + distribution);

@@ -46,10 +46,10 @@
         android:title="@string/load_text"
         app:useSimpleSummaryProvider="true" /-->
 
-    <!--CheckBoxPreference
+    <SwitchPreference
         android:key="sendingtrainer_only_koch_chars"
         android:defaultValue="false"
-        android:title="Only letters from Copy Trainer" /-->
+        android:title="@string/allow_only_copytrainer_chars" />
 
 
 </PreferenceScreen>

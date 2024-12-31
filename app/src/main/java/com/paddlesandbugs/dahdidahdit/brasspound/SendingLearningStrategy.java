@@ -31,8 +31,8 @@ import com.paddlesandbugs.dahdidahdit.base.LearningProgress;
 import com.paddlesandbugs.dahdidahdit.base.LearningStrategy;
 import com.paddlesandbugs.dahdidahdit.base.LearningValue;
 import com.paddlesandbugs.dahdidahdit.copytrainer.CopyTrainerParams;
+import com.paddlesandbugs.dahdidahdit.copytrainer.CopyTrainerParamsFaded;
 import com.paddlesandbugs.dahdidahdit.params.Field;
-import com.paddlesandbugs.dahdidahdit.params.GeneralFadedParameters;
 import com.paddlesandbugs.dahdidahdit.params.GeneralParameters;
 import com.paddlesandbugs.dahdidahdit.sound.MorsePlayer;
 import com.paddlesandbugs.dahdidahdit.text.PrefsBasedTextGeneratorFactory;
@@ -41,6 +41,7 @@ import com.paddlesandbugs.dahdidahdit.text.TextGenerator;
 public class SendingLearningStrategy implements LearningStrategy, GradingStrategy {
 
     public static final int RECENT_STEPS = 5;
+
     private final SharedPreferences prefs;
 
     private final LearningProgress learningProgress;
@@ -86,8 +87,6 @@ public class SendingLearningStrategy implements LearningStrategy, GradingStrateg
         // Apply learning adjustments
         TextGenerator tg = createTextGenerator();
 
-        GeneralFadedParameters pf = p.current();
-
         // Assemble final temp config for playing
         final MorsePlayer.Config config = new MorsePlayer.Config().from(context, p).from(gc);
         config.textGenerator = tg;
@@ -98,12 +97,31 @@ public class SendingLearningStrategy implements LearningStrategy, GradingStrateg
     private TextGenerator createTextGenerator() {
         final String textGen = prefs.getString("sendingtrainer_text_generator", "");
         final int wordListCount = prefs.getInt("sendingtrainer_text_first_n", -1);
-        final PrefsBasedTextGeneratorFactory f = new PrefsBasedTextGeneratorFactory(SendingTrainerActivity.RECEIVED_FILE_NAME, 4, 40);
+        final boolean useOnlyKoch = prefs.getBoolean("sendingtrainer_only_koch_chars", false);
+
+        final int kochLevel;
+        if (useOnlyKoch) {
+            kochLevel = getKochLevel();
+        }
+        else {
+            kochLevel = 40;
+        }
+
+        final PrefsBasedTextGeneratorFactory f = new PrefsBasedTextGeneratorFactory(SendingTrainerActivity.RECEIVED_FILE_NAME, 4, kochLevel);
         f.setWordListCount(wordListCount);
         final TextGenerator tg = f.getGenerator(context, textGen);
         tg.setWordLengthMax(4);
         return tg;
     }
+
+
+    private int getKochLevel() {
+        CopyTrainerParamsFaded cpf = new CopyTrainerParamsFaded(context, "current");
+        cpf.update(context);
+        int kochLevel = cpf.getKochLevel();
+        return kochLevel;
+    }
+
 
 
     @Override

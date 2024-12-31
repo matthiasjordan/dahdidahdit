@@ -1,3 +1,8 @@
+=1.13.0
+* Im Sendetraining können optional nur Zeichen verwendet werden, die im Lesetraining gelernt wurden.
+* Die Buttons des On-Screen-Paddles wurden immer größer, wenn man aus den Settings zurückkehrte. Das musste aufhören. Und das tat es.
+* Hübschere Einstellung für die Stufe im Gehörlesen-Trainer
+
 =1.12.0
 * Der Rufzeichen-Generator benutzt nun existierende ITU-Prefixe und kann auch ein paar Rufzeichen generieren, die man kennen könnte.
 * Der QSO-Generator kennt verschiedene OPs, von denen einige weiblich sind.

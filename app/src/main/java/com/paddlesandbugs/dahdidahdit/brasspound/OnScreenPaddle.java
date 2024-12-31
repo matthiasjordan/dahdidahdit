@@ -28,6 +28,11 @@ import com.paddlesandbugs.dahdidahdit.base.Tooltip;
 
 public class OnScreenPaddle {
 
+    /**
+     * Marker object we stick to the buttons so we know we already resized them.
+     */
+    private static final String BUTTON_TAG_RESIZED = "button resized";
+
     private final Button left;
 
     private final Button right;
@@ -49,10 +54,15 @@ public class OnScreenPaddle {
 
     private void increaseButtonHeight(Button button) {
         button.post(() -> {
+            if (BUTTON_TAG_RESIZED.equals(button.getTag())) {
+                return;
+            }
+
             int height = button.getHeight();
             final int newHeight = (int) Math.floor((float) height * 1.2f);
             Log.i("ONSCRPAD", "Setting button height from " + height + " to " + newHeight);
             button.setHeight(newHeight);
+            button.setTag(BUTTON_TAG_RESIZED);
         });
     }
 
