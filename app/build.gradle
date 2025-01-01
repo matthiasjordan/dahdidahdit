@@ -100,7 +100,7 @@ license {
     header = file('LICENSE.txt')
     include "**/*.java"
     skipExistingHeaders false
-    ext.year = Calendar.getInstance().get(Calendar.YEAR)
+    ext.year = 2025
 
     mapping {
         java='dahdidahdit'

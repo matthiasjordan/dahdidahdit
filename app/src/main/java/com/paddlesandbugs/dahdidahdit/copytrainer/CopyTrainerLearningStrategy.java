@@ -1,6 +1,6 @@
 /****************************************************************************
     Dahdidahdit - an Android Morse trainer
-    Copyright (C) 2021-2024 Matthias Jordan <matthias@paddlesandbugs.com>
+    Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
