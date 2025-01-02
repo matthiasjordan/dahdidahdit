@@ -61,7 +61,7 @@ public class HeaderFragment extends PreferenceFragmentCompat implements Preferen
 
         switch (key) {
             case "release_notes": {
-                ReleaseNotes.forceShow(getContext());
+                ReleaseNotes.forceShow(getContext(), 0);
                 return true;
             }
         }

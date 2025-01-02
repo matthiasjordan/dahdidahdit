@@ -187,6 +187,10 @@ tasks.register('copyResDirectoryToClassesMain') {
             from "${projectDir}/src/main/res"
             into targetDir
         }
+        copy {
+            from "${projectDir}/src/test/res"
+            into targetDir
+        }
     }
 }
 
