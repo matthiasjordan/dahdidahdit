@@ -25,6 +25,7 @@ import android.content.res.Resources;
 
 import com.paddlesandbugs.dahdidahdit.Distribution;
 import com.paddlesandbugs.dahdidahdit.MorseCode;
+import com.paddlesandbugs.dahdidahdit.TestingUtils;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -46,13 +47,13 @@ public class CallsignGeneratorTest extends AbstractTextGeneratorTest {
         context = Mockito.mock(Context.class);
         resources = Mockito.mock(Resources.class);
         Mockito.when(context.getResources()).thenReturn(resources);
-        Mockito.when(resources.openRawResource(Mockito.anyInt())).then(fakeRawResourceMulti("ab\nba-bc\n1a-1b\n"));
+        Mockito.when(resources.openRawResource(Mockito.anyInt())).then(TestingUtils.fakeRawResourceMulti("ab\nba-bc\n1a-1b\n"));
     }
 
     @Test
     public void testGenerate1() {
         // Use actual prefix file to test with production data.
-        Mockito.when(resources.openRawResource(Mockito.anyInt())).then(fakeRawFileResourceMulti("/raw/itu_prefixes"));
+        Mockito.when(resources.openRawResource(Mockito.anyInt())).then(TestingUtils.fakeRawFileResourceMulti("/raw/itu_prefixes"));
 
         for (int i = 0; (i < 1000); i++) {
             CallsignGenerator sut = new CallsignGenerator(context, stopwords);
@@ -66,7 +67,7 @@ public class CallsignGeneratorTest extends AbstractTextGeneratorTest {
     @Test
     public void testGenerate2() {
         // Use actual prefix file to test with production data.
-        Mockito.when(resources.openRawResource(Mockito.anyInt())).then(fakeRawFileResourceMulti("/raw/itu_prefixes"));
+        Mockito.when(resources.openRawResource(Mockito.anyInt())).then(TestingUtils.fakeRawFileResourceMulti("/raw/itu_prefixes"));
 
         for (int i = 0; (i < 1000); i++) {
             CallsignGenerator sut = new CallsignGenerator(context, stopwords);
@@ -112,7 +113,7 @@ public class CallsignGeneratorTest extends AbstractTextGeneratorTest {
     @Test
     public void testProductionDistribution() {
         // Use actual prefix file to test with production data.
-        Mockito.when(resources.openRawResource(Mockito.anyInt())).then(fakeRawFileResourceMulti("/raw/itu_prefixes"));
+        Mockito.when(resources.openRawResource(Mockito.anyInt())).then(TestingUtils.fakeRawFileResourceMulti("/raw/itu_prefixes"));
 
         Distribution<String> d = CallsignGenerator.generatePrefixDistribution(context);
         Distribution.Compiled<String> sut = d.compile();

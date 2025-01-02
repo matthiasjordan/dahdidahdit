@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import com.paddlesandbugs.dahdidahdit.MorseCode;
+import com.paddlesandbugs.dahdidahdit.TestingUtils;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -44,7 +45,7 @@ public class QSOTextGeneratorTest extends AbstractTextGeneratorTest {
         context = Mockito.mock(Context.class);
         Resources resources = Mockito.mock(Resources.class);
         Mockito.when(context.getResources()).thenReturn(resources);
-        Mockito.when(resources.openRawResource(Mockito.anyInt())).then(fakeRawResourceMulti("ab\nba-bc\n"));
+        Mockito.when(resources.openRawResource(Mockito.anyInt())).then(TestingUtils.fakeRawResourceMulti("ab\nba-bc\n"));
     }
 
     @Test

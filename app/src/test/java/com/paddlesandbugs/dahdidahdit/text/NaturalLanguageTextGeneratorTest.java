@@ -28,6 +28,7 @@ import android.content.res.Resources;
 import com.paddlesandbugs.dahdidahdit.Distribution;
 import com.paddlesandbugs.dahdidahdit.MorseCode;
 import com.paddlesandbugs.dahdidahdit.R;
+import com.paddlesandbugs.dahdidahdit.TestingUtils;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -50,7 +51,7 @@ public class NaturalLanguageTextGeneratorTest extends AbstractTextGeneratorTest 
     public void testDistribution1grams() {
         Context context = mock(Context.class);
         Resources resources = mock(Resources.class);
-        when(resources.openRawResource(R.raw.wordlist)).thenReturn(fakeRawResource(HALLO_HELL));
+        when(resources.openRawResource(R.raw.wordlist)).thenReturn(TestingUtils.fakeRawResource(HALLO_HELL));
         when(context.getResources()).thenReturn(resources);
 
         Distribution<String> sut = NaturalLanguageTextGenerator.generate(context, 1, null, 0);
@@ -91,7 +92,7 @@ public class NaturalLanguageTextGeneratorTest extends AbstractTextGeneratorTest 
     private static void runAdditionalsTest(int additionalPercentage) {
         Context context = mock(Context.class);
         Resources resources = mock(Resources.class);
-        when(resources.openRawResource(R.raw.wordlist)).thenReturn(fakeRawResource(HALLO_HELL));
+        when(resources.openRawResource(R.raw.wordlist)).thenReturn(TestingUtils.fakeRawResource(HALLO_HELL));
         when(context.getResources()).thenReturn(resources);
 
         final Distribution<String> sut = NaturalLanguageTextGenerator.generate(context, 1, null, additionalPercentage);
@@ -161,7 +162,7 @@ public class NaturalLanguageTextGeneratorTest extends AbstractTextGeneratorTest 
     public void testDistribution2grams() {
         Context context = mock(Context.class);
         Resources resources = mock(Resources.class);
-        when(resources.openRawResource(R.raw.wordlist)).thenReturn(fakeRawResource(HALLO_HELL));
+        when(resources.openRawResource(R.raw.wordlist)).thenReturn(TestingUtils.fakeRawResource(HALLO_HELL));
         when(context.getResources()).thenReturn(resources);
 
         Distribution<String> sut = NaturalLanguageTextGenerator.generate(context, 2, null, 0);
@@ -183,7 +184,7 @@ public class NaturalLanguageTextGeneratorTest extends AbstractTextGeneratorTest 
     public void testGenerator1() {
         Context context = mock(Context.class);
         Resources resources = mock(Resources.class);
-        when(resources.openRawResource(R.raw.wordlist)).thenReturn(fakeRawResource(HALLO_HELL));
+        when(resources.openRawResource(R.raw.wordlist)).thenReturn(TestingUtils.fakeRawResource(HALLO_HELL));
         when(context.getResources()).thenReturn(resources);
 
         NaturalLanguageTextGenerator sut = new NaturalLanguageTextGenerator(context, null);
@@ -202,7 +203,7 @@ public class NaturalLanguageTextGeneratorTest extends AbstractTextGeneratorTest 
     public void testGenerator2_withPermittedSet() {
         Context context = mock(Context.class);
         Resources resources = mock(Resources.class);
-        when(resources.openRawResource(R.raw.wordlist)).thenReturn(fakeRawResource(HALLO_HELL));
+        when(resources.openRawResource(R.raw.wordlist)).thenReturn(TestingUtils.fakeRawResource(HALLO_HELL));
         when(context.getResources()).thenReturn(resources);
 
         Set<MorseCode.CharacterData> testSet = MorseCode.asSet("hal"); // Only h, a, l should be in the output.
@@ -221,7 +222,7 @@ public class NaturalLanguageTextGeneratorTest extends AbstractTextGeneratorTest 
     public void testGenerator2_withPermittedSet_withAdditionals() {
         Context context = mock(Context.class);
         Resources resources = mock(Resources.class);
-        when(resources.openRawResource(R.raw.wordlist)).thenReturn(fakeRawResource(HALLO_HELL));
+        when(resources.openRawResource(R.raw.wordlist)).thenReturn(TestingUtils.fakeRawResource(HALLO_HELL));
         when(context.getResources()).thenReturn(resources);
 
         Set<MorseCode.CharacterData> testSet = MorseCode.asSet("hal"); // Only h, a, l should be in the output.
@@ -240,7 +241,7 @@ public class NaturalLanguageTextGeneratorTest extends AbstractTextGeneratorTest 
     public void testGeneratorEmpty() {
         Context context = mock(Context.class);
         Resources resources = mock(Resources.class);
-        when(resources.openRawResource(R.raw.wordlist)).thenReturn(fakeRawResource("&ééà"));
+        when(resources.openRawResource(R.raw.wordlist)).thenReturn(TestingUtils.fakeRawResource("&ééà"));
         when(context.getResources()).thenReturn(resources);
 
         NaturalLanguageTextGenerator sut = new NaturalLanguageTextGenerator(context, 3, null, 0);
