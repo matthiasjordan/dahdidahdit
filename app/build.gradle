@@ -50,6 +50,7 @@ android {
 
         release {
             minifyEnabled true // Try @Keep on classes and methods that get pruned but shouldn't
+            vcsInfo.include false // Omit commit info in APK to make build less prone to changes
         }
 
         debug {
