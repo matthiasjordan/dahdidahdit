@@ -38,9 +38,11 @@
         <item name="appWidgetInnerRadius">4dp</item>
 		
 		<item name="toolbarStyle">@style/ToolbarStyle</item>
-    </style>
 
-    <style name="Theme.Dahdidahdit.NoActionBar">
+    </style>
+    
+    
+	<style name="Theme.Dahdidahdit.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
