@@ -37,9 +37,16 @@
         <item name="appWidgetPadding">4dp</item>
         <item name="appWidgetInnerRadius">4dp</item>
 
+        <!-- 新插入的 toolbarStyle 项 -->
+        <item name="toolbarStyle">@style/ToolbarStyle</item>
     </style>
-
-    <style name="Theme.Dahdidahdit.NoActionBar">
+    
+	<!-- 新插入的 ToolbarStyle 样式 -->
+    <style name="ToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
+        <item name="titleTextColor">#000000</item>
+    </style>
+    
+	<style name="Theme.Dahdidahdit.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

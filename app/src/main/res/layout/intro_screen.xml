@@ -39,7 +39,7 @@
             android:background="@null"
             android:onClick="onBackButton"
             android:text="@string/intro_screen_back"
-            android:textColor="@color/theme_inverse_TextColor"
+            android:textColor="#000000"
             android:textSize="12sp" />
 
         <LinearLayout
@@ -63,7 +63,7 @@
             android:onClick="onNextButton"
             android:text="@string/intro_screen_next"
             android:textAlignment="center"
-            android:textColor="@color/theme_inverse_TextColor"
+            android:textColor="#000000"
             android:textSize="12sp" />
 
     </LinearLayout>
