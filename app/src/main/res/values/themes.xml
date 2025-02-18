@@ -37,6 +37,7 @@
         <item name="appWidgetPadding">4dp</item>
         <item name="appWidgetInnerRadius">4dp</item>
 
+        <item name="toolbarStyle">@style/ToolbarStyle</item>
     </style>
 
     <style name="Theme.Dahdidahdit.NoActionBar">
@@ -47,5 +48,9 @@
     <style name="Theme.Dahdidahdit.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Dahdidahdit.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="ToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
+        <item name="titleTextColor">#000000</item>
+    </style>
 
 </resources>
