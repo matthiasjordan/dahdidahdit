@@ -32,14 +32,13 @@
 
         <Button
             android:id="@+id/back"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Theme.Dahdidahdit.BorderlessButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
             android:onClick="onBackButton"
             android:text="@string/intro_screen_back"
-            android:textColor="@color/theme_inverse_TextColor"
             android:textSize="12sp" />
 
         <LinearLayout
@@ -55,7 +54,7 @@
 
         <Button
             android:id="@+id/next"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Theme.Dahdidahdit.BorderlessButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -63,7 +62,6 @@
             android:onClick="onNextButton"
             android:text="@string/intro_screen_next"
             android:textAlignment="center"
-            android:textColor="@color/theme_inverse_TextColor"
             android:textSize="12sp" />
 
     </LinearLayout>

@@ -1,20 +1,20 @@
 /****************************************************************************
-    Dahdidahdit - an Android Morse trainer
-    Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
+ Dahdidahdit - an Android Morse trainer
+ Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-****************************************************************************/
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
 
 package com.paddlesandbugs.dahdidahdit.base;
 
@@ -57,6 +57,7 @@ public class Tooltip {
     private int textSizeSp = 20;
     private int padding = 10;
     private int backgroundColor;
+    private int textColor;
     private int gravity = Gravity.CENTER;
     private View anchor;
     private boolean below;
@@ -68,7 +69,8 @@ public class Tooltip {
 
     public Tooltip(Context context) {
         this.context = context;
-        backgroundColor(R.color.theme_secondary_darker);
+        backgroundColor(R.attr.colorSecondary);
+        textColor(R.attr.colorOnSecondary);
     }
 
 
@@ -115,8 +117,20 @@ public class Tooltip {
     }
 
 
+    private int resolveThemeColor(int colorRsrc) {
+        int colorId = Utils.getThemeColor(context, colorRsrc);
+        return context.getResources().getColor(colorId, context.getTheme());
+    }
+
+
     public Tooltip backgroundColor(int colorRsrc) {
-        backgroundColor = context.getResources().getColor(colorRsrc);
+        backgroundColor = resolveThemeColor(colorRsrc);
+        return this;
+    }
+
+
+    public Tooltip textColor(int colorRsrc) {
+        textColor = resolveThemeColor(colorRsrc);
         return this;
     }
 
@@ -137,7 +151,6 @@ public class Tooltip {
      * Aligns the tooltip with the anchor.
      *
      * @param gravity possible values: {@link Gravity#START}, {@link Gravity#CENTER}, {@link Gravity#END}
-     *
      * @return
      */
     private Tooltip align(int gravity) {
@@ -165,7 +178,6 @@ public class Tooltip {
      * Sets a preference key that is set to true when the {@link Tooltip} was shown and that has to be unset in order to show this {@link Tooltip}.
      *
      * @param key the preferences key to keep track of whether the {@link Tooltip} has been shown
-     *
      * @return the Tooltip
      */
     public Tooltip iff(String key) {
@@ -294,6 +306,7 @@ public class Tooltip {
         tv.setGravity(Gravity.CENTER);
         tv.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         tv.setBackgroundColor(backgroundColor);
+        tv.setTextColor(textColor);
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizePx);
 
         tv.setText(str);
@@ -383,4 +396,6 @@ public class Tooltip {
             return PixelFormat.TRANSLUCENT;
         }
     }
+
+
 }

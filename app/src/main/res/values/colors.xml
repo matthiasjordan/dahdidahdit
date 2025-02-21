@@ -8,7 +8,7 @@
     <color name="theme_secondary">#ffd9ad00</color>
     <color name="theme_secondary_darker">#ffd99100</color>
     <color name="theme_secondary_darkest">#ffd97400</color>
-    <color name="theme_primary_TextColor">#ff000000</color>
+    <color name="theme_primary_TextColor">#ff444444</color>
     <color name="theme_secondary_TextColor">#ff000000</color>
     <color name="theme_inverse_TextColor">#ffffffff</color>
     <color name="theme_error_TextColor">#ffb70000</color>
@@ -17,5 +17,7 @@
     <color name="theme_blink2">#FF763CE3</color>
 
     <color name="theme_bright_gray">#fff5f5f5</color>
+    <color name="theme_mid_gray">#f9999999</color>
     <color name="theme_dark_gray">#ff555555</color>
+
 </resources>

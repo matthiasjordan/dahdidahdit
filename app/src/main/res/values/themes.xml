@@ -1,6 +1,15 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.Dahdidahdit" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Smaller text in tooltips
+            ?attr/textAppearanceSubtitle1 ??-->
+        <item name="android:textColor">@color/theme_dark_gray</item>
+
+        <!-- styles ?attr/textAppearanceHeadline5
+                    @style/TextAppearance.MyTheme.Code
+                    -->
+        <item name="android:textColorPrimary">@color/theme_dark_gray</item>
+
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/theme_primary</item>
         <item name="colorPrimaryVariant">@color/theme_primary_darker</item>
@@ -10,6 +19,7 @@
         <item name="colorSecondaryVariant">@color/theme_secondary_darker</item>
         <item name="colorOnSecondary">@color/theme_secondary_TextColor</item>
         <item name="colorError">@color/theme_error_TextColor</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
 
@@ -37,6 +47,7 @@
         <item name="appWidgetPadding">4dp</item>
         <item name="appWidgetInnerRadius">4dp</item>
 
+        <item name="toolbarStyle">@style/Theme.Dahdidahdit.ToolbarStyle</item>
     </style>
 
     <style name="Theme.Dahdidahdit.NoActionBar">
@@ -47,5 +58,19 @@
     <style name="Theme.Dahdidahdit.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Dahdidahdit.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.Dahdidahdit.ToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">?colorPrimary</item>
+        <item name="android:theme">@style/Theme.Dahdidahdit.ToolbarTheme</item>
+    </style>
+
+    <style name="Theme.Dahdidahdit.ToolbarTheme">
+        <item name="android:textColorPrimary">?colorOnPrimary</item>
+        <item name="android:textColorSecondary">?colorOnPrimary</item>
+    </style>
+
+    <style name="Theme.Dahdidahdit.BorderlessButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">?colorOnPrimary</item>
+    </style>
 
 </resources>
