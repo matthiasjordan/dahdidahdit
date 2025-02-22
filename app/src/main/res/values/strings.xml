@@ -168,7 +168,7 @@
     <string name="selfdefined_intro_1_text">Here, you don\'t progress automatically. Instead, you can choose from a variety of texts. You can even practice with your own text, or with text that you received from other apps.</string>
     <string name="learnqcodes_intro_1_headline">Learn Q codes!</string>
     <string name="learnqcodes_intro_1_text">You have to learn Q codes and prosigns. Dahdidahdit helps you in a flash card style to do it.</string>
-    <string name="copyright_line" translatable="false">Copyright © 2021-2023 Matthias Jordan</string>
+    <string name="copyright_line" translatable="false">Copyright © 2021-2025 Matthias Jordan</string>
     <string name="image_description_imageStar">Correct</string>
     <string name="image_description_imageFail">Wrong</string>
     <string name="support_website_url" translatable="false">https://paddlesandbugs.com</string>
