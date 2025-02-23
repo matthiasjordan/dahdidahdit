@@ -1,1 +1,1 @@
-An actual Morse code trainer, not just a Morse code generator
+An Actual Morse Code Trainer — Not Just A Morse Code Generator
