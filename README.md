@@ -54,3 +54,11 @@ texts
 ## Homepage and manual
 
 Find more information at https://paddlesandbugs.com.
+
+
+## Contributing
+
+### Pull requests
+If you want to submit a pull request, please make sure that you base your pull request on the 
+develop branch, _not_ main. Develop is where all the development happens. The main branch is for 
+releases only.
