@@ -1,20 +1,20 @@
 /****************************************************************************
-    Dahdidahdit - an Android Morse trainer
-    Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
+ Dahdidahdit - an Android Morse trainer
+ Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-****************************************************************************/
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
 
 package com.paddlesandbugs.dahdidahdit.brasspound;
 
@@ -156,13 +156,12 @@ public class SendingTrainerActivity extends AbstractNavigationActivity {
         Log.i("STA", "freq " + freq);
         AudioHelper.start(this, freq);
 
-        enter(stateInitial);
-
         if (c.isPaddles) {
             morseInput = new PaddleMorseInput(this, wpm);
         } else {
             morseInput = new StraightMorseInput(this, wpm);
         }
+
         morseInput.init(new Decoder.CharListener() {
 
 
@@ -188,6 +187,8 @@ public class SendingTrainerActivity extends AbstractNavigationActivity {
                 });
             }
         });
+
+        enter(stateInitial);
     }
 
 
@@ -247,6 +248,8 @@ public class SendingTrainerActivity extends AbstractNavigationActivity {
 
         @Override
         public void enter() {
+            morseInput.setActive(true);
+
             currentWordTitle.setText(R.string.sendingtrainer_start_prompt);
             currentWordTitle.setVisibility(View.VISIBLE);
             currentWord.setVisibility(View.INVISIBLE);
@@ -269,6 +272,7 @@ public class SendingTrainerActivity extends AbstractNavigationActivity {
         }
     }
 
+
     private class StartingState implements State {
 
         @Override
@@ -279,6 +283,8 @@ public class SendingTrainerActivity extends AbstractNavigationActivity {
                 SendingTrainerActivity.this.enter(stateInitial);
                 return;
             }
+
+            morseInput.setActive(false);
 
             currentWordTitle.setText(R.string.sendingtrainer_word_prompt);
             currentWordTitle.setVisibility(View.VISIBLE);
@@ -304,12 +310,16 @@ public class SendingTrainerActivity extends AbstractNavigationActivity {
         }
     }
 
+
     private class SendingState implements State {
 
         @Override
         public void enter() {
+            morseInput.setActive(true);
+
             currentWordTitle.setVisibility(View.INVISIBLE);
             currentWord.setVisibility(View.INVISIBLE);
+
             clearTextBuffer();
         }
 
@@ -332,6 +342,8 @@ public class SendingTrainerActivity extends AbstractNavigationActivity {
 
         @Override
         public void enter() {
+            morseInput.setActive(false);
+
             wordsKeyed += 1;
             if (wordsKeyed == HOW_MANY_WORDS_TO_COUNT_AS_PRACTICE_DAY) {
                 Widgets.notifyPracticed(SendingTrainerActivity.this);

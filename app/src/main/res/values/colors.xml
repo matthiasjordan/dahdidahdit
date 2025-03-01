@@ -2,6 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="theme_background_day">#FFffffff</color>
+    <color name="theme_background_night">#FF000000</color>
+
     <color name="theme_primary">#FFffcc00</color>
     <color name="theme_primary_darker">#FFffaa00</color>
     <color name="theme_primary_darkest">#FFff8800</color>

@@ -1,20 +1,20 @@
 /****************************************************************************
-    Dahdidahdit - an Android Morse trainer
-    Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
+ Dahdidahdit - an Android Morse trainer
+ Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-****************************************************************************/
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
 
 package com.paddlesandbugs.dahdidahdit.brasspound;
 
@@ -41,17 +41,25 @@ public abstract class MorseInput {
 
     private OnScreenPaddle osPaddle;
 
-    private Keyer keyer;
-
-    private Decoder decoder;
-
     private View morseVisual;
+
 
 
     public MorseInput(Activity context, LearningValue wpm) {
         this.context = context;
         this.wpm = wpm;
         this.wpmView = context.findViewById(R.id.paddleWpm);
+    }
+
+
+    /**
+     * The inputs are only processed if the {@link MorseInput} is set to active.
+     *
+     * @param active true, if active. Else false.
+     */
+    public void setActive(boolean active) {
+        osPaddle.setActive(active);
+        hwPaddle.setActive(active);
     }
 
 
@@ -88,37 +96,9 @@ public abstract class MorseInput {
 
     public void init(Decoder.CharListener charListener) {
 
-        keyer = createKeyer();
-        keyer.register(new Keyer.KeyListener() {
-            @Override
-            public void keyDown() {
-                AudioHelper.playSamples();
-                if (morseVisual != null) {
-                    context.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            morseVisual.setVisibility(View.VISIBLE);
-                        }
-                    });
-                }
-            }
+        final Keyer keyer = initializeKeyer();
 
-
-            @Override
-            public void keyUp() {
-                AudioHelper.stopPlaying();
-                if (morseVisual != null) {
-                    context.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            morseVisual.setVisibility(View.INVISIBLE);
-                        }
-                    });
-                }
-            }
-        });
-
-        decoder = createDecoder();
+        final Decoder decoder = createDecoder();
         decoder.register(charListener);
 
         keyer.register(decoder);
@@ -139,6 +119,46 @@ public abstract class MorseInput {
         });
 
         updateWpmView();
+    }
+
+
+    @NonNull
+    private Keyer initializeKeyer() {
+        Keyer keyer = createKeyer();
+        keyer.register(new Keyer.KeyListener() {
+
+
+            @Override
+            public void keyDown() {
+
+
+                AudioHelper.playSamples();
+                if (morseVisual != null) {
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            morseVisual.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+            }
+
+
+            @Override
+            public void keyUp() {
+
+                AudioHelper.stopPlaying();
+                if (morseVisual != null) {
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            morseVisual.setVisibility(View.INVISIBLE);
+                        }
+                    });
+                }
+            }
+        });
+        return keyer;
     }
 
 

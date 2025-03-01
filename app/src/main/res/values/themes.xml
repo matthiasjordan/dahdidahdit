@@ -20,8 +20,10 @@
         <item name="colorOnSecondary">@color/theme_secondary_TextColor</item>
         <item name="colorError">@color/theme_error_TextColor</item>
 
+        <item name="android:windowBackground">@color/theme_background_day</item>
+
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?colorPrimaryVariant</item>
 
         <!-- Text input boxes -->
         <item name="textInputStyle">@style/TextInputLayoutStyle</item>
@@ -72,5 +74,10 @@
     <style name="Theme.Dahdidahdit.BorderlessButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">?colorOnPrimary</item>
     </style>
+
+    <style name="Theme.Dahdidahdit.OnScreenPaddlesTheme">
+        <item name="android:background">@color/theme_background_day</item>
+    </style>
+
 
 </resources>
