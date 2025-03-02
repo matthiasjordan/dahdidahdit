@@ -18,12 +18,17 @@
 
 package com.paddlesandbugs.dahdidahdit.copytrainer;
 
+import com.paddlesandbugs.dahdidahdit.MorseCode;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.paddlesandbugs.dahdidahdit.MorseCode;
-
+/**
+ * Implements the letter learning sequence of Word Koch.
+ * <p>
+ * See the <a href="https://gitlab.com/4ham/koch-method-real-words/-/blob/master/README.md">Word Koch Gitlab repo</a> for details.
+ */
 public class WordKochSequence implements LearningSequence {
 
     public static final String PREFS_KEY_INFIX = "wordkoch";

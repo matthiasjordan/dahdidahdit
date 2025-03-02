@@ -79,10 +79,28 @@ public class CallsignGeneratorTest extends AbstractTextGeneratorTest {
     }
 
     @Test
-    public void testGenerateAllowed1() {
+    public void testGenerateAllowedWithoutCoolCallsigns() {
         Set<MorseCode.CharacterData> allowed = MorseCode.asSet("abc12");
         CallsignGenerator sut = new CallsignGenerator(context, stopwords, allowed);
         sut.setAllowCoolCallsigns(false);
+
+        MorseCode.CharacterList res = TextTestUtils.read(sut, 10000);
+
+        Set<MorseCode.CharacterData> found = new HashSet<>();
+        for (MorseCode.CharacterData c : res) {
+            found.add(c);
+        }
+
+        found.remove(MorseCode.WORDBREAK);
+
+        Assert.assertEquals("bogus callsign found " + res.asString(), allowed, found);
+    }
+
+    @Test
+    public void testGenerateAllowedWithCoolCallsigns() {
+        Set<MorseCode.CharacterData> allowed = MorseCode.asSet("abc12");
+        CallsignGenerator sut = new CallsignGenerator(context, stopwords, allowed);
+        sut.setAllowCoolCallsigns(true);
 
         MorseCode.CharacterList res = TextTestUtils.read(sut, 10000);
 
