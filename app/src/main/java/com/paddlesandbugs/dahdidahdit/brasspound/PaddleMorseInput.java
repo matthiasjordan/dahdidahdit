@@ -30,9 +30,9 @@ import com.paddlesandbugs.dahdidahdit.R;
 import com.paddlesandbugs.dahdidahdit.base.LearningValue;
 
 /**
- * {@link MorseInput} implementation for use with on-screen and hardware paddles.
+ * {@link AbstractMorseInput} implementation for use with on-screen and hardware paddles.
  */
-public class PaddleMorseInput extends MorseInput {
+public class PaddleMorseInput extends AbstractMorseInput {
 
     private PaddleKeyer paddleKeyer;
 

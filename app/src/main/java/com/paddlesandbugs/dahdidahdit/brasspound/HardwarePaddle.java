@@ -28,9 +28,9 @@ public class HardwarePaddle {
 
     private boolean active = true;
 
-    public HardwarePaddle(Keyer keyer) {
-        keySensorLeft = new HardwareKeySensor(KeyEvent.KEYCODE_A, keyer, PaddleKeyer.KEY_LEFT);
-        keySensorRight = new HardwareKeySensor(KeyEvent.KEYCODE_B, keyer, PaddleKeyer.KEY_RIGHT);
+    public HardwarePaddle(Keyer keyer, int keyCodeLeft, int keyCodeRight) {
+        keySensorLeft = new HardwareKeySensor(keyCodeLeft, keyer, PaddleKeyer.KEY_LEFT);
+        keySensorRight = new HardwareKeySensor(keyCodeRight, keyer, PaddleKeyer.KEY_RIGHT);
     }
 
     public void setActive(boolean active) {

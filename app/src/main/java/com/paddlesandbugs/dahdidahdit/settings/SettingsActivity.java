@@ -1,20 +1,20 @@
 /****************************************************************************
-    Dahdidahdit - an Android Morse trainer
-    Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
+ Dahdidahdit - an Android Morse trainer
+ Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-****************************************************************************/
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
 
 package com.paddlesandbugs.dahdidahdit.settings;
 
@@ -41,6 +41,7 @@ import com.paddlesandbugs.dahdidahdit.headcopy.HeadcopyTrainer;
 import com.paddlesandbugs.dahdidahdit.selfdefined.SelfdefinedTrainer;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 
 public class SettingsActivity extends AppCompatActivity implements PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
@@ -63,6 +64,8 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
      * This has to be a field because otherwise the listener gets garbage collected.
      */
     private SharedPreferences.OnSharedPreferenceChangeListener configChangedListener;
+
+    private Function<KeyEvent, Boolean> keyEventFunction = null;
 
 
     public static void callMe(Context context, String settingsPart) {
@@ -143,6 +146,11 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     //                return;
     //        }
     //    }
+
+
+    public void setKeyEventFunction(Function<KeyEvent, Boolean> keyEventFunction) {
+        this.keyEventFunction = keyEventFunction;
+    }
 
 
     /**
@@ -254,8 +262,16 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        Log.i("CCCCCC", "Key event seen");
-        return super.dispatchKeyEvent(event);
+        boolean consumed = false;
+        if (keyEventFunction != null) {
+            consumed = keyEventFunction.apply(event);
+        }
+
+        if (!consumed) {
+            return super.dispatchKeyEvent(event);
+        } else {
+            return consumed;
+        }
     }
 
 
@@ -271,6 +287,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
         setTitle(pref.getTitle());
         return true;
     }
+
 
     @Keep
     private static class SettingsChangeListener implements SharedPreferences.OnSharedPreferenceChangeListener {

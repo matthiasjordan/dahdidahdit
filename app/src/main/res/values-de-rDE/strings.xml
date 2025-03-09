@@ -250,6 +250,13 @@
     <string name="prefs_summary_distribution_0">Jedes Zeichen tritt mit derselben Wahrscheinlichkeit auf wie jedes andere Zeichen (gleichverteilt).</string>
     <string name="prefs_summary_distribution_x">Jedes Zeichen ist mit einer Wahrscheinlichkeit von %1$d%% so wahrscheinlich wie in normaler englischer Sprache und mit %2$d %% Wahrscheinlichkeit so wahrscheinlich wie jedes andere Zeichen.</string>
     <string name="prefs_summary_distribution_10">Jedes Zeichen ist so wahrscheinlich wie in normaler englischer Sprache.</string>
-
+    <string name="keycodes_summary">Tasten für USB-Adapter lernen</string>
+    <string name="keycodes">Tasten lernen</string>
+    <string name="paddle_key_left">Linke Taste</string>
+    <string name="paddle_key_right">Rechte Taste</string>
+    <string name="record_paddle_key_code">Aufzeichnen</string>
+    <string name="record_paddle_prompt">Aufzuzeichnende Taste drücken</string>
+    <string name="morse_input">Morse-Eingabe</string>
+    <string name="morse_input_summary">Einstellungen für die Eingabe von Morse-Code</string>
 
 </resources>

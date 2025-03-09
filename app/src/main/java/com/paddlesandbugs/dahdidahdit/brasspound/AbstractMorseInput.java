@@ -20,17 +20,27 @@ package com.paddlesandbugs.dahdidahdit.brasspound;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 
 import com.paddlesandbugs.dahdidahdit.R;
 import com.paddlesandbugs.dahdidahdit.base.LearningValue;
 
-public abstract class MorseInput {
+/**
+ * Abstract super class for paddle and straight key inputs.
+ */
+public abstract class AbstractMorseInput {
+
+    public static final String PREFS_KEY_KEY_CODE_LEFT = "key_code_left";
+
+    public static final String PREFS_KEY_KEY_CODE_RIGHT = "key_code_right";
+
     private final Activity context;
 
     private final LearningValue wpm;
@@ -45,7 +55,7 @@ public abstract class MorseInput {
 
 
 
-    public MorseInput(Activity context, LearningValue wpm) {
+    public AbstractMorseInput(Activity context, LearningValue wpm) {
         this.context = context;
         this.wpm = wpm;
         this.wpmView = context.findViewById(R.id.paddleWpm);
@@ -53,7 +63,7 @@ public abstract class MorseInput {
 
 
     /**
-     * The inputs are only processed if the {@link MorseInput} is set to active.
+     * The inputs are only processed if the {@link AbstractMorseInput} is set to active.
      *
      * @param active true, if active. Else false.
      */
@@ -108,7 +118,11 @@ public abstract class MorseInput {
 
         setSpeed(wpm.get());
 
-        hwPaddle = new HardwarePaddle(keyer);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        final int keyCodeLeft = prefs.getInt(PREFS_KEY_KEY_CODE_LEFT, KeyEvent.KEYCODE_A);
+        final int keyCodeRight = prefs.getInt(PREFS_KEY_KEY_CODE_RIGHT, KeyEvent.KEYCODE_B);
+
+        hwPaddle = new HardwarePaddle(keyer, keyCodeLeft, keyCodeRight);
         osPaddle = new OnScreenPaddle(context, keyer);
 
         wpm.setOnChangeListener(new LearningValue.OnChangeListener() {

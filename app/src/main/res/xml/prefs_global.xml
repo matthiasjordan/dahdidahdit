@@ -37,26 +37,12 @@
         android:key="wrap_morse_text_with_vvvkaar"
         android:title="@string/wrap_morse_text_with_vvvkaar_title" />
 
-    <ListPreference
-        android:key="morse_key_type"
-        android:title="@string/morse_key_type"
-        android:defaultValue="paddles"
-        android:entries="@array/morse_key_type_labels"
-        android:entryValues="@array/morse_key_type_values"
-        android:negativeButtonText="@null"
-        android:positiveButtonText="@null"
-        app:useSimpleSummaryProvider="true" />
-
-    <ListPreference
-        android:defaultValue="dit_dah"
-        android:entries="@array/paddle_polarity_entries"
-        android:entryValues="@array/paddle_polarity_values"
-        android:key="paddle_polarity"
-        android:negativeButtonText="@null"
-        android:positiveButtonText="@null"
-        android:title="@string/paddle_polarity"
-        app:useSimpleSummaryProvider="true"
-        app:isPreferenceVisible="true"
+    <Preference
+        app:fragment="com.paddlesandbugs.dahdidahdit.settings.MorseInputFragment"
+        app:key="morse_input_header"
+        android:title="@string/morse_input"
+        app:title="@string/morse_input"
+        app:summary="@string/morse_input_summary"
         />
 
     <Preference

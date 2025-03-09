@@ -1,6 +1,6 @@
 /****************************************************************************
  Dahdidahdit - an Android Morse trainer
- Copyright (C) 2021-2024 Matthias Jordan <matthias@paddlesandbugs.com>
+ Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ import com.paddlesandbugs.dahdidahdit.base.LearningValue;
  */
 public abstract class AbstractPaddleInputActivity extends AbstractNavigationActivity {
 
-    private MorseInput morseInput;
+    private AbstractMorseInput morseInput;
 
     private Config config;
 
@@ -79,7 +79,7 @@ public abstract class AbstractPaddleInputActivity extends AbstractNavigationActi
     }
 
 
-    protected MorseInput getMorseInput() {
+    protected AbstractMorseInput getMorseInput() {
         return morseInput;
     }
 

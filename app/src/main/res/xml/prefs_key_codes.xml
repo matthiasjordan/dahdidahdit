@@ -1,0 +1,18 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.paddlesandbugs.dahdidahdit.settings.ButtonPreference
+        android:id="@+id/foo"
+        android:key="key_code_left"
+        android:defaultValue="22"
+        android:title="@string/paddle_key_left"
+        />
+
+    <com.paddlesandbugs.dahdidahdit.settings.ButtonPreference
+        android:id="@+id/foo1"
+        android:key="key_code_right"
+        android:defaultValue="true"
+        android:title="@string/paddle_key_right"
+        />
+
+
+</PreferenceScreen>
