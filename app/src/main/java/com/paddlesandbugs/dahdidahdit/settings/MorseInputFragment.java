@@ -41,6 +41,7 @@ public class MorseInputFragment extends AbstractFragmentCallingFragment {
                     String value = (String) newValue;
                     final boolean isPaddles = "paddles".equals(value);
                     findPreference("paddle_polarity").setVisible(isPaddles);
+                    findPreference("paddle_mode").setVisible(isPaddles);
                 }
                 return true;
             }

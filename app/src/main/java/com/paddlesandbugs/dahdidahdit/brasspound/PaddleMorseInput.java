@@ -34,7 +34,7 @@ import com.paddlesandbugs.dahdidahdit.base.LearningValue;
  */
 public class PaddleMorseInput extends AbstractMorseInput {
 
-    private PaddleKeyer paddleKeyer;
+    private AbstractPaddleKeyer paddleKeyer;
 
     private StaticDecoder staticDecoder;
 
@@ -50,16 +50,24 @@ public class PaddleMorseInput extends AbstractMorseInput {
 
     @NonNull
     protected Keyer createKeyer() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String polarityStr = prefs.getString("paddle_polarity", "");
-        PaddleKeyer.Polarity polarity;
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        final String polarityStr = prefs.getString("paddle_polarity", "");
+        final AbstractPaddleKeyer.Polarity polarity;
         if ("dit_dah".equals(polarityStr)) {
-            polarity = PaddleKeyer.Polarity.DIT_DAH;
+            polarity = AbstractPaddleKeyer.Polarity.DIT_DAH;
         } else {
-            polarity = PaddleKeyer.Polarity.DAH_DIT;
+            polarity = AbstractPaddleKeyer.Polarity.DAH_DIT;
         }
 
-        paddleKeyer = new PaddleKeyer(polarity);
+        final String paddleMode = prefs.getString("paddle_mode", "iambica");
+        if ("iambica".equals(paddleMode)) {
+            paddleKeyer = new IambicAKeyer(polarity);
+        }
+        else {
+            paddleKeyer = new IambicBKeyer(polarity);
+        }
+
         return paddleKeyer;
     }
 

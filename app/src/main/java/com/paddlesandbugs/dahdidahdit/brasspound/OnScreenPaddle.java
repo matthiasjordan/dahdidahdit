@@ -32,8 +32,8 @@ public class OnScreenPaddle {
 
 
     public OnScreenPaddle(Activity context, Keyer keyer) {
-        leftSensor = new ButtonSensor(context, R.id.buttonLeft, keyer, PaddleKeyer.KEY_LEFT);
-        rightSensor = new ButtonSensor(context, R.id.buttonRight, keyer, PaddleKeyer.KEY_RIGHT);
+        leftSensor = new ButtonSensor(context, R.id.buttonLeft, keyer, AbstractPaddleKeyer.KEY_LEFT);
+        rightSensor = new ButtonSensor(context, R.id.buttonRight, keyer, AbstractPaddleKeyer.KEY_RIGHT);
 
         View v = context.findViewById(R.id.paddleButtons);
         new Tooltip(context).iff("onscreen_paddles_1").above(v).center().text(R.string.onscreen_paddles_tooltip).show();

@@ -258,5 +258,6 @@
     <string name="record_paddle_prompt">Aufzuzeichnende Taste drücken</string>
     <string name="morse_input">Morse-Eingabe</string>
     <string name="morse_input_summary">Einstellungen für die Eingabe von Morse-Code</string>
+    <string name="paddle_mode">Paddle-Modus</string>
 
 </resources>

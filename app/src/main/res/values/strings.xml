@@ -285,5 +285,6 @@
     <string name="record_paddle_prompt">Hit the key you want to record</string>
     <string name="morse_input">Morse input</string>
     <string name="morse_input_summary">Configure how you want to send Morse code</string>
+    <string name="paddle_mode">Paddle mode</string>
 
 </resources>
