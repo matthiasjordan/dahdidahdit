@@ -1,0 +1,6 @@
+• Release Notes werden beim Start nur für die neue Version angezeigt.
+• Themes hinsichtlich Lesbarkeit verbessert.
+• Der erste Buchstabe wurde bem Sende-Training manchmal nicht erkannt (#10).
+• Beim Word-Koch traten u.U. unerwartete Zeichen auf (#14).
+• Die vom externen USB-Adapter/-Paddle verwendeten Key-Codes können jetzt konfiguriert werden (#16).
+• Der Keyer unterstützt jetzt sowohl Iambic A als auch Iambic B. (#15).
