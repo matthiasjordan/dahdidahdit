@@ -168,7 +168,7 @@
     <string name="selfdefined_intro_1_text">Here, you don\'t progress automatically. Instead, you can choose from a variety of texts. You can even practice with your own text, or with text that you received from other apps.</string>
     <string name="learnqcodes_intro_1_headline">Learn Q codes!</string>
     <string name="learnqcodes_intro_1_text">You have to learn Q codes and prosigns. Dahdidahdit helps you in a flash card style to do it.</string>
-    <string name="copyright_line" translatable="false">Copyright © 2021-2023 Matthias Jordan</string>
+    <string name="copyright_line" translatable="false">Copyright © 2021-2025 Matthias Jordan</string>
     <string name="image_description_imageStar">Correct</string>
     <string name="image_description_imageFail">Wrong</string>
     <string name="support_website_url" translatable="false">https://paddlesandbugs.com</string>
@@ -277,5 +277,14 @@
     <string name="prefs_summary_distribution_0">Each letter is as likely to occur as any other letter (uniformly distributed).</string>
     <string name="prefs_summary_distribution_x">Each letter is with a %1$d%% probability as likely to occur as in normal English words and with %2$d%% probability as likely as any other letter.</string>
     <string name="prefs_summary_distribution_10">Each letter is as likely to occur as it is in normal English words.</string>
+    <string name="keycodes_summary">Record key codes for your USB Morse key adapter</string>
+    <string name="keycodes">Record Key Codes</string>
+    <string name="paddle_key_left">Left paddle key</string>
+    <string name="paddle_key_right">Right paddle key</string>
+    <string name="record_paddle_key_code">Record</string>
+    <string name="record_paddle_prompt">Hit the key you want to record</string>
+    <string name="morse_input">Morse input</string>
+    <string name="morse_input_summary">Configure how you want to send Morse code</string>
+    <string name="paddle_mode">Paddle mode</string>
 
 </resources>

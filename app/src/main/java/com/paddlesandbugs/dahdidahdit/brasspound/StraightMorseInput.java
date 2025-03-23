@@ -28,9 +28,9 @@ import com.paddlesandbugs.dahdidahdit.R;
 import com.paddlesandbugs.dahdidahdit.base.LearningValue;
 
 /**
- * {@link MorseInput} implementation for use with an on-screen or a hardware straight key.
+ * {@link AbstractMorseInput} implementation for use with an on-screen or a hardware straight key.
  */
-public class StraightMorseInput extends MorseInput {
+public class StraightMorseInput extends AbstractMorseInput {
 
 
     public StraightMorseInput(Activity context, LearningValue wpm) {

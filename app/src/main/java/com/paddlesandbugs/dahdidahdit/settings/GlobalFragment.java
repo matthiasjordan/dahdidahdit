@@ -21,8 +21,6 @@ package com.paddlesandbugs.dahdidahdit.settings;
 import android.os.Bundle;
 
 import androidx.annotation.Keep;
-import androidx.preference.ListPreference;
-import androidx.preference.Preference;
 
 import com.paddlesandbugs.dahdidahdit.R;
 import com.paddlesandbugs.dahdidahdit.copytrainer.CopyTrainerParamsFaded;
@@ -36,29 +34,12 @@ public class GlobalFragment extends AbstractFragmentCallingFragment {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.prefs_global, rootKey);
 
-        final Preference.OnPreferenceChangeListener listener = new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                if (newValue instanceof String) {
-                    String value = (String) newValue;
-                    final boolean isPaddles = "paddles".equals(value);
-                    findPreference("paddle_polarity").setVisible(isPaddles);
-                }
-                return true;
-            }
-        };
-
-        final ListPreference morseKeyTypePref = findPreference("morse_key_type");
-        morseKeyTypePref.setOnPreferenceChangeListener(listener);
-        morseKeyTypePref.callChangeListener(morseKeyTypePref.getValue());
-
         (new MorseDemoPlayer(getContext()) {
             @Override
             protected void handle(Object newValue, OnboardingActivity.Values v) {
                 v.setFreq((String) newValue);
             }
         }).addHook(this, new CopyTrainerParamsFaded(getContext(), "current"), "freq_dit");
-
     }
 
 

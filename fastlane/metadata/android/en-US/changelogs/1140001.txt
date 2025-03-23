@@ -1,0 +1,6 @@
+• Release notes are only shown for new release on first start after upgrade:
+• Themes improved for legibility.
+• First letter was sometimes not recognized in sending training (#10).
+• Word Koch had unexpected letters (#14).
+• Key codes for external USB paddle/adapter are now configurable (#16).
+• Keyer now supporting both Iambic A and B. (#15).

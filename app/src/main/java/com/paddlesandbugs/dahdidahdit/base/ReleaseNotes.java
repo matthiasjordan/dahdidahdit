@@ -27,12 +27,12 @@ import android.text.style.BulletSpan;
 import android.text.style.CharacterStyle;
 import android.text.style.TextAppearanceSpan;
 
+import com.paddlesandbugs.dahdidahdit.R;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
-import com.paddlesandbugs.dahdidahdit.R;
 
 public class ReleaseNotes {
 
@@ -43,8 +43,9 @@ public class ReleaseNotes {
      * Shows release notes if they haven't been shown already.
      *
      * @param context
+     * @param previousVersionCode
      */
-    private static void show(Context context) {
+    private static void show(Context context, int previousVersionCode) {
 
         if (isReleaseNotesShown) {
             return;
@@ -52,7 +53,7 @@ public class ReleaseNotes {
 
         isReleaseNotesShown = true;
 
-        forceShow(context);
+        forceShow(context, previousVersionCode);
     }
 
 
@@ -63,7 +64,8 @@ public class ReleaseNotes {
      */
     public static void showIf(Context context) {
         if (VersionTracking.isFirstStartAfterUpgrade()) {
-            show(context);
+            final int previousVersionCode = VersionTracking.getPreviousVersionCode();
+            show(context, previousVersionCode);
         }
     }
 
@@ -72,10 +74,12 @@ public class ReleaseNotes {
      * Shows release notes regardless.
      *
      * @param context
+     * @param previousVersionCode
      */
-    public static void forceShow(Context context) {
+    public static void forceShow(Context context, int previousVersionCode) {
         final int rsrcId = R.raw.release_notes;
-        SpannableStringBuilder ssb = rsrcToSpannable(context, rsrcId);
+        SpannableStringBuilder ssb = new SpannableStringBuilder();
+        rsrcToSpannable(context, rsrcId, previousVersionCode, ssb);
 
         final String title = context.getString(R.string.release_notes_title);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -93,8 +97,7 @@ public class ReleaseNotes {
     }
 
 
-    private static SpannableStringBuilder rsrcToSpannable(Context context, int rsrcId) {
-        SpannableStringBuilder ssb = new SpannableStringBuilder();
+    static void rsrcToSpannable(Context context, int rsrcId, int previousVersionCode, SpannableStringBuilder ssb) {
         try (InputStream in_s = context.getResources().openRawResource(rsrcId); //
              BufferedReader sr = new BufferedReader(new InputStreamReader(in_s));) {
 
@@ -109,6 +112,13 @@ public class ReleaseNotes {
 
                 if (line.startsWith("=")) {
                     line = line.substring(1).trim();
+                    final String versionString = line;
+                    final int versionCode = versionStringToCode(versionString);
+                    if (versionCode <= previousVersionCode) {
+                        // We reached the previous version's release notes but the user
+                        // has already seen this. So we bail out.
+                        break;
+                    }
                     CharacterStyle sss = new TextAppearanceSpan(context, android.R.style.TextAppearance_Large);
                     ssb.append(line, sss, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 } else if (line.startsWith("*")) {
@@ -122,7 +132,24 @@ public class ReleaseNotes {
         } catch (IOException e) {
             // Won't happen
         }
-        return ssb;
     }
 
+
+    public static int versionStringToCode(String versionString) {
+        //M.mm.hh -> Mmmhhrc
+        String[] parts = versionString.split("\\.");
+        if (parts.length != 3) {
+            return 0;
+        }
+
+        int code = 0;
+        for (String part : parts) {
+            int partInt = Integer.parseInt(part);
+            code *= 100;
+            code += partInt;
+        }
+
+        code *= 100; // shift for rc
+        return code;
+    }
 }

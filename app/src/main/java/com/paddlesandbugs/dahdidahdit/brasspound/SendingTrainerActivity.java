@@ -22,15 +22,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.paddlesandbugs.dahdidahdit.Config;
 import com.paddlesandbugs.dahdidahdit.MorseCode;
 import com.paddlesandbugs.dahdidahdit.R;
-import com.paddlesandbugs.dahdidahdit.base.AbstractNavigationActivity;
 import com.paddlesandbugs.dahdidahdit.base.GradingStrategy;
 import com.paddlesandbugs.dahdidahdit.base.LearningProgress;
 import com.paddlesandbugs.dahdidahdit.base.LearningValue;
@@ -39,7 +36,7 @@ import com.paddlesandbugs.dahdidahdit.settings.SettingsActivity;
 import com.paddlesandbugs.dahdidahdit.text.TextGenerator;
 import com.paddlesandbugs.dahdidahdit.widget.Widgets;
 
-public class SendingTrainerActivity extends AbstractNavigationActivity {
+public class SendingTrainerActivity extends AbstractPaddleInputActivity {
 
     public static final String RECEIVED_FILE_NAME = "sendingtrainer";
 
@@ -71,8 +68,6 @@ public class SendingTrainerActivity extends AbstractNavigationActivity {
     private ImageView imageYay;
 
     private ImageView imageNay;
-
-    private MorseInput morseInput;
 
     private State state;
 
@@ -116,9 +111,6 @@ public class SendingTrainerActivity extends AbstractNavigationActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        takeKeyEvents(true);
-        setDefaultKeyMode(DEFAULT_KEYS_DISABLE);
         MainActivity.setActivity(this, MainActivity.SENDINGTRAINER);
 
         currentWordTitle = findViewById(R.id.current_word_title);
@@ -143,27 +135,28 @@ public class SendingTrainerActivity extends AbstractNavigationActivity {
     protected void onResume() {
         super.onResume();
 
-        SendingLearningStrategy strategy = new SendingLearningStrategy(this);
-        gradingStrategy = (GradingStrategy) strategy;
-        LearningValue wpm = strategy.getWpm();
-
-        generator = strategy.getSessionConfig().morsePlayerConfig.textGenerator;
-
-        Config c = new Config();
-        c.update(this);
-
-        int freq = c.freqDit;
-        Log.i("STA", "freq " + freq);
-        AudioHelper.start(this, freq);
-
+        generator = getStrategy().getSessionConfig().morsePlayerConfig.textGenerator;
         enter(stateInitial);
+    }
 
-        if (c.isPaddles) {
-            morseInput = new PaddleMorseInput(this, wpm);
-        } else {
-            morseInput = new StraightMorseInput(this, wpm);
+
+    private SendingLearningStrategy getStrategy() {
+        if (gradingStrategy == null) {
+            SendingLearningStrategy strategy = new SendingLearningStrategy(this);
+            gradingStrategy = (GradingStrategy) strategy;
         }
-        morseInput.init(new Decoder.CharListener() {
+
+        return (SendingLearningStrategy) gradingStrategy;
+    }
+
+
+    protected LearningValue getInitialWpm() {
+        return getStrategy().getWpm();
+    }
+
+
+    protected Decoder.CharListener getCharListener() {
+        return new Decoder.CharListener() {
 
 
             @Override
@@ -187,21 +180,12 @@ public class SendingTrainerActivity extends AbstractNavigationActivity {
                     }
                 });
             }
-        });
+        };
     }
 
 
     private void clearTextBuffer() {
         tt.delete(0, tt.length());
-    }
-
-
-    @Override
-    protected void onPause() {
-        AudioHelper.stopPlaying();
-        AudioHelper.shutdown();
-        Log.i("STA", "onPause()");
-        super.onPause();
     }
 
 
@@ -215,13 +199,6 @@ public class SendingTrainerActivity extends AbstractNavigationActivity {
     @Override
     protected int createTitleID() {
         return R.string.sendingtrainer_title;
-    }
-
-
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        morseInput.handleKey(event);
-        return super.dispatchKeyEvent(event);
     }
 
 
@@ -247,6 +224,8 @@ public class SendingTrainerActivity extends AbstractNavigationActivity {
 
         @Override
         public void enter() {
+            getMorseInput().setActive(true);
+
             currentWordTitle.setText(R.string.sendingtrainer_start_prompt);
             currentWordTitle.setVisibility(View.VISIBLE);
             currentWord.setVisibility(View.INVISIBLE);
@@ -269,6 +248,7 @@ public class SendingTrainerActivity extends AbstractNavigationActivity {
         }
     }
 
+
     private class StartingState implements State {
 
         @Override
@@ -279,6 +259,8 @@ public class SendingTrainerActivity extends AbstractNavigationActivity {
                 SendingTrainerActivity.this.enter(stateInitial);
                 return;
             }
+
+            getMorseInput().setActive(false);
 
             currentWordTitle.setText(R.string.sendingtrainer_word_prompt);
             currentWordTitle.setVisibility(View.VISIBLE);
@@ -304,10 +286,13 @@ public class SendingTrainerActivity extends AbstractNavigationActivity {
         }
     }
 
+
     private class SendingState implements State {
 
         @Override
         public void enter() {
+            getMorseInput().setActive(true);
+
             currentWordTitle.setVisibility(View.INVISIBLE);
             currentWord.setVisibility(View.INVISIBLE);
             clearTextBuffer();
@@ -332,6 +317,8 @@ public class SendingTrainerActivity extends AbstractNavigationActivity {
 
         @Override
         public void enter() {
+            getMorseInput().setActive(false);
+
             wordsKeyed += 1;
             if (wordsKeyed == HOW_MANY_WORDS_TO_COUNT_AS_PRACTICE_DAY) {
                 Widgets.notifyPracticed(SendingTrainerActivity.this);
@@ -375,5 +362,6 @@ public class SendingTrainerActivity extends AbstractNavigationActivity {
             imageNay.setVisibility(View.INVISIBLE);
         }
     }
+
 
 }

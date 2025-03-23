@@ -26,15 +26,21 @@ public class HardwarePaddle {
 
     private final HardwareKeySensor keySensorRight;
 
+    private boolean active = true;
 
-    public HardwarePaddle(Keyer keyer) {
-        keySensorLeft = new HardwareKeySensor(KeyEvent.KEYCODE_A, keyer, PaddleKeyer.KEY_LEFT);
-        keySensorRight = new HardwareKeySensor(KeyEvent.KEYCODE_B, keyer, PaddleKeyer.KEY_RIGHT);
+    public HardwarePaddle(Keyer keyer, int keyCodeLeft, int keyCodeRight) {
+        keySensorLeft = new HardwareKeySensor(keyCodeLeft, keyer, AbstractPaddleKeyer.KEY_LEFT);
+        keySensorRight = new HardwareKeySensor(keyCodeRight, keyer, AbstractPaddleKeyer.KEY_RIGHT);
     }
 
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     public void handleKey(KeyEvent event) {
-        keySensorLeft.dispatchKeyEvent(event);
-        keySensorRight.dispatchKeyEvent(event);
+        if (active) {
+            keySensorLeft.dispatchKeyEvent(event);
+            keySensorRight.dispatchKeyEvent(event);
+        }
     }
 }

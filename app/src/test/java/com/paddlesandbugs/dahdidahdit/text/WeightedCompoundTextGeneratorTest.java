@@ -26,6 +26,7 @@ import android.content.res.Resources;
 
 import com.paddlesandbugs.dahdidahdit.MorseCode;
 import com.paddlesandbugs.dahdidahdit.R;
+import com.paddlesandbugs.dahdidahdit.TestingUtils;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -180,7 +181,7 @@ public class WeightedCompoundTextGeneratorTest extends AbstractTextGeneratorTest
     public void testNatualLanguage() {
         Context context = mock(Context.class);
         Resources resources = mock(Resources.class);
-        when(resources.openRawResource(R.raw.wordlist)).thenReturn(fakeRawResource("aaaaabcdddeeeeeeefggghiiiijkkkklmnnnnnnnoooopqrrrssssttttuuuuuvwxyz"));
+        when(resources.openRawResource(R.raw.wordlist)).thenReturn(TestingUtils.fakeRawResource("aaaaabcdddeeeeeeefggghiiiijkkkklmnnnnnnnoooopqrrrssssttttuuuuuvwxyz"));
         when(context.getResources()).thenReturn(resources);
 
         TextGenerator delegateA = RandomTextGenerator.createUniformRandomTextGenerator();

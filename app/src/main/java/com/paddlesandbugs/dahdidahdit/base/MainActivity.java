@@ -27,11 +27,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
-
 import com.paddlesandbugs.dahdidahdit.R;
 import com.paddlesandbugs.dahdidahdit.brasspound.BrassPoundActivity;
 import com.paddlesandbugs.dahdidahdit.brasspound.SendingTrainerActivity;
@@ -53,6 +48,11 @@ import com.paddlesandbugs.dahdidahdit.settings.ReceivedFile;
 import com.paddlesandbugs.dahdidahdit.settings.SettingsActivity;
 import com.paddlesandbugs.dahdidahdit.text.Stopwords;
 import com.paddlesandbugs.dahdidahdit.widget.Widgets;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 public class MainActivity extends AbstractNavigationActivity {
 
@@ -196,7 +196,7 @@ public class MainActivity extends AbstractNavigationActivity {
             SettingsActivity.updateTrainers(this, null);
         }
 
-        if (VersionTracking.getPreviousVersionCode() <= 4) {
+        if (VersionTracking.getPreviousVersionCode() <= VersionTracking.VERSION_BEFORE_VERSION_TRACKING) {
             SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(this);
             for (Function<Context, CopyTrainer> ct : nameToCopyTrainerProviders.values()) {
                 final CopyTrainer copyTrainer = ct.apply(this);

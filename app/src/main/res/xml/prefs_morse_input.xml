@@ -1,0 +1,46 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ListPreference
+        android:key="morse_key_type"
+        android:title="@string/morse_key_type"
+        android:defaultValue="paddles"
+        android:entries="@array/morse_key_type_labels"
+        android:entryValues="@array/morse_key_type_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        app:useSimpleSummaryProvider="true" />
+
+    <ListPreference
+        android:key="paddle_polarity"
+        android:defaultValue="dit_dah"
+        android:entries="@array/paddle_polarity_entries"
+        android:entryValues="@array/paddle_polarity_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/paddle_polarity"
+        app:useSimpleSummaryProvider="true"
+        app:isPreferenceVisible="true"
+        />
+
+    <ListPreference
+        android:key="paddle_mode"
+        android:defaultValue="iambica"
+        android:entries="@array/iambic_mode_entries"
+        android:entryValues="@array/iambic_mode_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/paddle_mode"
+        app:useSimpleSummaryProvider="true"
+        app:isPreferenceVisible="true"
+        />
+
+    <Preference
+        app:key="learning_keycodes_header"
+        app:fragment="com.paddlesandbugs.dahdidahdit.settings.KeyCodesFragment"
+        android:title="@string/keycodes"
+        app:title="@string/keycodes"
+        app:summary="@string/keycodes_summary"
+        />
+
+</PreferenceScreen>

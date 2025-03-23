@@ -24,12 +24,6 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Set;
-import java.util.stream.Stream;
-
 import com.paddlesandbugs.dahdidahdit.MorseCode;
 import com.paddlesandbugs.dahdidahdit.R;
 import com.paddlesandbugs.dahdidahdit.Utils;
@@ -47,6 +41,12 @@ import com.paddlesandbugs.dahdidahdit.text.ListRandomWordTextGenerator;
 import com.paddlesandbugs.dahdidahdit.text.RandomWordTextGenerator;
 import com.paddlesandbugs.dahdidahdit.text.StaticTextGenerator;
 import com.paddlesandbugs.dahdidahdit.text.TextGenerator;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * Default {@link LearningStrategy}.
@@ -145,7 +145,7 @@ public class CopyTrainerListLearningStrategy extends DefaultLearningStrategy imp
             final MorseCode instance = MorseCode.getInstance();
             Stream<String> stream = Utils.toStream(getContext(), WORD_LIST_RESOURCE) //
                     .filter(s -> s.length() <= maxWordLength) //
-                    .filter(s -> Arrays.stream(s.split("")).allMatch(c -> ("".equals(c)) || allowed.contains(instance.get(c))));
+                    .filter(s -> allCharsAllowed(s, allowed, instance));
 
             ArrayList<TextGenerator> gens = new ArrayList<>();
             gens.add(new ListRandomWordTextGenerator(getContext(), MainActivity.stopwords, stream));
@@ -165,6 +165,11 @@ public class CopyTrainerListLearningStrategy extends DefaultLearningStrategy imp
         } catch (IOException e) {
             return new StaticTextGenerator("error");
         }
+    }
+
+
+    private static boolean allCharsAllowed(String s, Set<MorseCode.CharacterData> allowed, MorseCode instance) {
+        return Arrays.stream(s.split("")).allMatch(c -> ("".equals(c)) || allowed.contains(instance.get(c)));
     }
 
 

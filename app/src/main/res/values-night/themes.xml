@@ -1,17 +1,29 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.Dahdidahdit" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Smaller text in tooltips
+            ?attr/textAppearanceSubtitle1 ??-->
+        <item name="android:textColor">@color/theme_secondary</item>
+
+        <!-- styles ?attr/textAppearanceHeadline5
+                    @style/TextAppearance.MyTheme.Code
+                    -->
+        <item name="android:textColorPrimary">@color/theme_primary</item>
+
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/theme_secondary</item>
-        <item name="colorPrimaryVariant">@color/theme_secondary_darker</item>
+        <item name="colorPrimaryVariant">@color/theme_secondary_darkest</item>
         <item name="colorOnPrimary">@color/theme_primary_TextColor</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/theme_secondary_darker</item>
         <item name="colorSecondaryVariant">@color/theme_secondary_darkest</item>
         <item name="colorOnSecondary">@color/theme_secondary_TextColor</item>
         <item name="colorError">@color/theme_error_TextColor</item>
+
+        <item name="android:windowBackground">@color/theme_background_night</item>
+
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?colorPrimaryVariant</item>
 
         <!-- Text input boxes -->
         <item name="textInputStyle">@style/TextInputLayoutStyle</item>
@@ -37,5 +49,35 @@
         <item name="appWidgetPadding">4dp</item>
         <item name="appWidgetInnerRadius">4dp</item>
 
+        <item name="toolbarStyle">@style/Theme.Dahdidahdit.ToolbarStyle</item>
     </style>
+
+    <style name="Theme.Dahdidahdit.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Dahdidahdit.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Dahdidahdit.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.Dahdidahdit.ToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">?colorPrimaryVariant</item>
+        <item name="android:theme">@style/Theme.Dahdidahdit.ToolbarTheme</item>
+    </style>
+
+    <style name="Theme.Dahdidahdit.ToolbarTheme">
+        <item name="android:textColorPrimary">?colorOnPrimary</item>
+        <item name="android:textColorSecondary">?colorOnPrimary</item>
+    </style>
+
+    <style name="Theme.Dahdidahdit.BorderlessButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">?colorOnPrimary</item>
+    </style>
+
+    <style name="Theme.Dahdidahdit.OnScreenPaddlesTheme">
+        <item name="android:background">@color/theme_background_night</item>
+    </style>
+
+
 </resources>

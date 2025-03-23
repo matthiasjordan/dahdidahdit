@@ -16,32 +16,26 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  ****************************************************************************/
 
-package com.paddlesandbugs.dahdidahdit.brasspound;
+package com.paddlesandbugs.dahdidahdit.settings;
 
-import android.app.Activity;
-import android.view.View;
+import android.os.Bundle;
+import android.util.Log;
+
+import androidx.annotation.Keep;
+import androidx.annotation.Nullable;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.paddlesandbugs.dahdidahdit.R;
-import com.paddlesandbugs.dahdidahdit.base.Tooltip;
 
-public class OnScreenPaddle {
-
-    private final ButtonSensor leftSensor;
-
-    private final ButtonSensor rightSensor;
+@Keep
+public class KeyCodesFragment extends PreferenceFragmentCompat {
 
 
-    public OnScreenPaddle(Activity context, Keyer keyer) {
-        leftSensor = new ButtonSensor(context, R.id.buttonLeft, keyer, AbstractPaddleKeyer.KEY_LEFT);
-        rightSensor = new ButtonSensor(context, R.id.buttonRight, keyer, AbstractPaddleKeyer.KEY_RIGHT);
-
-        View v = context.findViewById(R.id.paddleButtons);
-        new Tooltip(context).iff("onscreen_paddles_1").above(v).center().text(R.string.onscreen_paddles_tooltip).show();
+    @Override
+    public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
+        Log.i("KeyCodesFragment", "onCreatePreferences");
+        setPreferencesFromResource(R.xml.prefs_key_codes, rootKey);
     }
 
 
-    public void setActive(boolean active) {
-        leftSensor.setActive(active);
-        rightSensor.setActive(active);
-    }
 }

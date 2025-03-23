@@ -65,4 +65,16 @@
         <item>straightkey</item>
     </string-array>
 
+    <string-array name="iambic_mode_entries">
+        <item>Iambic A</item>
+        <item>Iambic B</item>
+    </string-array>
+
+    <string-array name="iambic_mode_values">
+        <item>iambica</item>
+        <item>iambicb</item>
+    </string-array>
+
+
+
 </resources>

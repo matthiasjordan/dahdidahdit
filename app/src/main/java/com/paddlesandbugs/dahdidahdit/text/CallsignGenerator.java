@@ -109,6 +109,8 @@ public class CallsignGenerator extends AbstractWordTextGenerator implements Text
         letters = new Distribution<>(set(code.letters, allowed)).compile();
         numbers = new Distribution<>(set(code.numbers, allowed)).compile();
         prefixes = generatePrefixDistribution(context).compile();
+
+        setAllowed(allowed);
     }
 
     /**
@@ -141,12 +143,26 @@ public class CallsignGenerator extends AbstractWordTextGenerator implements Text
 
     @Override
     protected MorseCode.CharacterList generateNextWord() {
-        if (allowCoolCallsigns && random.nextInt(100) < COOL_CALLSIGN_PROBABILITY_PERCENT) {
-            // With n% probability, return a cool call sign.
-            return generateCoolCallsign();
-        } else {
-            return generateRandomCallsign();
+        int attemptsLeft = 10;
+
+        MorseCode.CharacterList word;
+        do {
+            attemptsLeft -= 1;
+
+            if (allowCoolCallsigns && random.nextInt(100) < COOL_CALLSIGN_PROBABILITY_PERCENT) {
+                // With n% probability, return a cool call sign.
+                word = generateCoolCallsign();
+            } else {
+                word = generateRandomCallsign();
+            }
         }
+        while ((attemptsLeft > 0) && !isAllowed(word));
+
+        if (!isAllowed(word)) {
+            word = generateRandomCallsign();
+        }
+
+        return word;
     }
 
     @NonNull

@@ -17,7 +17,7 @@ The learner then counts how many errors were made. Dahdidahdit keeps track
 about this and, when the learner makes progress, teaches a new letter or
 increases the speed.
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/com.paddlesandbugs.dahdidahdit/)
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/com.paddlesandbugs.dahdidahdit/) [<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" alt="Get it on IzzyOnDroid" height="80">](https://apt.izzysoft.de/fdroid/index/apk/com.paddlesandbugs.dahdidahdit)
 
 Or download the latest APK from the [Releases Section](https://github.com/matthiasjordan/dahdidahdit/releases/latest).
 
@@ -54,3 +54,11 @@ texts
 ## Homepage and manual
 
 Find more information at https://paddlesandbugs.com.
+
+
+## Contributing
+
+### Pull requests
+If you want to submit a pull request, please make sure that you base your pull request on the 
+develop branch, _not_ main. Develop is where all the development happens. The main branch is for 
+releases only.
