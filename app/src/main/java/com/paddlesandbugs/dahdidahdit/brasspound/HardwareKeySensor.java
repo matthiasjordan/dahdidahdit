@@ -55,9 +55,15 @@ public class HardwareKeySensor {
     }
 
     public void dispatchTouchEvent(MotionEvent e) {
-        if (!isMouse) return;
+        if (!isMouse) {
+            return;
+        }
 
-        if ((e.getButtonState() & keyCode) > 0) keyer.keyDown(key);
-        else keyer.keyUp(key);
+        if ((e.getButtonState() & keyCode) > 0) {
+            keyer.keyDown(key);
+        }
+        else {
+            keyer.keyUp(key);
+        }
     }
 }

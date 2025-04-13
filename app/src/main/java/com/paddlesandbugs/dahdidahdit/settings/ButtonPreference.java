@@ -56,13 +56,27 @@ public class ButtonPreference extends Preference {
         if (isMouse) {
             ArrayList<String> buttons = new ArrayList<>();
 
-            if ((keyCode & MotionEvent.BUTTON_BACK) > 0) buttons.add("BUTTON_BACK");
-            if ((keyCode & MotionEvent.BUTTON_FORWARD) > 0) buttons.add("BUTTON_FORWARD");
-            if ((keyCode & MotionEvent.BUTTON_PRIMARY) > 0) buttons.add("BUTTON_PRIMARY");
-            if ((keyCode & MotionEvent.BUTTON_SECONDARY) > 0) buttons.add("BUTTON_SECONDARY");
-            if ((keyCode & MotionEvent.BUTTON_TERTIARY) > 0) buttons.add("BUTTON_TERTIARY");
-            if ((keyCode & MotionEvent.BUTTON_STYLUS_PRIMARY) > 0) buttons.add("BUTTON_STYLUS_PRIMARY");
-            if ((keyCode & MotionEvent.BUTTON_STYLUS_SECONDARY) > 0) buttons.add("BUTTON_STYLUS_SECONDARY");
+            if ((keyCode & MotionEvent.BUTTON_BACK) > 0) {
+                buttons.add("BUTTON_BACK");
+            }
+            if ((keyCode & MotionEvent.BUTTON_FORWARD) > 0) {
+                buttons.add("BUTTON_FORWARD");
+            }
+            if ((keyCode & MotionEvent.BUTTON_PRIMARY) > 0) {
+                buttons.add("BUTTON_PRIMARY");
+            }
+            if ((keyCode & MotionEvent.BUTTON_SECONDARY) > 0) {
+                buttons.add("BUTTON_SECONDARY");
+            }
+            if ((keyCode & MotionEvent.BUTTON_TERTIARY) > 0) {
+                buttons.add("BUTTON_TERTIARY");
+            }
+            if ((keyCode & MotionEvent.BUTTON_STYLUS_PRIMARY) > 0) {
+                buttons.add("BUTTON_STYLUS_PRIMARY");
+            }
+            if ((keyCode & MotionEvent.BUTTON_STYLUS_SECONDARY) > 0) {
+                buttons.add("BUTTON_STYLUS_SECONDARY");
+            }
 
             return String.join(", ", buttons);
         }
@@ -109,7 +123,9 @@ public class ButtonPreference extends Preference {
 
                     ((SettingsActivity) activity).setMotionEventFunction(motionEvent -> {
                         // only capture from external devices, no screen taps
-                        if (motionEvent.getSource() == InputDevice.SOURCE_TOUCHSCREEN) return false;
+                        if (motionEvent.getSource() == InputDevice.SOURCE_TOUCHSCREEN) {
+                            return false;
+                        }
 
                         final int buttonState = motionEvent.getButtonState();
 

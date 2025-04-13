@@ -272,17 +272,21 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
         if (!consumed) {
             return super.dispatchKeyEvent(event);
-        } else {
-            return consumed;
         }
+
+        return consumed;
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         boolean consumed = false;
+        if (motionEventFunction != null) {
+            consumed = motionEventFunction.apply(event);
+        }
 
-        if (motionEventFunction != null) consumed = motionEventFunction.apply(event);
-        if (!consumed) return super.dispatchTouchEvent(event);
+        if (!consumed) {
+            return super.dispatchTouchEvent(event);
+        }
 
         return consumed;
     }

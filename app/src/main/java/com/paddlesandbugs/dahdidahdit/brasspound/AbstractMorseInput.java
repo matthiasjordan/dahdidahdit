@@ -184,7 +184,10 @@ public abstract class AbstractMorseInput {
     public void handleKey(KeyEvent event) {
         this.hwPaddle.handleKey(event);
     }
-    public void handleMouse(MotionEvent event) { this.hwPaddle.handleMouse(event); }
+
+    public void handleMouse(MotionEvent event) {
+        this.hwPaddle.handleMouse(event);
+    }
 
 
     private static class SpeedButtonClickListener implements View.OnClickListener {
