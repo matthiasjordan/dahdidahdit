@@ -10,7 +10,6 @@
         android:layout_gravity="top"
         android:layout_width="100dp"
         android:layout_height="120dp"
-        android:background="@color/design_default_color_secondary"
         card_view:cardCornerRadius="4dp">
 
         <ImageView
