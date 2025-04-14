@@ -123,7 +123,7 @@ public class ButtonPreference extends Preference {
 
                     ((SettingsActivity) activity).setMotionEventFunction(motionEvent -> {
                         // only capture from external devices, no screen taps
-                        if (motionEvent.getSource() == InputDevice.SOURCE_TOUCHSCREEN) {
+                        if (!motionEvent.getDevice().isExternal()) {
                             return false;
                         }
 

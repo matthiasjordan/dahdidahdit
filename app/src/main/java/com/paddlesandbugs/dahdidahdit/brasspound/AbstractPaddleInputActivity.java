@@ -112,7 +112,7 @@ public abstract class AbstractPaddleInputActivity extends AbstractNavigationActi
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        if (event.getSource() != InputDevice.SOURCE_TOUCHSCREEN) {
+        if (event.getDevice().isExternal()) {
             morseInput.handleMouse(event); // otherwise taps on screen interfere; we only support EXTERNAL devices
 
             return true;
