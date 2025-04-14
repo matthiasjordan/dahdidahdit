@@ -1,3 +1,6 @@
+=1.14.1
+* Einige Theme-bezogene Probleme gefixt
+
 =1.14.0
 * Release Notes werden beim Start nur für die neue Version angezeigt.
 * Themes hinsichtlich Lesbarkeit verbessert.

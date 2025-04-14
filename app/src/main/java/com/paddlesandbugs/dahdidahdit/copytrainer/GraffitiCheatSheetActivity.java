@@ -65,7 +65,7 @@ public class GraffitiCheatSheetActivity extends AppCompatActivity {
         final int betweenPadding = 10;
         final int imagesPerRow = (width - betweenPadding) / ((imagePadding * 2 + imageWidth) + betweenPadding);
 
-        com.paddlesandbugs.dahdidahdit.databinding.ActivityGraffitiCheatSheetBinding binding = ActivityGraffitiCheatSheetBinding.inflate(getLayoutInflater());
+        ActivityGraffitiCheatSheetBinding binding = ActivityGraffitiCheatSheetBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         TableLayout table = findViewById(R.id.graffiti_scroll_view);
@@ -93,8 +93,8 @@ public class GraffitiCheatSheetActivity extends AppCompatActivity {
             tv.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
 
             ImageView iv = new ImageView(this);
-            int color = Utils.getThemeColor(this, R.attr.colorOnPrimary);
-            int colorRGB = getResources().getColor(color);
+            int color = Utils.getThemeColor(this, R.attr.colorPrimaryVariant);
+            int colorRGB = getResources().getColor(color, getTheme());
             Drawable steno = Utils.getDrawable(this, image, colorRGB);
             iv.setPadding(0, 0, 0, 10);
             iv.setImageDrawable(steno);
