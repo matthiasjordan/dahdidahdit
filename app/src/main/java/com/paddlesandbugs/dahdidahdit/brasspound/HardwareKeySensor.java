@@ -38,7 +38,9 @@ public class HardwareKeySensor {
 
 
     public void dispatchKeyEvent(KeyEvent e) {
-        if (isMouse) return;
+        if (isMouse) {
+            return;
+        }
 
         if (e.getKeyCode() == keyCode) {
             if (e.getRepeatCount() == 0) {
