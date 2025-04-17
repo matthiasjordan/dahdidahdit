@@ -24,6 +24,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 
 import androidx.annotation.Keep;
 import androidx.appcompat.app.ActionBar;
@@ -66,6 +67,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     private SharedPreferences.OnSharedPreferenceChangeListener configChangedListener;
 
     private Function<KeyEvent, Boolean> keyEventFunction = null;
+    private Function<MotionEvent, Boolean> motionEventFunction = null;
 
 
     public static void callMe(Context context, String settingsPart) {
@@ -147,11 +149,13 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     //        }
     //    }
 
-
     public void setKeyEventFunction(Function<KeyEvent, Boolean> keyEventFunction) {
         this.keyEventFunction = keyEventFunction;
     }
 
+    public void setMotionEventFunction(Function<MotionEvent, Boolean> motionEventFunction) {
+        this.motionEventFunction = motionEventFunction;
+    }
 
     /**
      * Updates trainer preferences (e.g. learning strategies) if a faded setting has been changed.
@@ -259,7 +263,6 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
         return true;
     }
 
-
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         boolean consumed = false;
@@ -269,11 +272,24 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
         if (!consumed) {
             return super.dispatchKeyEvent(event);
-        } else {
-            return consumed;
         }
+
+        return consumed;
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        boolean consumed = false;
+        if (motionEventFunction != null) {
+            consumed = motionEventFunction.apply(event);
+        }
+
+        if (!consumed) {
+            return super.dispatchTouchEvent(event);
+        }
+
+        return consumed;
+    }
 
     @Override
     public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
@@ -287,7 +303,6 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
         setTitle(pref.getTitle());
         return true;
     }
-
 
     @Keep
     private static class SettingsChangeListener implements SharedPreferences.OnSharedPreferenceChangeListener {
