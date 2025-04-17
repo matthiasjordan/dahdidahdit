@@ -20,13 +20,14 @@ package com.paddlesandbugs.dahdidahdit.settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,9 @@ import com.paddlesandbugs.dahdidahdit.R;
 
 import java.util.ArrayList;
 
+/**
+ * Preference widget that saves recorded mouse/keyboard events.
+ */
 public class ButtonPreference extends Preference {
 
 
@@ -52,50 +56,71 @@ public class ButtonPreference extends Preference {
         setWidgetLayoutResource(R.layout.button_preference);
     }
 
-    protected String getKeyCodeDisplayLabel(int keyCode, boolean isMouse) {
+
+    private String getKeyCodeDisplayLabel(int keyCode, boolean isMouse) {
         if (isMouse) {
-            ArrayList<String> buttons = new ArrayList<>();
-
-            if ((keyCode & MotionEvent.BUTTON_BACK) > 0) {
-                buttons.add("BUTTON_BACK");
-            }
-            if ((keyCode & MotionEvent.BUTTON_FORWARD) > 0) {
-                buttons.add("BUTTON_FORWARD");
-            }
-            if ((keyCode & MotionEvent.BUTTON_PRIMARY) > 0) {
-                buttons.add("BUTTON_PRIMARY");
-            }
-            if ((keyCode & MotionEvent.BUTTON_SECONDARY) > 0) {
-                buttons.add("BUTTON_SECONDARY");
-            }
-            if ((keyCode & MotionEvent.BUTTON_TERTIARY) > 0) {
-                buttons.add("BUTTON_TERTIARY");
-            }
-            if ((keyCode & MotionEvent.BUTTON_STYLUS_PRIMARY) > 0) {
-                buttons.add("BUTTON_STYLUS_PRIMARY");
-            }
-            if ((keyCode & MotionEvent.BUTTON_STYLUS_SECONDARY) > 0) {
-                buttons.add("BUTTON_STYLUS_SECONDARY");
-            }
-
-            return String.join(", ", buttons);
+            return mouseEventToString(keyCode);
+        } else {
+            return keyEventToString(keyCode);
         }
+    }
 
+
+    private static String keyEventToString(int keyCode) {
         return KeyEvent.keyCodeToString(keyCode);
     }
+
+
+    @NonNull
+    private static String mouseEventToString(int keyCode) {
+        ArrayList<String> buttons = new ArrayList<>();
+
+        if ((keyCode & MotionEvent.BUTTON_BACK) > 0) {
+            buttons.add("BUTTON_BACK");
+        }
+        if ((keyCode & MotionEvent.BUTTON_FORWARD) > 0) {
+            buttons.add("BUTTON_FORWARD");
+        }
+        if ((keyCode & MotionEvent.BUTTON_PRIMARY) > 0) {
+            buttons.add("BUTTON_PRIMARY");
+        }
+        if ((keyCode & MotionEvent.BUTTON_SECONDARY) > 0) {
+            buttons.add("BUTTON_SECONDARY");
+        }
+        if ((keyCode & MotionEvent.BUTTON_TERTIARY) > 0) {
+            buttons.add("BUTTON_TERTIARY");
+        }
+        if ((keyCode & MotionEvent.BUTTON_STYLUS_PRIMARY) > 0) {
+            buttons.add("BUTTON_STYLUS_PRIMARY");
+        }
+        if ((keyCode & MotionEvent.BUTTON_STYLUS_SECONDARY) > 0) {
+            buttons.add("BUTTON_STYLUS_SECONDARY");
+        }
+
+        return String.join(", ", buttons);
+    }
+
+
+    @Nullable
+    @Override
+    public CharSequence getSummary() {
+        final String buttonKey = getKey();
+        final String isMouseKey = getIsMouseKey();
+        final int keyCode = getSharedPreferences().getInt(buttonKey, 0);
+        final boolean isMouse = getSharedPreferences().getBoolean(isMouseKey, false);
+        return getKeyCodeDisplayLabel(keyCode, isMouse);
+    }
+
+
+    @NonNull
+    private String getIsMouseKey() {
+        return getKey() + "_is_mouse";
+    }
+
 
     @Override
     public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
-
-        final String buttonKey = getKey();
-        final String isMouseKey = buttonKey + "_is_mouse";
-        final CharSequence title = getTitle();
-        final int keyCode = getSharedPreferences().getInt(buttonKey, 0);
-        final boolean isMouse = getSharedPreferences().getBoolean(isMouseKey, false);
-
-        TextView textView = (TextView) holder.findViewById(R.id.keycodetextview);
-        textView.setText(getKeyCodeDisplayLabel(keyCode, isMouse));
 
         Button button = (Button) holder.findViewById(R.id.button);
         button.setText(R.string.record_paddle_key_code);
@@ -107,44 +132,42 @@ public class ButtonPreference extends Preference {
                 Context activity = getContext();
                 button.setText((R.string.recording_paddle_key_code));
                 if (activity instanceof SettingsActivity) {
+
+                    Handler handler = new Handler();
+
                     ((SettingsActivity) activity).setKeyEventFunction(keyEvent -> {
                         final int keyCode = keyEvent.getKeyCode();
 
-                        SharedPreferences.Editor editor = getSharedPreferences().edit();
-                        editor.putInt(buttonKey, keyCode);
-                        editor.putBoolean(isMouseKey, false);
-                        editor.apply();
+                        updatePreference(keyCode, false);
 
-                        textView.setText(getKeyCodeDisplayLabel(keyCode, false));
-
+                        handler.removeCallbacksAndMessages(null);
                         stopRecording();
                         return true;
                     });
 
                     ((SettingsActivity) activity).setMotionEventFunction(motionEvent -> {
                         // only capture from external devices, no screen taps
-                        if (!motionEvent.getDevice().isExternal()) {
+                        if (!isExternal(motionEvent)) {
                             return false;
                         }
 
                         final int buttonState = motionEvent.getButtonState();
 
-                        SharedPreferences.Editor editor = getSharedPreferences().edit();
-                        editor.putInt(buttonKey, buttonState);
-                        editor.putBoolean(isMouseKey, true);
-                        editor.apply();
+                        updatePreference(buttonState, true);
 
-                        textView.setText(getKeyCodeDisplayLabel(buttonState, true));
-
+                        handler.removeCallbacksAndMessages(null);
                         stopRecording();
                         return true;
                     });
 
-                    Toast.makeText(activity, R.string.record_paddle_prompt, Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, R.string.record_paddle_prompt, Toast.LENGTH_SHORT).show();
+
+                    handler.postDelayed(this::stopRecording, 5000L);
                 }
             }
 
-            public void stopRecording() {
+
+            private void stopRecording() {
                 button.setText(R.string.record_paddle_key_code);
 
                 Context activity = getContext();
@@ -153,5 +176,27 @@ public class ButtonPreference extends Preference {
             }
         });
 
+    }
+
+
+    private void updatePreference(int keyCode, boolean value) {
+        final String buttonKey = getKey();
+        final String isMouseKey = getIsMouseKey();
+
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        editor.putInt(buttonKey, keyCode);
+        editor.putBoolean(isMouseKey, value);
+        editor.apply();
+
+        notifyChanged();
+    }
+
+
+    private boolean isExternal(MotionEvent motionEvent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return motionEvent.getDevice().isExternal();
+        } else {
+            return (motionEvent.getSource() != InputDevice.SOURCE_TOUCHSCREEN);
+        }
     }
 }
