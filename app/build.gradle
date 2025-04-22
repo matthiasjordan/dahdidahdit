@@ -35,7 +35,7 @@ android {
         applicationId "com.paddlesandbugs.dahdidahdit"
         compileSdk 34
         minSdkVersion 24
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode appVersionCode
         versionName appVersionName
 
