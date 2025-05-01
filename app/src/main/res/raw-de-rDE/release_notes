@@ -1,3 +1,7 @@
+=1.15.0
+* Externe Maus benutzbar als Paddle (#25)
+* Upgrade für Installation unter Android 15
+
 =1.14.1
 * Einige Theme-bezogene Probleme gefixt
 
