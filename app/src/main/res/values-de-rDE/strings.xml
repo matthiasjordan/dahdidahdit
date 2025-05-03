@@ -255,6 +255,7 @@
     <string name="paddle_key_left">Linke Taste</string>
     <string name="paddle_key_right">Rechte Taste</string>
     <string name="record_paddle_key_code">Aufzeichnen</string>
+    <string name="recording_paddle_key_code">Zeichne auf…</string>
     <string name="record_paddle_prompt">Aufzuzeichnende Taste drücken</string>
     <string name="morse_input">Morse-Eingabe</string>
     <string name="morse_input_summary">Einstellungen für die Eingabe von Morse-Code</string>

@@ -1,0 +1,2 @@
+• Externe Maus benutzbar als Paddle (#25)
+• Upgrade für Installation unter Android 15

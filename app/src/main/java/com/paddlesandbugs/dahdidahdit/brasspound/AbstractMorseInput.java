@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -38,8 +39,10 @@ import com.paddlesandbugs.dahdidahdit.base.LearningValue;
 public abstract class AbstractMorseInput {
 
     public static final String PREFS_KEY_KEY_CODE_LEFT = "key_code_left";
+    public static final String PREFS_KEY_IS_MOUSE_LEFT = "key_code_left_is_mouse";
 
     public static final String PREFS_KEY_KEY_CODE_RIGHT = "key_code_right";
+    public static final String PREFS_KEY_IS_MOUSE_RIGHT = "key_code_right_is_mouse";
 
     private final Activity context;
 
@@ -121,8 +124,10 @@ public abstract class AbstractMorseInput {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         final int keyCodeLeft = prefs.getInt(PREFS_KEY_KEY_CODE_LEFT, KeyEvent.KEYCODE_A);
         final int keyCodeRight = prefs.getInt(PREFS_KEY_KEY_CODE_RIGHT, KeyEvent.KEYCODE_B);
+        final boolean isMouseLeft = prefs.getBoolean(PREFS_KEY_IS_MOUSE_LEFT, false);
+        final boolean isMouseRight = prefs.getBoolean(PREFS_KEY_IS_MOUSE_RIGHT, false);
 
-        hwPaddle = new HardwarePaddle(keyer, keyCodeLeft, keyCodeRight);
+        hwPaddle = new HardwarePaddle(keyer, keyCodeLeft, keyCodeRight, isMouseLeft, isMouseRight);
         osPaddle = new OnScreenPaddle(context, keyer);
 
         wpm.setOnChangeListener(new LearningValue.OnChangeListener() {
@@ -178,6 +183,10 @@ public abstract class AbstractMorseInput {
 
     public void handleKey(KeyEvent event) {
         this.hwPaddle.handleKey(event);
+    }
+
+    public void handleMouse(MotionEvent event) {
+        this.hwPaddle.handleMouse(event);
     }
 
 

@@ -19,22 +19,29 @@
 package com.paddlesandbugs.dahdidahdit.brasspound;
 
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 
 public class HardwareKeySensor {
 
     private final int keyCode;
     private final Keyer keyer;
     private final int key;
+    public final boolean isMouse;
 
 
-    public HardwareKeySensor(int keyCode, Keyer keyer, int key) {
+    public HardwareKeySensor(int keyCode, Keyer keyer, int key, boolean isMouse) {
         this.keyCode = keyCode;
         this.keyer = keyer;
         this.key = key;
+        this.isMouse = isMouse;
     }
 
 
     public void dispatchKeyEvent(KeyEvent e) {
+        if (isMouse) {
+            return;
+        }
+
         if (e.getKeyCode() == keyCode) {
             if (e.getRepeatCount() == 0) {
 
@@ -46,6 +53,19 @@ public class HardwareKeySensor {
                     keyer.keyUp(key);
                 }
             }
+        }
+    }
+
+    public void dispatchTouchEvent(MotionEvent e) {
+        if (!isMouse) {
+            return;
+        }
+
+        if ((e.getButtonState() & keyCode) > 0) {
+            keyer.keyDown(key);
+        }
+        else {
+            keyer.keyUp(key);
         }
     }
 }

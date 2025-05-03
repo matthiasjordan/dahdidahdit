@@ -19,6 +19,7 @@
 package com.paddlesandbugs.dahdidahdit.brasspound;
 
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 
 public class HardwarePaddle {
 
@@ -28,9 +29,9 @@ public class HardwarePaddle {
 
     private boolean active = true;
 
-    public HardwarePaddle(Keyer keyer, int keyCodeLeft, int keyCodeRight) {
-        keySensorLeft = new HardwareKeySensor(keyCodeLeft, keyer, AbstractPaddleKeyer.KEY_LEFT);
-        keySensorRight = new HardwareKeySensor(keyCodeRight, keyer, AbstractPaddleKeyer.KEY_RIGHT);
+    public HardwarePaddle(Keyer keyer, int keyCodeLeft, int keyCodeRight, boolean isMouseLeft, boolean isMouseRight) {
+        keySensorLeft = new HardwareKeySensor(keyCodeLeft, keyer, AbstractPaddleKeyer.KEY_LEFT, isMouseLeft);
+        keySensorRight = new HardwareKeySensor(keyCodeRight, keyer, AbstractPaddleKeyer.KEY_RIGHT, isMouseRight);
     }
 
     public void setActive(boolean active) {
@@ -41,6 +42,13 @@ public class HardwarePaddle {
         if (active) {
             keySensorLeft.dispatchKeyEvent(event);
             keySensorRight.dispatchKeyEvent(event);
+        }
+    }
+
+    public void handleMouse(MotionEvent event) {
+        if (active) {
+            keySensorLeft.dispatchTouchEvent(event);
+            keySensorRight.dispatchTouchEvent(event);
         }
     }
 }

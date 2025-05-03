@@ -35,7 +35,7 @@ android {
         applicationId "com.paddlesandbugs.dahdidahdit"
         compileSdk 34
         minSdkVersion 24
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode appVersionCode
         versionName appVersionName
 
@@ -83,11 +83,11 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.google.android.material:material:1.12.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'androidx.preference:preference:1.2.1'
     implementation 'androidx.test:monitor:1.7.2'
 
-    def room_version = "2.6.1"
+    def room_version = "2.7.0"
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
@@ -123,8 +123,8 @@ license {
 
 tasks.register('tidy', Delete) {
     doLast {
-        println("Deleting build directory")
-        delete project.buildDir
+        println("Deleting build directory ${project.layout.buildDirectory.get()}")
+        delete project.layout.buildDirectory
     }
 }
 
@@ -138,12 +138,12 @@ tasks.register('apk') {
 	properties.load(project.rootProject.file("local.properties").newDataInputStream())
 	String keystoreDir = properties.getProperty("keystore.dir", "")
 
-	def outputDir = "${buildDir}/outputs/apk/release"
+	def outputDir = "${project.layout.buildDirectory.get()}/outputs/apk/release"
 	def version = project.android.defaultConfig.versionName
 	def apkName = "dahdidahdit-${version}.apk"
 	println("Building APK")
 	println("Project name: ${project.name}")
-	println("Build dir: ${buildDir}")
+	println("Build dir: ${project.layout.buildDirectory.get()}")
 	println("SDK dir: ${project.android.sdkDirectory}")
 	println("Version: ${version}")
 	println("Keystore dir: ${keystoreDir}")
@@ -182,7 +182,7 @@ tasks.register('printVersionName') {
 // Copy resources to intermediates so they can be accessed during unit testing.
 tasks.register('copyResDirectoryToClassesMain') {
     doLast {
-        def targetDir = "${buildDir}/intermediates/javac/debugUnitTest/compileDebugUnitTestJavaWithJavac/classes/"
+        def targetDir = "${project.layout.buildDirectory.get()}/intermediates/javac/debugUnitTest/compileDebugUnitTestJavaWithJavac/classes/"
         println("Copying resources to ${targetDir}")
         copy {
             from "${projectDir}/src/main/res"
