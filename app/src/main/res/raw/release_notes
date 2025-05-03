@@ -1,3 +1,7 @@
+=1.15.0
+* Allow to use external mouse as paddle (#25)
+* Upgrade to install on Android 15
+
 =1.14.1
 * Fixed some theme-related issues
 

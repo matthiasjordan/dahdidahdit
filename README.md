@@ -21,6 +21,7 @@ increases the speed.
 
 Or download the latest APK from the [Releases Section](https://github.com/matthiasjordan/dahdidahdit/releases/latest).
 
+
 ## Features
 
 * Morse tutor picks you up at where you currently are with learning Morse code and
@@ -45,15 +46,29 @@ Or download the latest APK from the [Releases Section](https://github.com/matthi
         * Custom text
 * Teaches head copying, starting with short words and progressing to longer
 texts
-* Can connect to a paddle or straight key using USB and
+* Can connect to a paddle or straight key using USB (see below)
+* Using external hardware or on-screen Morse key can 
     * help practicing sending
     * connect to Morserinos and other Dahdidahdit users over direct network connection (LAN, 
       internet) or Morserino servers like [qsobot.online](https://qsobot.online/)
     * play a nice game of Morse Tennis against another Dahdidahdit user
 
+
 ## Homepage and manual
 
 Find more information at https://paddlesandbugs.com.
+
+
+## Hardware projects for external Morse keys and adapters
+
+Hat-tip to HB9HOX for most of the links!
+
+* [VBand adapter](https://hamradio.solutions/vband/) (commercial but ready-made)
+* https://codeberg.org/corvus-ch/morsekeyboard
+* https://github.com/Vail-CW/vail-adapter
+* https://github.com/mgiugliano/MorsePaddle2USB
+* https://github.com/kevintechie/CWKeyboard
+* https://github.com/matthiasjordan/openpaddle with documentation at  https://paddlesandbugs.com/dahdidahdit-manual/connect-a-hardware-key/
 
 
 ## Contributing
