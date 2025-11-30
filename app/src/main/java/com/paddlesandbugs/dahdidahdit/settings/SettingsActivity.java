@@ -21,14 +21,17 @@ package com.paddlesandbugs.dahdidahdit.settings;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.Window;
 
 import androidx.annotation.Keep;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.ListPreference;
@@ -149,13 +152,16 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     //        }
     //    }
 
+
     public void setKeyEventFunction(Function<KeyEvent, Boolean> keyEventFunction) {
         this.keyEventFunction = keyEventFunction;
     }
 
+
     public void setMotionEventFunction(Function<MotionEvent, Boolean> motionEventFunction) {
         this.motionEventFunction = motionEventFunction;
     }
+
 
     /**
      * Updates trainer preferences (e.g. learning strategies) if a faded setting has been changed.
@@ -178,6 +184,8 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.settings_activity);
+        setStatusBarColorMode();
+
         if (savedInstanceState == null) {
             final PreferenceFragmentCompat fragment = getSettingsPart();
             getSupportFragmentManager().beginTransaction().replace(R.id.settings, fragment).commit();
@@ -198,6 +206,15 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
             Log.i(LOG_TAG, "ActionBar setup");
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+
+    private void setStatusBarColorMode() {
+        final Window window = getWindow();
+        WindowInsetsControllerCompat insetsController = new WindowInsetsControllerCompat(window, window.getDecorView());
+        int darkModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        boolean isDarkModeOn = darkModeFlags == Configuration.UI_MODE_NIGHT_YES;
+        insetsController.setAppearanceLightStatusBars(!isDarkModeOn);
     }
 
 
@@ -263,6 +280,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
         return true;
     }
 
+
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         boolean consumed = false;
@@ -276,6 +294,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
         return consumed;
     }
+
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
@@ -291,6 +310,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
         return consumed;
     }
 
+
     @Override
     public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
         // Instantiate the new Fragment
@@ -303,6 +323,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
         setTitle(pref.getTitle());
         return true;
     }
+
 
     @Keep
     private static class SettingsChangeListener implements SharedPreferences.OnSharedPreferenceChangeListener {

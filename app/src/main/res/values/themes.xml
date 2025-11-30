@@ -23,6 +23,7 @@
         <item name="android:windowBackground">@color/theme_background_day</item>
 
         <!-- Status bar color. -->
+        <item name="colorPrimaryDark">?colorPrimaryVariant</item> <!-- SDK gt 21-->
         <item name="android:statusBarColor">?colorPrimaryVariant</item>
 
         <!-- Text input boxes -->
