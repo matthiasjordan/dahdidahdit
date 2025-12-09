@@ -1,20 +1,20 @@
 /****************************************************************************
-    Dahdidahdit - an Android Morse trainer
-    Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
+ Dahdidahdit - an Android Morse trainer
+ Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-****************************************************************************/
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
 
 package com.paddlesandbugs.dahdidahdit.text;
 
@@ -28,18 +28,19 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.loader.content.CursorLoader;
 import androidx.preference.PreferenceManager;
+
+import com.paddlesandbugs.dahdidahdit.MorseCode;
+import com.paddlesandbugs.dahdidahdit.R;
+import com.paddlesandbugs.dahdidahdit.base.CompressedIntSet;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.paddlesandbugs.dahdidahdit.MorseCode;
-import com.paddlesandbugs.dahdidahdit.R;
-import com.paddlesandbugs.dahdidahdit.base.CompressedIntSet;
 
 public class RssTextGenerator extends AbstractWordTextGenerator {
 
@@ -182,7 +183,6 @@ public class RssTextGenerator extends AbstractWordTextGenerator {
      *
      * @param context  the context
      * @param provAuth the name of the provider
-     *
      * @return the list of feeds, which might be empty, but never null.
      */
     @NonNull
@@ -191,7 +191,7 @@ public class RssTextGenerator extends AbstractWordTextGenerator {
 
         final String perm = getPerm(provAuth);
         if (perm != null) {
-            int res = context.checkSelfPermission(perm);
+            int res = ContextCompat.checkSelfPermission(context, perm);
             if (res != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(context, R.string.rss_permission_missing, Toast.LENGTH_SHORT).show();
                 return list;
@@ -231,7 +231,6 @@ public class RssTextGenerator extends AbstractWordTextGenerator {
      * Returns the permission needed for the given provider
      *
      * @param provAuth the authority of the provider
-     *
      * @return the permission
      */
     @Nullable
