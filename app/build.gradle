@@ -33,9 +33,9 @@ android {
 
     defaultConfig {
         applicationId "com.paddlesandbugs.dahdidahdit"
-        compileSdk 34
+        compileSdk 36
         minSdkVersion 24
-        targetSdkVersion 35
+        targetSdkVersion 36
         versionCode appVersionCode
         versionName appVersionName
 
