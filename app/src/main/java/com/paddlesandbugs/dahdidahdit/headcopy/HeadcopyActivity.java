@@ -120,9 +120,11 @@ public class HeadcopyActivity extends AbstractTrainerActivity {
 
     @NonNull
     protected MorsePlayerI getPlayer(LearningStrategy.SessionConfig sessionConfig) {
-        sessionConfig.morsePlayerConfig.sessionS = Integer.MAX_VALUE;
-        sessionConfig.morsePlayerConfig.setStartPauseMs(this, 0);
-        return new InstantMorsePlayer(sessionConfig.morsePlayerConfig);
+        final MorsePlayerI.Config morsePlayerConfig = sessionConfig.morsePlayerConfig;
+        morsePlayerConfig.sessionS = Integer.MAX_VALUE;
+        morsePlayerConfig.setStartPauseMs(this, 0);
+        morsePlayerConfig.setEndPauseMs(this, 0);
+        return new InstantMorsePlayer(morsePlayerConfig);
     }
 
 

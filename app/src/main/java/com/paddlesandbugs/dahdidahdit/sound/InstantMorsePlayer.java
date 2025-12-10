@@ -1,20 +1,20 @@
 /****************************************************************************
-    Dahdidahdit - an Android Morse trainer
-    Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
+ Dahdidahdit - an Android Morse trainer
+ Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-****************************************************************************/
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
 
 package com.paddlesandbugs.dahdidahdit.sound;
 
@@ -23,14 +23,14 @@ import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.util.Log;
 
+import com.paddlesandbugs.dahdidahdit.Const;
+import com.paddlesandbugs.dahdidahdit.text.TextGenerator;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Semaphore;
-
-import com.paddlesandbugs.dahdidahdit.Const;
-import com.paddlesandbugs.dahdidahdit.text.TextGenerator;
 
 /**
  * {@link InstantMorsePlayer} plays Morse code based on a {@link TextGenerator}.
@@ -103,6 +103,7 @@ public class InstantMorsePlayer implements MorsePlayerI {
         mgconf.freqDit = config.freqDit;
         mgconf.freqDah = config.freqDah;
         mgconf.startPauseMs = config.getStartPauseMs();
+        mgconf.endPauseMs = config.getEndPauseMs();
         mgconf.chirp = config.chirp;
         mgconf.qlf = config.qlf;
         mgconf.syllablePauseMs = config.syllablePauseMs;
@@ -338,17 +339,19 @@ public class InstantMorsePlayer implements MorsePlayerI {
 
 
         private void suppressEndClick(AudioTrack player) {
-            player.setVolume(0.0f);
             for (int i = 0; (i < 10); i++) {
                 player.write(end, 0, end.length);
             }
+            player.setVolume(0.0f);
             player.stop();
-            //   player.flush();
         }
 
 
         private void makeSureLastDitIsHeard(AudioTrack player) {
-            for (int i = 0; (i < 30); i++) {
+            long ms = config.getEndPauseMs();
+            final long reps = sampleRate * ms / 1000 / end.length;
+            Log.i(LOG_TAG, "Pausing " + ms + " ms with " + reps + " reps of " + end.length);
+            for (int i = 0; (i < reps); i++) {
                 player.write(end, 0, end.length);
             }
         }

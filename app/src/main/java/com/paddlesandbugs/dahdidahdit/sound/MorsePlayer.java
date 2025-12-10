@@ -23,15 +23,12 @@ import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.util.Log;
 
+import com.paddlesandbugs.dahdidahdit.Const;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Semaphore;
-
-import com.paddlesandbugs.dahdidahdit.Const;
-import com.paddlesandbugs.dahdidahdit.params.GeneralFadedParameters;
-import com.paddlesandbugs.dahdidahdit.params.GeneralParameters;
-import com.paddlesandbugs.dahdidahdit.text.TextGenerator;
 
 public class MorsePlayer implements MorsePlayerI {
 
@@ -79,6 +76,7 @@ public class MorsePlayer implements MorsePlayerI {
         mgconf.freqDit = config.freqDit;
         mgconf.freqDah = config.freqDah;
         mgconf.startPauseMs = config.getStartPauseMs();
+        mgconf.endPauseMs = config.getEndPauseMs();
         mgconf.chirp = config.chirp;
         mgconf.qlf = config.qlf;
         mgconf.syllablePauseMs = config.syllablePauseMs;
@@ -270,17 +268,19 @@ public class MorsePlayer implements MorsePlayerI {
 
 
         private void suppressEndClick(AudioTrack player) {
-            player.setVolume(0.0f);
             for (int i = 0; (i < 10); i++) {
                 player.write(end, 0, end.length);
             }
+            player.setVolume(0.0f);
             player.stop();
-            //   player.flush();
         }
 
 
         private void makeSureLastDitIsHeard(AudioTrack player) {
-            for (int i = 0; (i < 30); i++) {
+            long ms = config.getEndPauseMs();
+            final long reps = sampleRate * ms / 1000 / end.length;
+            Log.i(LOG_TAG, "Pausing " + ms + " ms with " + reps + " reps of " + end.length);
+            for (int i = 0; (i < reps); i++) {
                 player.write(end, 0, end.length);
             }
         }
