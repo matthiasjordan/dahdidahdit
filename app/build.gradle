@@ -4,11 +4,15 @@ plugins {
 }
 
 tasks.configureEach { task ->
+    if (task.name == 'apk') {
+        task.dependsOn('assembleRelease')
+    }
+
     if (task.name == 'assembleRelease') {
 //        task.dependsOn('connectedAndroidTest')
         task.dependsOn('testDebugUnitTest')
     }
-    
+
     if (task.name == 'assembleDebug') {
         task.dependsOn('testDebugUnitTest')
     }
