@@ -10,4 +10,13 @@
         app:showSeekBarValue="true"
         app:useSimpleSummaryProvider="true" />
 
+    <SeekBarPreference
+        android:defaultValue="0"
+        android:key="morseplayer_end_time_ms"
+        android:max="2000"
+        android:title="@string/morseplayer_end_time"
+        app:min="0"
+        app:showSeekBarValue="true"
+        app:useSimpleSummaryProvider="true" />
+
 </PreferenceScreen>

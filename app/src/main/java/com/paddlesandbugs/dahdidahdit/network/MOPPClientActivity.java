@@ -46,7 +46,7 @@ import com.paddlesandbugs.dahdidahdit.brasspound.AbstractPaddleInputActivity;
 import com.paddlesandbugs.dahdidahdit.brasspound.Decoder;
 import com.paddlesandbugs.dahdidahdit.network.mopp.MOPPClient;
 import com.paddlesandbugs.dahdidahdit.network.mopp.Packet;
-import com.paddlesandbugs.dahdidahdit.sound.InstantMorsePlayer;
+import com.paddlesandbugs.dahdidahdit.sound.MorsePlayer;
 import com.paddlesandbugs.dahdidahdit.sound.MorsePlayerI;
 import com.paddlesandbugs.dahdidahdit.sound.MorseTiming;
 import com.paddlesandbugs.dahdidahdit.tennis.TennisMachine;
@@ -295,7 +295,7 @@ public class MOPPClientActivity extends AbstractPaddleInputActivity {
         morsePlayerConfig.textGenerator = new StaticTextGenerator(text.getCharacters(), false);
         morsePlayerConfig.freqDit = dxFrequency;
         morsePlayerConfig.freqDah = dxFrequency;
-        final InstantMorsePlayer instantMorsePlayer = new InstantMorsePlayer(morsePlayerConfig);
+        final MorsePlayer instantMorsePlayer = new MorsePlayer(morsePlayerConfig);
         instantMorsePlayer.play();
         instantMorsePlayer.await();
     }

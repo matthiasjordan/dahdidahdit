@@ -207,6 +207,7 @@
     <string name="workarounds">Workarounds</string>
     <string name="workarounds_summary">Lösungen für Probleme, die auf manchen Geräten auftreten können</string>
     <string name="morseplayer_lead_time">Pause vor Tonausgabe (ms)</string>
+    <string name="morseplayer_end_time">Pause nach Tonausgabe (ms)</string>
     <string name="headcopy_stage">Stufe</string>
     <string name="headcopy_stage_summary_syllable">Silben mit bis zu %1$d Buchstaben</string>
     <string name="headcopy_stage_summary_word">Wörter mit bis zu %1$d Buchstaben</string>

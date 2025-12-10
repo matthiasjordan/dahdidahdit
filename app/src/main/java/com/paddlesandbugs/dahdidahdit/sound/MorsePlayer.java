@@ -1,20 +1,20 @@
 /****************************************************************************
-    Dahdidahdit - an Android Morse trainer
-    Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
+ Dahdidahdit - an Android Morse trainer
+ Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-****************************************************************************/
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
 
 package com.paddlesandbugs.dahdidahdit.sound;
 
@@ -23,19 +23,20 @@ import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.util.Log;
 
+import com.paddlesandbugs.dahdidahdit.Const;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Semaphore;
 
-import com.paddlesandbugs.dahdidahdit.Const;
-import com.paddlesandbugs.dahdidahdit.params.GeneralFadedParameters;
-import com.paddlesandbugs.dahdidahdit.params.GeneralParameters;
-import com.paddlesandbugs.dahdidahdit.text.TextGenerator;
-
+/**
+ * {@link MorsePlayer} plays Morse code based on a {@link TextGenerator}.
+ * <p>
+ * Clients have to call {@link MorsePlayer#close()} to stop and free the player thread.
+ */
 public class MorsePlayer implements MorsePlayerI {
-
-
 
     public static final String LOG_TAG = "MorsePlayer";
 
@@ -61,7 +62,7 @@ public class MorsePlayer implements MorsePlayerI {
     private Runnable stopCallback;
     private final Config config;
     private final MorseGenerator mg;
-    private final int msToPlay;
+    private final long msToPlay;
     private int bufferSize;
     private int sampleRate = SAMPLE_RATE;
     private boolean fireFinishedOnStop = false;
@@ -72,6 +73,14 @@ public class MorsePlayer implements MorsePlayerI {
     }
 
 
+    public MorsePlayer(Config config, MorseGenerator gen) {
+        this.config = config;
+        this.mg = gen;
+        this.msToPlay = config.getStartPauseMs() + ((long) config.sessionS) * 1000L;
+        this.bufferSize = AudioTrack.getMinBufferSize(EFFECTIVE_SAMPLE_RATE, CHANNEL_OUT, ENCODING);
+    }
+
+
     private static TextMorseGenerator.Config createConfig(Config config) {
         TextMorseGenerator.Config mgconf = new TextMorseGenerator.Config();
         mgconf.textGen = config.textGenerator;
@@ -79,18 +88,11 @@ public class MorsePlayer implements MorsePlayerI {
         mgconf.freqDit = config.freqDit;
         mgconf.freqDah = config.freqDah;
         mgconf.startPauseMs = config.getStartPauseMs();
+        mgconf.endPauseMs = config.getEndPauseMs();
         mgconf.chirp = config.chirp;
         mgconf.qlf = config.qlf;
         mgconf.syllablePauseMs = config.syllablePauseMs;
         return mgconf;
-    }
-
-
-    public MorsePlayer(Config config, MorseGenerator gen) {
-        this.config = config;
-        this.mg = gen;
-        this.msToPlay = config.getStartPauseMs() + (config.sessionS * 1000);
-        this.bufferSize = AudioTrack.getMinBufferSize(EFFECTIVE_SAMPLE_RATE, CHANNEL_OUT, ENCODING);
     }
 
 
@@ -124,12 +126,33 @@ public class MorsePlayer implements MorsePlayerI {
     }
 
 
+    private void startPlayerThread() {
+        this.p = new PlayerRunnable();
+        final Thread thread = new Thread(p);
+        thread.setName("MorsePlayerThread");
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+
     public void play() {
         if (getMode() == Mode.STOPPED) {
-            this.p = new PlayerRunnable();
-            new Thread(p).start();
+            startPlayerThread();
         } else {
-            p.play();
+            if (p != null) {
+                p.play();
+            }
+        }
+    }
+
+
+    public void await() {
+        if (p != null) {
+            try {
+                p.waitLatch.await();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 
@@ -138,20 +161,25 @@ public class MorsePlayer implements MorsePlayerI {
      *
      */
     public void pause() {
-        p.pause();
+        if (p != null) {
+            p.pause();
+        }
     }
 
 
     public void stop() {
-        p.stop();
+        if (p != null) {
+            p.stop();
+        }
     }
 
 
     @Override
     public void close() {
-        p.forceClose();
+        if (p != null) {
+            p.forceClose();
+        }
     }
-
 
 
     static void mix(short[] sample, SampleGenerator vol, SampleGenerator... generators) {
@@ -181,11 +209,23 @@ public class MorsePlayer implements MorsePlayerI {
     private class PlayerRunnable implements Runnable {
 
         private final Semaphore s = new Semaphore(1, true);
+
         private volatile Mode mode = Mode.PLAYING;
+
+        private final CountDownLatch waitLatch = new CountDownLatch(1);
 
 
         @Override
         public void run() {
+            try {
+                internalRun();
+            } finally {
+                waitLatch.countDown();
+            }
+        }
+
+
+        public void internalRun() {
             final SampleGenerator qsb = AtmosphereModel.getQSB(config.qsb);
             List<SampleGenerator> qrX = new ArrayList<>();
             if (config.qrm != 0) {
@@ -197,6 +237,7 @@ public class MorsePlayer implements MorsePlayerI {
                 final SampleGenerator qrn = AtmosphereModel.getQRN(config.qrn);
                 qrX.add(qrn);
             }
+
             final SampleGenerator[] generators = qrX.toArray(new SampleGenerator[0]);
 
             int msPlayed = 0;
@@ -206,6 +247,8 @@ public class MorsePlayer implements MorsePlayerI {
             AudioTrack player = new AudioTrack(STREAM_TYPE, sampleRate, CHANNEL_OUT, ENCODING, bufferSize, MODE);
 
             player.play();
+
+            Log.i(LOG_TAG, "entered main loop, mode is " + mode);
 
             TextMorseGenerator.Part part;
             while ((part = mg.generate()) != null) {
@@ -225,16 +268,10 @@ public class MorsePlayer implements MorsePlayerI {
                     textSent.append(part.text.asString());
                 }
 
-                mix(part.sample, qsb, generators);
+                msPlayed += play(player, part.sample, qsb, generators);
 
-                int i = 0;
-                while (i < part.sample.length) {
-                    int written = player.write(part.sample, i, (part.sample.length - i));
-                    i += written;
-                }
-
-                msPlayed += part.sample.length * 1000 / SAMPLE_RATE;
                 if (msPlayed > msToPlay) {
+                    Log.i(LOG_TAG, "Reached max play time " + msToPlay);
                     mg.close();
                 }
                 s.release();
@@ -254,7 +291,32 @@ public class MorsePlayer implements MorsePlayerI {
                 finishedCallback = null;
                 f.finished(textSent.toString());
             }
+
             Log.d(LOG_TAG, "PlayerRunnable leaving");
+        }
+
+
+        /**
+         * Plays the sample on the given player, mixing with generators and using the volume form the qsb SampleGenerator.
+         *
+         * @return the time in milliseconds that was played
+         */
+        private int play(AudioTrack player, short[] sample, SampleGenerator qsb, SampleGenerator[] generators) {
+            mix(sample, qsb, generators);
+
+            playAll(sample, player);
+
+            int msPlayed = sample.length * 1000 / SAMPLE_RATE;
+            return msPlayed;
+        }
+
+
+        private void playAll(short[] sample, AudioTrack player) {
+            int i = 0;
+            while (i < sample.length) {
+                int written = player.write(sample, i, (sample.length - i));
+                i += written;
+            }
         }
 
 
@@ -270,18 +332,27 @@ public class MorsePlayer implements MorsePlayerI {
 
 
         private void suppressEndClick(AudioTrack player) {
-            player.setVolume(0.0f);
-            for (int i = 0; (i < 10); i++) {
-                player.write(end, 0, end.length);
+            final long reps = sampleRate * 100 / 1000 / end.length;
+            for (int i = 0; (i < reps); i++) {
+                playAll(end, player);
             }
+
+            player.setVolume(0.0f);
+
+            for (int i = 0; (i < 2 * reps); i++) {
+                playAll(end, player);
+            }
+
             player.stop();
-            //   player.flush();
         }
 
 
         private void makeSureLastDitIsHeard(AudioTrack player) {
-            for (int i = 0; (i < 30); i++) {
-                player.write(end, 0, end.length);
+            long ms = config.getEndPauseMs();
+            final long reps = sampleRate * ms / 1000 / end.length;
+            Log.i(LOG_TAG, "Pausing " + ms + " ms with " + reps + " reps of " + end.length);
+            for (int i = 0; (i < reps); i++) {
+                playAll(end, player);
             }
         }
 
@@ -304,7 +375,8 @@ public class MorsePlayer implements MorsePlayerI {
                 try {
                     s.acquire();
                 } catch (InterruptedException e) {
-
+                    // Quit the loop
+                    mode = Mode.STOPPED;
                 }
             }
         }
@@ -316,7 +388,6 @@ public class MorsePlayer implements MorsePlayerI {
                 s.release();
             }
         }
-
 
 
         private void forceClose() {
