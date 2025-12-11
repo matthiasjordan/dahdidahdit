@@ -1,20 +1,20 @@
 /****************************************************************************
-    Dahdidahdit - an Android Morse trainer
-    Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
+ Dahdidahdit - an Android Morse trainer
+ Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-****************************************************************************/
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
 
 package com.paddlesandbugs.dahdidahdit.headcopy;
 
@@ -32,7 +32,7 @@ import com.paddlesandbugs.dahdidahdit.base.AbstractTrainerActivity;
 import com.paddlesandbugs.dahdidahdit.base.LearningStrategy;
 import com.paddlesandbugs.dahdidahdit.base.MainActivity;
 import com.paddlesandbugs.dahdidahdit.settings.SettingsActivity;
-import com.paddlesandbugs.dahdidahdit.sound.InstantMorsePlayer;
+import com.paddlesandbugs.dahdidahdit.sound.MorsePlayer;
 import com.paddlesandbugs.dahdidahdit.sound.MorsePlayerI;
 
 public class HeadcopyActivity extends AbstractTrainerActivity {
@@ -118,15 +118,15 @@ public class HeadcopyActivity extends AbstractTrainerActivity {
         return R.string.headcopy_title;
     }
 
+
     @NonNull
     protected MorsePlayerI getPlayer(LearningStrategy.SessionConfig sessionConfig) {
         final MorsePlayerI.Config morsePlayerConfig = sessionConfig.morsePlayerConfig;
         morsePlayerConfig.sessionS = Integer.MAX_VALUE;
         morsePlayerConfig.setStartPauseMs(this, 0);
         morsePlayerConfig.setEndPauseMs(this, 0);
-        return new InstantMorsePlayer(morsePlayerConfig);
+        return new MorsePlayer(morsePlayerConfig);
     }
-
 
 
     @Override
