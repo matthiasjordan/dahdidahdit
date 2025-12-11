@@ -316,14 +316,19 @@ public class InstantMorsePlayer implements MorsePlayerI {
         private int play(AudioTrack player, short[] sample, SampleGenerator qsb, SampleGenerator[] generators) {
             mix(sample, qsb, generators);
 
+            playAll(sample, player);
+
+            int msPlayed = sample.length * 1000 / SAMPLE_RATE;
+            return msPlayed;
+        }
+
+
+        private void playAll(short[] sample, AudioTrack player) {
             int i = 0;
             while (i < sample.length) {
                 int written = player.write(sample, i, (sample.length - i));
                 i += written;
             }
-
-            int msPlayed = sample.length * 1000 / SAMPLE_RATE;
-            return msPlayed;
         }
 
 
@@ -339,10 +344,17 @@ public class InstantMorsePlayer implements MorsePlayerI {
 
 
         private void suppressEndClick(AudioTrack player) {
-            for (int i = 0; (i < 10); i++) {
-                player.write(end, 0, end.length);
+            final long reps = sampleRate * 100 / 1000 / end.length;
+            for (int i = 0; (i < reps); i++) {
+                playAll(end, player);
             }
+
             player.setVolume(0.0f);
+
+            for (int i = 0; (i < 2 * reps); i++) {
+                playAll(end, player);
+            }
+
             player.stop();
         }
 
@@ -352,7 +364,7 @@ public class InstantMorsePlayer implements MorsePlayerI {
             final long reps = sampleRate * ms / 1000 / end.length;
             Log.i(LOG_TAG, "Pausing " + ms + " ms with " + reps + " reps of " + end.length);
             for (int i = 0; (i < reps); i++) {
-                player.write(end, 0, end.length);
+                playAll(end, player);
             }
         }
 

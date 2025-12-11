@@ -1,20 +1,20 @@
 /****************************************************************************
-    Dahdidahdit - an Android Morse trainer
-    Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
+ Dahdidahdit - an Android Morse trainer
+ Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-****************************************************************************/
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
 
 package com.paddlesandbugs.dahdidahdit.sound;
 
@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 public class MorsePlayer implements MorsePlayerI {
-
 
 
     public static final String LOG_TAG = "MorsePlayer";
@@ -151,7 +150,6 @@ public class MorsePlayer implements MorsePlayerI {
     }
 
 
-
     static void mix(short[] sample, SampleGenerator vol, SampleGenerator... generators) {
         short[] cumulSample = new short[sample.length];
         for (SampleGenerator generator : generators) {
@@ -223,15 +221,9 @@ public class MorsePlayer implements MorsePlayerI {
                     textSent.append(part.text.asString());
                 }
 
-                mix(part.sample, qsb, generators);
+                final short[] sample = part.sample;
+                msPlayed += play(player, part.sample, qsb, generators);
 
-                int i = 0;
-                while (i < part.sample.length) {
-                    int written = player.write(part.sample, i, (part.sample.length - i));
-                    i += written;
-                }
-
-                msPlayed += part.sample.length * 1000 / SAMPLE_RATE;
                 if (msPlayed > msToPlay) {
                     mg.close();
                 }
@@ -257,6 +249,30 @@ public class MorsePlayer implements MorsePlayerI {
 
 
         /**
+         * Plays the sample on the given player, mixing with generators and using the volume form the qsb SampleGenerator.
+         *
+         * @return the time in milliseconds that was played
+         */
+        private int play(AudioTrack player, short[] sample, SampleGenerator qsb, SampleGenerator[] generators) {
+            mix(sample, qsb, generators);
+
+            playAll(sample, player);
+
+            int msPlayed = sample.length * 1000 / SAMPLE_RATE;
+            return msPlayed;
+        }
+
+
+        private void playAll(short[] sample, AudioTrack player) {
+            int i = 0;
+            while (i < sample.length) {
+                int written = player.write(sample, i, (sample.length - i));
+                i += written;
+            }
+        }
+
+
+        /**
          * Play some empty samples with volume 0 to make the KNACK sound at the end disappear that occurs when calling {@link AudioTrack#release()}.
          *
          * @param player the audio track
@@ -268,10 +284,17 @@ public class MorsePlayer implements MorsePlayerI {
 
 
         private void suppressEndClick(AudioTrack player) {
-            for (int i = 0; (i < 10); i++) {
-                player.write(end, 0, end.length);
+            final long reps = sampleRate * 100 / 1000 / end.length;
+            for (int i = 0; (i < reps); i++) {
+                playAll(end, player);
             }
+
             player.setVolume(0.0f);
+
+            for (int i = 0; (i < 2 * reps); i++) {
+                playAll(end, player);
+            }
+
             player.stop();
         }
 
@@ -281,7 +304,7 @@ public class MorsePlayer implements MorsePlayerI {
             final long reps = sampleRate * ms / 1000 / end.length;
             Log.i(LOG_TAG, "Pausing " + ms + " ms with " + reps + " reps of " + end.length);
             for (int i = 0; (i < reps); i++) {
-                player.write(end, 0, end.length);
+                playAll(end, player);
             }
         }
 
@@ -316,7 +339,6 @@ public class MorsePlayer implements MorsePlayerI {
                 s.release();
             }
         }
-
 
 
         private void forceClose() {
