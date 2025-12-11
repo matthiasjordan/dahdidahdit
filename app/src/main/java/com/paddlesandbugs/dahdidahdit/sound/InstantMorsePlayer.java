@@ -39,8 +39,6 @@ import java.util.concurrent.Semaphore;
  */
 public class InstantMorsePlayer implements MorsePlayerI {
 
-    public static final float INITIAL_STATIC_LEVEL = 0.02f;
-
     public static final String LOG_TAG = "MorsePlayer";
 
     public static final int STREAM_TYPE = AudioManager.STREAM_MUSIC;
@@ -56,6 +54,14 @@ public class InstantMorsePlayer implements MorsePlayerI {
     private static final int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
 
     private static final short[] end = createEndBuffer();
+
+
+    private static short[] createEndBuffer() {
+        final short[] end = new short[100];
+        Arrays.fill(end, 0, end.length, (short) 0);
+        return end;
+    }
+
 
     private final Config config;
 
@@ -89,13 +95,6 @@ public class InstantMorsePlayer implements MorsePlayerI {
     }
 
 
-    private static short[] createEndBuffer() {
-        final short[] end = new short[100];
-        Arrays.fill(end, 0, end.length, (short) 0);
-        return end;
-    }
-
-
     private static TextMorseGenerator.Config createConfig(Config config) {
         TextMorseGenerator.Config mgconf = new TextMorseGenerator.Config();
         mgconf.textGen = config.textGenerator;
@@ -108,30 +107,6 @@ public class InstantMorsePlayer implements MorsePlayerI {
         mgconf.qlf = config.qlf;
         mgconf.syllablePauseMs = config.syllablePauseMs;
         return mgconf;
-    }
-
-
-    static void mix(short[] sample, SampleGenerator vol, SampleGenerator... generators) {
-        short[] cumulSample = new short[sample.length];
-        for (SampleGenerator generator : generators) {
-            for (int i = 0; (i < sample.length); i++) {
-                short genS = generator.generate();
-                cumulSample[i] += genS;
-            }
-        }
-
-        final int sCount = generators.length + 1;
-
-        for (int i = 0; (i < sample.length); i++) {
-            final int i1 = cumulSample[i];
-            final short volS = vol.generate();
-            final int i2 = (int) (((long) sample[i]));
-            float toneDown = (float) volS / (float) (Short.MAX_VALUE);
-            int i2td = SampleGenerator.scale(i2, toneDown);
-
-            // mix
-            sample[i] = (short) ((i2td + i1) / sCount);
-        }
     }
 
 
@@ -221,11 +196,33 @@ public class InstantMorsePlayer implements MorsePlayerI {
     }
 
 
+    static void mix(short[] sample, SampleGenerator vol, SampleGenerator... generators) {
+        short[] cumulSample = new short[sample.length];
+        for (SampleGenerator generator : generators) {
+            for (int i = 0; (i < sample.length); i++) {
+                short genS = generator.generate();
+                cumulSample[i] += genS;
+            }
+        }
+
+        final int sCount = generators.length + 1;
+
+        for (int i = 0; (i < sample.length); i++) {
+            final int i1 = cumulSample[i];
+            final short volS = vol.generate();
+            final int i2 = (int) (((long) sample[i]));
+            float toneDown = (float) volS / (float) (Short.MAX_VALUE);
+            int i2td = SampleGenerator.scale(i2, toneDown);
+
+            // mix
+            sample[i] = (short) ((i2td + i1) / sCount);
+        }
+    }
+
+
     private class PlayerRunnable implements Runnable {
 
         private final Semaphore s = new Semaphore(1, true);
-
-        private final short[] pauseSample = new short[1000];
 
         private volatile Mode mode = Mode.PLAYING;
 
@@ -256,19 +253,24 @@ public class InstantMorsePlayer implements MorsePlayerI {
             }
 
             final SampleGenerator[] generators = qrX.toArray(new SampleGenerator[0]);
-            final SampleGenerator[] staticGenerator = new SampleGenerator[]{new QRMSampleGenerator(INITIAL_STATIC_LEVEL)};
 
             int msPlayed = 0;
 
             StringBuilder textSent = new StringBuilder();
 
             AudioTrack player = new AudioTrack(STREAM_TYPE, sampleRate, CHANNEL_OUT, ENCODING, bufferSize, MODE);
+
             player.play();
 
             Log.i(LOG_TAG, "entered main loop, mode is " + mode);
 
             TextMorseGenerator.Part part;
             while ((part = mg.generate()) != null) {
+                try {
+                    s.acquire();
+                } catch (InterruptedException e) {
+                    // Wayne
+                }
 
                 if (mode == Mode.STOPPED) {
                     // Might have changed while waiting to acquire s (have been paused, now stopped)
@@ -284,7 +286,7 @@ public class InstantMorsePlayer implements MorsePlayerI {
 
                 if (msPlayed > msToPlay) {
                     Log.i(LOG_TAG, "Reached max play time " + msToPlay);
-                    //                    mg.close();
+                    mg.close();
                 }
                 s.release();
             }

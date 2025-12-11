@@ -28,10 +28,15 @@ import com.paddlesandbugs.dahdidahdit.Const;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Semaphore;
 
+/**
+ * {@link MorsePlayer} plays Morse code based on a {@link TextGenerator}.
+ * <p>
+ * Clients have to call {@link MorsePlayer#close()} to stop and free the player thread.
+ */
 public class MorsePlayer implements MorsePlayerI {
-
 
     public static final String LOG_TAG = "MorsePlayer";
 
@@ -57,7 +62,7 @@ public class MorsePlayer implements MorsePlayerI {
     private Runnable stopCallback;
     private final Config config;
     private final MorseGenerator mg;
-    private final int msToPlay;
+    private final long msToPlay;
     private int bufferSize;
     private int sampleRate = SAMPLE_RATE;
     private boolean fireFinishedOnStop = false;
@@ -65,6 +70,14 @@ public class MorsePlayer implements MorsePlayerI {
 
     public MorsePlayer(Config config) {
         this(config, new TextMorseGenerator(createConfig(config)));
+    }
+
+
+    public MorsePlayer(Config config, MorseGenerator gen) {
+        this.config = config;
+        this.mg = gen;
+        this.msToPlay = config.getStartPauseMs() + ((long) config.sessionS) * 1000L;
+        this.bufferSize = AudioTrack.getMinBufferSize(EFFECTIVE_SAMPLE_RATE, CHANNEL_OUT, ENCODING);
     }
 
 
@@ -80,14 +93,6 @@ public class MorsePlayer implements MorsePlayerI {
         mgconf.qlf = config.qlf;
         mgconf.syllablePauseMs = config.syllablePauseMs;
         return mgconf;
-    }
-
-
-    public MorsePlayer(Config config, MorseGenerator gen) {
-        this.config = config;
-        this.mg = gen;
-        this.msToPlay = config.getStartPauseMs() + (config.sessionS * 1000);
-        this.bufferSize = AudioTrack.getMinBufferSize(EFFECTIVE_SAMPLE_RATE, CHANNEL_OUT, ENCODING);
     }
 
 
@@ -121,12 +126,33 @@ public class MorsePlayer implements MorsePlayerI {
     }
 
 
+    private void startPlayerThread() {
+        this.p = new PlayerRunnable();
+        final Thread thread = new Thread(p);
+        thread.setName("MorsePlayerThread");
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+
     public void play() {
         if (getMode() == Mode.STOPPED) {
-            this.p = new PlayerRunnable();
-            new Thread(p).start();
+            startPlayerThread();
         } else {
-            p.play();
+            if (p != null) {
+                p.play();
+            }
+        }
+    }
+
+
+    public void await() {
+        if (p != null) {
+            try {
+                p.waitLatch.await();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 
@@ -135,18 +161,24 @@ public class MorsePlayer implements MorsePlayerI {
      *
      */
     public void pause() {
-        p.pause();
+        if (p != null) {
+            p.pause();
+        }
     }
 
 
     public void stop() {
-        p.stop();
+        if (p != null) {
+            p.stop();
+        }
     }
 
 
     @Override
     public void close() {
-        p.forceClose();
+        if (p != null) {
+            p.forceClose();
+        }
     }
 
 
@@ -177,11 +209,23 @@ public class MorsePlayer implements MorsePlayerI {
     private class PlayerRunnable implements Runnable {
 
         private final Semaphore s = new Semaphore(1, true);
+
         private volatile Mode mode = Mode.PLAYING;
+
+        private final CountDownLatch waitLatch = new CountDownLatch(1);
 
 
         @Override
         public void run() {
+            try {
+                internalRun();
+            } finally {
+                waitLatch.countDown();
+            }
+        }
+
+
+        public void internalRun() {
             final SampleGenerator qsb = AtmosphereModel.getQSB(config.qsb);
             List<SampleGenerator> qrX = new ArrayList<>();
             if (config.qrm != 0) {
@@ -193,6 +237,7 @@ public class MorsePlayer implements MorsePlayerI {
                 final SampleGenerator qrn = AtmosphereModel.getQRN(config.qrn);
                 qrX.add(qrn);
             }
+
             final SampleGenerator[] generators = qrX.toArray(new SampleGenerator[0]);
 
             int msPlayed = 0;
@@ -202,6 +247,8 @@ public class MorsePlayer implements MorsePlayerI {
             AudioTrack player = new AudioTrack(STREAM_TYPE, sampleRate, CHANNEL_OUT, ENCODING, bufferSize, MODE);
 
             player.play();
+
+            Log.i(LOG_TAG, "entered main loop, mode is " + mode);
 
             TextMorseGenerator.Part part;
             while ((part = mg.generate()) != null) {
@@ -221,10 +268,10 @@ public class MorsePlayer implements MorsePlayerI {
                     textSent.append(part.text.asString());
                 }
 
-                final short[] sample = part.sample;
                 msPlayed += play(player, part.sample, qsb, generators);
 
                 if (msPlayed > msToPlay) {
+                    Log.i(LOG_TAG, "Reached max play time " + msToPlay);
                     mg.close();
                 }
                 s.release();
@@ -244,6 +291,7 @@ public class MorsePlayer implements MorsePlayerI {
                 finishedCallback = null;
                 f.finished(textSent.toString());
             }
+
             Log.d(LOG_TAG, "PlayerRunnable leaving");
         }
 
@@ -327,7 +375,8 @@ public class MorsePlayer implements MorsePlayerI {
                 try {
                     s.acquire();
                 } catch (InterruptedException e) {
-
+                    // Quit the loop
+                    mode = Mode.STOPPED;
                 }
             }
         }
