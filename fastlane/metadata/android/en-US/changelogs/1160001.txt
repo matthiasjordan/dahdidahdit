@@ -1,0 +1,2 @@
+• Fixed status bar color on newer Android versions.
+• Workaround for dropped sound at the end of a playback
