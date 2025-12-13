@@ -59,6 +59,8 @@ android {
 
         debug {
             pseudoLocalesEnabled true
+            android.defaultConfig.applicationId = "com.paddlesandbugs.dahdidahdit.test"
+            resValue "string", "app_name", "TESTDahdidahdit"
         }
     }
 
