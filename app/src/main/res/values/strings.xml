@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">Dahdidahdit</string>
     <string name="text_sent">Text sent</string>
     <string name="text_generator_mode_static">Sending static text</string>
     <string name="text_generator_mode_random">Sending random text</string>

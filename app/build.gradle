@@ -10,7 +10,7 @@ tasks.configureEach { task ->
 
     if (task.name == 'assembleRelease') {
 //        task.dependsOn('connectedAndroidTest')
-        task.dependsOn('testDebugUnitTest')
+        task.dependsOn('testReleaseUnitTest')
     }
 
     if (task.name == 'assembleDebug') {
@@ -19,7 +19,10 @@ tasks.configureEach { task ->
 
     // Copy resources so we can use them in unit tests before running the unit tests.
     if (task.name == 'testDebugUnitTest') {
-        task.dependsOn('copyResDirectoryToClassesMain')
+        task.dependsOn('copyResDirectoryToClassesMainDebug')
+    }
+    if (task.name == 'testReleaseUnitTest') {
+        task.dependsOn('copyResDirectoryToClassesMainRelease')
     }
 
     // Before copying resources, make sure compileDebugUnitTestJavaWithJavac is run because this deletes all resources.
@@ -55,11 +58,12 @@ android {
         release {
             minifyEnabled true // Try @Keep on classes and methods that get pruned but shouldn't
             vcsInfo.include false // Omit commit info in APK to make build less prone to changes
+            resValue "string", "app_name", "Dahdidahdit"
         }
 
         debug {
             pseudoLocalesEnabled true
-            android.defaultConfig.applicationId = "com.paddlesandbugs.dahdidahdit.test"
+            applicationIdSuffix ".test"
             resValue "string", "app_name", "TESTDahdidahdit"
         }
     }
@@ -186,9 +190,23 @@ tasks.register('printVersionName') {
 
 
 // Copy resources to intermediates so they can be accessed during unit testing.
-tasks.register('copyResDirectoryToClassesMain') {
+tasks.register('copyResDirectoryToClassesMainDebug') {
     doLast {
         def targetDir = "${project.layout.buildDirectory.get()}/intermediates/javac/debugUnitTest/compileDebugUnitTestJavaWithJavac/classes/"
+        println("Copying resources to ${targetDir}")
+        copy {
+            from "${projectDir}/src/main/res"
+            into targetDir
+        }
+        copy {
+            from "${projectDir}/src/test/res"
+            into targetDir
+        }
+    }
+}
+tasks.register('copyResDirectoryToClassesMainRelease') {
+    doLast {
+        def targetDir = "${project.layout.buildDirectory.get()}/intermediates/javac/releaseUnitTest/compileReleaseUnitTestJavaWithJavac/classes/"
         println("Copying resources to ${targetDir}")
         copy {
             from "${projectDir}/src/main/res"
