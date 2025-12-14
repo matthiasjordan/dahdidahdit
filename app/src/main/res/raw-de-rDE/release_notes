@@ -1,3 +1,7 @@
+=1.16.0
+* Farbe vom Status-Bar in neueren Android-Versionen gefixt.
+* Workaround für Audio-Aussetzer am Ende von Playbacks
+
 =1.15.0
 * Externe Maus benutzbar als Paddle (#25)
 * Upgrade für Installation unter Android 15

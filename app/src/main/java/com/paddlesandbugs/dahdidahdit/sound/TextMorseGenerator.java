@@ -18,12 +18,12 @@
 
 package com.paddlesandbugs.dahdidahdit.sound;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import com.paddlesandbugs.dahdidahdit.Const;
 import com.paddlesandbugs.dahdidahdit.MorseCode;
 import com.paddlesandbugs.dahdidahdit.text.TextGenerator;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class TextMorseGenerator implements MorseGenerator {
 
@@ -36,6 +36,7 @@ public class TextMorseGenerator implements MorseGenerator {
         public boolean chirp = false;
         public int qlf = 1;
         public MorseTiming timing;
+        public int endPauseMs;
     }
 
 

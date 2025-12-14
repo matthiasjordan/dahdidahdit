@@ -4,13 +4,13 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+
     <uses-permission android:name="com.nononsenseapps.feeder.permission.read" />
 
-
+    <!-- Needed for API 30+ -->
     <queries>
         <provider android:authorities="com.nononsenseapps.feeder.rssprovider" />
     </queries>
-
 
     <application
         android:allowBackup="true"

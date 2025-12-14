@@ -31,20 +31,18 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import java.util.Collections;
-import java.util.Set;
-
 import com.paddlesandbugs.dahdidahdit.Distribution;
 import com.paddlesandbugs.dahdidahdit.MorseCode;
 import com.paddlesandbugs.dahdidahdit.R;
 import com.paddlesandbugs.dahdidahdit.base.AbstractNavigationActivity;
 import com.paddlesandbugs.dahdidahdit.base.MainActivity;
 import com.paddlesandbugs.dahdidahdit.settings.SettingsActivity;
-import com.paddlesandbugs.dahdidahdit.sound.InstantMorsePlayer;
 import com.paddlesandbugs.dahdidahdit.sound.MorsePlayer;
-import com.paddlesandbugs.dahdidahdit.sound.MorsePlayerI;
 import com.paddlesandbugs.dahdidahdit.text.StaticTextGenerator;
 import com.paddlesandbugs.dahdidahdit.text.TextGenerator;
+
+import java.util.Collections;
+import java.util.Set;
 
 public class FindTheCharActivity extends AbstractNavigationActivity {
     private static final String LOG_TAG = "FindTheCharActivity";
@@ -71,7 +69,7 @@ public class FindTheCharActivity extends AbstractNavigationActivity {
     private TextGenerator rtg;
 
     private MorsePlayer.Config config;
-    private InstantMorsePlayer player;
+    private MorsePlayer player;
 
     private boolean firstCharSet = false;
     private boolean firstCharPlayed = false;
@@ -340,8 +338,8 @@ public class FindTheCharActivity extends AbstractNavigationActivity {
 
         MorseCode.CharacterList cl = new MorseCode.MutableCharacterList(Collections.singletonList(charD));
         config.textGenerator = new StaticTextGenerator(cl, false);
-        InstantMorsePlayer p = new InstantMorsePlayer(config);
-        p.setFinishedCallback(new InstantMorsePlayer.FinishedCallback() {
+        MorsePlayer p = new MorsePlayer(config);
+        p.setFinishedCallback(new MorsePlayer.FinishedCallback() {
             @Override
             public void finished(String text) {
                 Log.i(LOG_TAG, "re-enabling buttons");

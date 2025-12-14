@@ -1,3 +1,7 @@
+=1.16.0
+* Fixed status bar color on newer Android versions.
+* Workaround for dropped sound at the end of a playback
+
 =1.15.0
 * Allow to use external mouse as paddle (#25)
 * Upgrade to install on Android 15

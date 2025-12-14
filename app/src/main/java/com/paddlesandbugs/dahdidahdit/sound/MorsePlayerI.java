@@ -44,6 +44,7 @@ public interface MorsePlayerI {
 
         public int sessionS;
         private int startPauseMs;
+        private int endPauseMs;
 
         public MorseTiming timing;
         public int qsb;
@@ -80,6 +81,7 @@ public interface MorsePlayerI {
 
         public Config from(Context context, GeneralParameters p) {
             setStartPauseMs(context, p.getStartPauseS() * 1000);
+            setEndPauseMs(context, 0);
             sessionS = p.getSessionS();
             from(p.current());
             return this;
@@ -92,13 +94,26 @@ public interface MorsePlayerI {
             return this;
         }
 
-        public void setStartPauseMs(Context context, int i) {
-            startPauseMs = MorsePlayerI.applyMorsePlayerLeadTimeWorkaround(context, i);
+        public void setStartPauseMs(Context context, int explicitPauseMs) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            startPauseMs = Math.max(explicitPauseMs, prefs.getInt("morseplayer_lead_time_ms", 0));
         }
 
         public int getStartPauseMs() {
             return startPauseMs;
         }
+
+        public void setEndPauseMs(Context context, int explicitPauseMs) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            endPauseMs = Math.max(explicitPauseMs, prefs.getInt("morseplayer_end_time_ms", 0));
+        }
+
+
+        public int getEndPauseMs() {
+            return endPauseMs;
+        }
+
+
     }
 
     void setBuffer(int framesPerBufferInt);
@@ -122,8 +137,4 @@ public interface MorsePlayerI {
     void close();
 
 
-    static int applyMorsePlayerLeadTimeWorkaround(Context context, int explicitPauseMs) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return Math.max(explicitPauseMs, prefs.getInt("morseplayer_lead_time_ms", 0));
-    }
 }

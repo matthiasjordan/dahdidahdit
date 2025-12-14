@@ -4,18 +4,25 @@ plugins {
 }
 
 tasks.configureEach { task ->
+    if (task.name == 'apk') {
+        task.dependsOn('assembleRelease')
+    }
+
     if (task.name == 'assembleRelease') {
 //        task.dependsOn('connectedAndroidTest')
-        task.dependsOn('testDebugUnitTest')
+        task.dependsOn('testReleaseUnitTest')
     }
-    
+
     if (task.name == 'assembleDebug') {
         task.dependsOn('testDebugUnitTest')
     }
 
     // Copy resources so we can use them in unit tests before running the unit tests.
     if (task.name == 'testDebugUnitTest') {
-        task.dependsOn('copyResDirectoryToClassesMain')
+        task.dependsOn('copyResDirectoryToClassesMainDebug')
+    }
+    if (task.name == 'testReleaseUnitTest') {
+        task.dependsOn('copyResDirectoryToClassesMainRelease')
     }
 
     // Before copying resources, make sure compileDebugUnitTestJavaWithJavac is run because this deletes all resources.
@@ -33,9 +40,9 @@ android {
 
     defaultConfig {
         applicationId "com.paddlesandbugs.dahdidahdit"
-        compileSdk 34
+        compileSdk 36
         minSdkVersion 24
-        targetSdkVersion 35
+        targetSdkVersion 36
         versionCode appVersionCode
         versionName appVersionName
 
@@ -51,10 +58,13 @@ android {
         release {
             minifyEnabled true // Try @Keep on classes and methods that get pruned but shouldn't
             vcsInfo.include false // Omit commit info in APK to make build less prone to changes
+            resValue "string", "app_name", "Dahdidahdit"
         }
 
         debug {
             pseudoLocalesEnabled true
+            applicationIdSuffix ".test"
+            resValue "string", "app_name", "TESTDahdidahdit"
         }
     }
 
@@ -81,19 +91,19 @@ android {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'com.google.android.material:material:1.13.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'androidx.preference:preference:1.2.1'
-    implementation 'androidx.test:monitor:1.7.2'
+    implementation 'androidx.test:monitor:1.8.0'
 
-    def room_version = "2.7.0"
+    def room_version = '2.8.3'
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:5.6.0'
+    testImplementation 'org.mockito:mockito-core:5.20.0'
 }
 
 
@@ -180,9 +190,23 @@ tasks.register('printVersionName') {
 
 
 // Copy resources to intermediates so they can be accessed during unit testing.
-tasks.register('copyResDirectoryToClassesMain') {
+tasks.register('copyResDirectoryToClassesMainDebug') {
     doLast {
         def targetDir = "${project.layout.buildDirectory.get()}/intermediates/javac/debugUnitTest/compileDebugUnitTestJavaWithJavac/classes/"
+        println("Copying resources to ${targetDir}")
+        copy {
+            from "${projectDir}/src/main/res"
+            into targetDir
+        }
+        copy {
+            from "${projectDir}/src/test/res"
+            into targetDir
+        }
+    }
+}
+tasks.register('copyResDirectoryToClassesMainRelease') {
+    doLast {
+        def targetDir = "${project.layout.buildDirectory.get()}/intermediates/javac/releaseUnitTest/compileReleaseUnitTestJavaWithJavac/classes/"
         println("Copying resources to ${targetDir}")
         copy {
             from "${projectDir}/src/main/res"
