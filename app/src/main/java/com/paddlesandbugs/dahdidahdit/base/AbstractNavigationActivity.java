@@ -118,6 +118,8 @@ public abstract class AbstractNavigationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        NightMode.setNightMode(this);
         setContentView(getLayoutID());
         initializeNavigationDrawer();
         initializeNavigateBack();

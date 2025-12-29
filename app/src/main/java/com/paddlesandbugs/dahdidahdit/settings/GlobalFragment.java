@@ -23,6 +23,7 @@ import android.os.Bundle;
 import androidx.annotation.Keep;
 
 import com.paddlesandbugs.dahdidahdit.R;
+import com.paddlesandbugs.dahdidahdit.base.NightMode;
 import com.paddlesandbugs.dahdidahdit.copytrainer.CopyTrainerParamsFaded;
 import com.paddlesandbugs.dahdidahdit.onboarding.OnboardingActivity;
 
@@ -40,6 +41,14 @@ public class GlobalFragment extends AbstractFragmentCallingFragment {
                 v.setFreq((String) newValue);
             }
         }).addHook(this, new CopyTrainerParamsFaded(getContext(), "current"), "freq_dit");
+
+        findPreference("darkmode").setOnPreferenceChangeListener((a, newValue) -> {
+            if (newValue instanceof String) {
+                NightMode.setNightMode(getContext(), (String) newValue);
+                getActivity().recreate();
+            }
+            return true;
+        });
     }
 
 

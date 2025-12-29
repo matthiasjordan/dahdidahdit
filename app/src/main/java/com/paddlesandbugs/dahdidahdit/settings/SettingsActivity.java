@@ -41,6 +41,7 @@ import androidx.preference.PreferenceManager;
 
 import com.paddlesandbugs.dahdidahdit.R;
 import com.paddlesandbugs.dahdidahdit.base.MainActivity;
+import com.paddlesandbugs.dahdidahdit.base.NightMode;
 import com.paddlesandbugs.dahdidahdit.headcopy.HeadcopyTrainer;
 import com.paddlesandbugs.dahdidahdit.selfdefined.SelfdefinedTrainer;
 
@@ -183,6 +184,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        NightMode.setNightMode(this);
         setContentView(R.layout.settings_activity);
         setStatusBarColorMode();
 

@@ -75,6 +75,11 @@
         <item>iambicb</item>
     </string-array>
 
+    <string-array name="darkmode_values">
+        <item>system</item>
+        <item>bright</item>
+        <item>dark</item>
+    </string-array>
 
 
 </resources>
