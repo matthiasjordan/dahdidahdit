@@ -41,7 +41,10 @@
         <include layout="@layout/morse_tennis_status"
             android:visibility="gone"/>
 
-        <include layout="@layout/onscreen_paddle"/>
+        <FrameLayout
+            android:id="@+id/paddle_placeholder"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"/>
 
     </LinearLayout>
 
