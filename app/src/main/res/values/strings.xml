@@ -101,6 +101,11 @@
         <item>Dark</item>
     </string-array>
 
+    <string-array name="onscreen_paddle_type_labels">
+        <item>Small</item>
+        <item>Large</item>
+    </string-array>
+
 
     <string name="toast_text_level_up">You leveled up %1$s to %2$d</string>
     <string name="toast_text_level_down">You leveled down %1$s to %2$d</string>
@@ -295,5 +300,6 @@
     <string name="morse_input_summary">Configure how you want to send Morse code</string>
     <string name="paddle_mode">Paddle mode</string>
     <string name="darkmode_title">Design</string>
+    <string name="onscreen_paddle_type">On-screen paddle type</string>
 
 </resources>

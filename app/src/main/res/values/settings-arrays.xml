@@ -81,5 +81,10 @@
         <item>dark</item>
     </string-array>
 
+    <string-array name="onscreen_paddle_type_values">
+        <item>small</item>
+        <item>large</item>
+    </string-array>
+
 
 </resources>

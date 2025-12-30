@@ -9,16 +9,18 @@
     >
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".brasspound.BrassPoundActivity">
+        android:orientation="vertical"
+        tools:context=".brasspound.SendingTrainerActivity">
 
         <TextView
             android:id="@+id/title"
             style="?attr/textAppearanceHeadline1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:text="@string/sendingtrainer_headline"
             app:layout_constraintBottom_toTopOf="@+id/current_word_title"
             app:layout_constraintEnd_toEndOf="parent"
@@ -73,24 +75,18 @@
             android:id="@+id/imageStar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:contentDescription="@string/image_description_imageStar"
             android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@id/paddle_placeholder"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/copied_word"
             app:srcCompat="@drawable/ic_smiley" />
 
         <ImageView
             android:id="@+id/imageFail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:contentDescription="@string/image_description_imageFail"
             android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@id/paddle_placeholder"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/copied_word"
             app:srcCompat="@drawable/ic_frownie" />
 
 
@@ -98,13 +94,9 @@
             android:id="@+id/paddle_placeholder"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageStar"
             />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <include layout="@layout/navigation_view"/>
 

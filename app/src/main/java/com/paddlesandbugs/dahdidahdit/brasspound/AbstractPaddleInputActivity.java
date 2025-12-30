@@ -18,6 +18,7 @@
 
 package com.paddlesandbugs.dahdidahdit.brasspound;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 
 import com.paddlesandbugs.dahdidahdit.Config;
 import com.paddlesandbugs.dahdidahdit.R;
@@ -47,13 +49,33 @@ public abstract class AbstractPaddleInputActivity extends AbstractNavigationActi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = getLayoutInflater().inflate(R.layout.onscreen_paddle_large, null);
-//        view.setId((int)(Math.random()*Integer.MAX_VALUE));
-        ((FrameLayout)findViewById(R.id.paddle_placeholder)).addView(view);
+
+        initOnScreenPaddleLayout();
 
         takeKeyEvents(true);
         setDefaultKeyMode(DEFAULT_KEYS_DISABLE);
     }
+
+
+    private void initOnScreenPaddleLayout() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String layoutTypeStr = prefs.getString("onscreen_paddle_type", "small");
+
+        final int layoutId;
+        switch (layoutTypeStr) {
+            case "large":  {
+                layoutId = R.layout.onscreen_paddle_large; break;
+            }
+            case "small":
+            default: {
+                layoutId = R.layout.onscreen_paddle; break;
+            }
+        }
+
+        View view = getLayoutInflater().inflate(layoutId, null);
+        ((FrameLayout)findViewById(R.id.paddle_placeholder)).addView(view);
+    }
+
 
     protected Config getConfig() {
         return config;

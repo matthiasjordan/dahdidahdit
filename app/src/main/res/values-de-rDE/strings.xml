@@ -76,6 +76,12 @@
         <item>Dunkel</item>
     </string-array>
 
+    <string-array name="onscreen_paddle_type_labels">
+        <item>Klein</item>
+        <item>Groß</item>
+    </string-array>
+
+
     <string name="root_version">Version</string>
     <string name="root_about">Über</string>
     <string name="mistakes_in_this_session">Fehler in diesem Durchgang:</string>
@@ -268,5 +274,6 @@
     <string name="morse_input_summary">Einstellungen für die Eingabe von Morse-Code</string>
     <string name="paddle_mode">Paddle-Modus</string>
     <string name="darkmode_title">Design</string>
+    <string name="onscreen_paddle_type">Art des Bildschirm-Paddles</string>
 
 </resources>
