@@ -40,7 +40,6 @@ android {
 
     defaultConfig {
         applicationId "com.paddlesandbugs.dahdidahdit"
-        compileSdk 36
         minSdkVersion 24
         targetSdkVersion 36
         versionCode appVersionCode
@@ -86,6 +85,10 @@ android {
     }
 
     namespace 'com.paddlesandbugs.dahdidahdit'
+
+    compileSdk {
+        version = release(36)
+    }
 }
 
 
