@@ -23,10 +23,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
 import com.paddlesandbugs.dahdidahdit.Config;
+import com.paddlesandbugs.dahdidahdit.R;
 import com.paddlesandbugs.dahdidahdit.base.AbstractNavigationActivity;
 import com.paddlesandbugs.dahdidahdit.base.LearningValue;
 
@@ -44,6 +47,9 @@ public abstract class AbstractPaddleInputActivity extends AbstractNavigationActi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        View view = getLayoutInflater().inflate(R.layout.onscreen_paddle_large, null);
+//        view.setId((int)(Math.random()*Integer.MAX_VALUE));
+        ((FrameLayout)findViewById(R.id.paddle_placeholder)).addView(view);
 
         takeKeyEvents(true);
         setDefaultKeyMode(DEFAULT_KEYS_DISABLE);

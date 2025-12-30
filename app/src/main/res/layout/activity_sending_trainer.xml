@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/image_description_imageStar"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/paddle_placeholder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/copied_word"
@@ -87,14 +87,22 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/image_description_imageFail"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/paddle_placeholder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/copied_word"
             app:srcCompat="@drawable/ic_frownie" />
 
 
-        <include layout="@layout/onscreen_paddle"/>
+        <FrameLayout
+            android:id="@+id/paddle_placeholder"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageStar"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
