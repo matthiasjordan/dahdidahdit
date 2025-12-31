@@ -18,9 +18,9 @@
 
 package com.paddlesandbugs.dahdidahdit.brasspound;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
@@ -112,10 +112,12 @@ public abstract class AbstractPaddleInputActivity extends AbstractNavigationActi
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        if (event.getDevice().isExternal()) {
-            morseInput.handleMouse(event); // otherwise taps on screen interfere; we only support EXTERNAL devices
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (event.getDevice().isExternal()) {
+                morseInput.handleMouse(event); // otherwise taps on screen interfere; we only support EXTERNAL devices
 
-            return true;
+                return true;
+            }
         }
 
         return super.dispatchTouchEvent(event);
