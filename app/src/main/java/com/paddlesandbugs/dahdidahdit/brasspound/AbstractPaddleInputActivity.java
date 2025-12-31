@@ -50,7 +50,6 @@ public abstract class AbstractPaddleInputActivity extends AbstractNavigationActi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         takeKeyEvents(true);
         setDefaultKeyMode(DEFAULT_KEYS_DISABLE);
     }
@@ -62,17 +61,19 @@ public abstract class AbstractPaddleInputActivity extends AbstractNavigationActi
 
         final int layoutId;
         switch (layoutTypeStr) {
-            case "large":  {
-                layoutId = R.layout.onscreen_paddle_large; break;
+            case "large": {
+                layoutId = R.layout.onscreen_paddle_large;
+                break;
             }
             case "small":
             default: {
-                layoutId = R.layout.onscreen_paddle; break;
+                layoutId = R.layout.onscreen_paddle;
+                break;
             }
         }
 
         View view = getLayoutInflater().inflate(layoutId, null);
-        final FrameLayout viewById = (FrameLayout) findViewById(R.id.paddle_placeholder);
+        final FrameLayout viewById = findViewById(R.id.paddle_placeholder);
         viewById.removeAllViews();
         viewById.addView(view);
     }
@@ -81,6 +82,7 @@ public abstract class AbstractPaddleInputActivity extends AbstractNavigationActi
     protected Config getConfig() {
         return config;
     }
+
 
     @Override
     protected void onResume() {
@@ -95,6 +97,7 @@ public abstract class AbstractPaddleInputActivity extends AbstractNavigationActi
         initializeMorseKey(c);
     }
 
+
     @Override
     protected void onPause() {
         AudioHelper.stopPlaying();
@@ -102,6 +105,7 @@ public abstract class AbstractPaddleInputActivity extends AbstractNavigationActi
         Log.i("APIA", "onPause()");
         super.onPause();
     }
+
 
     @NonNull
     private Config initializeConfig() {
@@ -123,6 +127,7 @@ public abstract class AbstractPaddleInputActivity extends AbstractNavigationActi
         AudioHelper.start(this, freq);
     }
 
+
     private void initializeMorseKey(Config c) {
         LearningValue wpm = getInitialWpm();
 
@@ -135,11 +140,13 @@ public abstract class AbstractPaddleInputActivity extends AbstractNavigationActi
         morseInput.init(getCharListener());
     }
 
+
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         morseInput.handleKey(event);
         return super.dispatchKeyEvent(event);
     }
+
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
@@ -153,6 +160,7 @@ public abstract class AbstractPaddleInputActivity extends AbstractNavigationActi
 
         return super.dispatchTouchEvent(event);
     }
+
 
     /**
      * The initial value for WPM.
