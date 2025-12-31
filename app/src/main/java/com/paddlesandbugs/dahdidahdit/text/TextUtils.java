@@ -18,22 +18,37 @@
 
 package com.paddlesandbugs.dahdidahdit.text;
 
-import static org.junit.Assert.assertTrue;
-
 import com.paddlesandbugs.dahdidahdit.MorseCode;
 
-import org.junit.Test;
+import java.util.HashMap;
+import java.util.Map;
 
-public class GarbageWordTextGeneratorTest extends AbstractTextGeneratorTest {
-    @Test
-    public void testGenerate() {
-        GarbageWordGenerator sut = new GarbageWordGenerator(new Stopwords(), false);
-        sut.setWordLengthMax(3);
+public class TextUtils {
 
-        MorseCode.CharacterList res = TextTestUtils.read(sut, 10);
-        System.out.println(res);
+    private TextUtils() {
+        // Nothing.
+    }
 
-        assertTrue(res.size() <= 20);
+
+    public static Map<MorseCode.CharacterData, Integer> count(String text) {
+        final MorseCode.MutableCharacterList charList = new MorseCode.MutableCharacterList(text);
+        return count(charList);
+    }
+
+
+    public static Map<MorseCode.CharacterData, Integer> count(MorseCode.CharacterList text) {
+        Map<MorseCode.CharacterData, Integer> map = new HashMap<>();
+
+        for (MorseCode.CharacterData c : text) {
+            Integer count = map.get(c);
+            if (count == null) {
+                count = 0;
+            }
+            count += 1;
+            map.put(c, count);
+        }
+
+        return map;
     }
 
 }

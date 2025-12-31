@@ -37,6 +37,7 @@
         <item>frompreferences</item>
         <item>loaded</item>
         <item>rss</item>
+        <item>randomfrompreferences</item>
     </string-array>
 
     <string-array name="text_generator_values_2">
