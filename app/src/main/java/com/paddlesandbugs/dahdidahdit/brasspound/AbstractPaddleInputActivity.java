@@ -50,7 +50,6 @@ public abstract class AbstractPaddleInputActivity extends AbstractNavigationActi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initOnScreenPaddleLayout();
 
         takeKeyEvents(true);
         setDefaultKeyMode(DEFAULT_KEYS_DISABLE);
@@ -73,7 +72,9 @@ public abstract class AbstractPaddleInputActivity extends AbstractNavigationActi
         }
 
         View view = getLayoutInflater().inflate(layoutId, null);
-        ((FrameLayout)findViewById(R.id.paddle_placeholder)).addView(view);
+        final FrameLayout viewById = (FrameLayout) findViewById(R.id.paddle_placeholder);
+        viewById.removeAllViews();
+        viewById.addView(view);
     }
 
 
@@ -86,6 +87,8 @@ public abstract class AbstractPaddleInputActivity extends AbstractNavigationActi
         super.onResume();
 
         Log.i("APIA", "onResume()");
+
+        initOnScreenPaddleLayout();
 
         final Config c = initializeConfig();
         initializeAudio(c);
