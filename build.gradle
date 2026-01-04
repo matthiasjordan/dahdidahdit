@@ -1,7 +1,7 @@
 ext {
-    appVersionName = '1.16.0'
+    appVersionName = '1.17.0'
     // Format ------->Mmmhhrc
-    appVersionCode =  1160001
+    appVersionCode =  1170001
 }
 
 buildscript {
