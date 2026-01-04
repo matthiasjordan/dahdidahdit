@@ -1,0 +1,3 @@
+• User-selected theme (dark, bright, system)
+• User-selected on-screen paddles (large, normal)
+• Drilling of user-selected letters in custom training.

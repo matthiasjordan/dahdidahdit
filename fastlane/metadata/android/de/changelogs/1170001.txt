@@ -1,0 +1,3 @@
+• Auswahl des Themes (dunkel, hell, System)
+• Auswahl der Größe des Bildschirm-Paddles (groß, normal)
+• Pauken Benutzer-definierter Zeichen im Selbstdefinierten Trainer.
