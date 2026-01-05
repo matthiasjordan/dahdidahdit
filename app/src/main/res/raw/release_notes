@@ -1,3 +1,8 @@
+=1.17.0
+* User-selected theme (dark, bright, system)
+* User-selected on-screen paddles (large, normal)
+* Drilling of user-selected letters in custom training.
+
 =1.16.0
 * Fixed status bar color on newer Android versions.
 * Workaround for dropped sound at the end of a playback
