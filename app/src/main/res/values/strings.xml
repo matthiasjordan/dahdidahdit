@@ -77,6 +77,7 @@
         <item>Custom text</item>
         <item>Loaded text</item>
         <item>RSS</item>
+        <item>Custom letters</item>
     </string-array>
 
     <string-array name="text_generator_labels_2">
@@ -94,6 +95,18 @@
         <item>Paddles</item>
         <item>Straight key</item>
     </string-array>
+
+    <string-array name="darkmode_entries">
+        <item>System</item>
+        <item>Bright</item>
+        <item>Dark</item>
+    </string-array>
+
+    <string-array name="onscreen_paddle_type_labels">
+        <item>Small</item>
+        <item>Large</item>
+    </string-array>
+
 
     <string name="toast_text_level_up">You leveled up %1$s to %2$d</string>
     <string name="toast_text_level_down">You leveled down %1$s to %2$d</string>
@@ -287,5 +300,7 @@
     <string name="morse_input">Morse input</string>
     <string name="morse_input_summary">Configure how you want to send Morse code</string>
     <string name="paddle_mode">Paddle mode</string>
+    <string name="darkmode_title">Design</string>
+    <string name="onscreen_paddle_type">On-screen paddle type</string>
 
 </resources>

@@ -1,20 +1,20 @@
 /****************************************************************************
-    Dahdidahdit - an Android Morse trainer
-    Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
+ Dahdidahdit - an Android Morse trainer
+ Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-****************************************************************************/
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
 
 package com.paddlesandbugs.dahdidahdit.selfdefined;
 
@@ -23,8 +23,6 @@ import android.content.SharedPreferences;
 
 import androidx.preference.PreferenceManager;
 
-import java.util.Set;
-
 import com.paddlesandbugs.dahdidahdit.Config;
 import com.paddlesandbugs.dahdidahdit.Distribution;
 import com.paddlesandbugs.dahdidahdit.MorseCode;
@@ -32,19 +30,20 @@ import com.paddlesandbugs.dahdidahdit.base.LearningStrategy;
 import com.paddlesandbugs.dahdidahdit.base.MainActivity;
 import com.paddlesandbugs.dahdidahdit.copytrainer.TextGeneratorFactory;
 import com.paddlesandbugs.dahdidahdit.params.Field;
-import com.paddlesandbugs.dahdidahdit.params.GeneralFadedParameters;
 import com.paddlesandbugs.dahdidahdit.sound.MorsePlayer;
-import com.paddlesandbugs.dahdidahdit.text.ListRandomWordTextGenerator;
-import com.paddlesandbugs.dahdidahdit.text.PrefsBasedTextGeneratorFactory;
 import com.paddlesandbugs.dahdidahdit.text.CallsignGenerator;
 import com.paddlesandbugs.dahdidahdit.text.CustomTextGenerator;
+import com.paddlesandbugs.dahdidahdit.text.ListRandomWordTextGenerator;
 import com.paddlesandbugs.dahdidahdit.text.LoadedTextGenerator;
 import com.paddlesandbugs.dahdidahdit.text.QCodeTextGenerator;
 import com.paddlesandbugs.dahdidahdit.text.QSOTextGenerator;
+import com.paddlesandbugs.dahdidahdit.text.RandomTextGenerator;
 import com.paddlesandbugs.dahdidahdit.text.RssTextGenerator;
 import com.paddlesandbugs.dahdidahdit.text.StaticTextGenerator;
 import com.paddlesandbugs.dahdidahdit.text.TextGenerator;
 import com.paddlesandbugs.dahdidahdit.text.VvvKaArDecorator;
+
+import java.util.Set;
 
 public class NullLearningStrategy implements LearningStrategy {
 
@@ -123,6 +122,11 @@ public class NullLearningStrategy implements LearningStrategy {
                 String provAuth = prefs.getString("selfdefined_rss_provider", "");
                 String feedId = prefs.getString("selfdefined_rss_feed", "");
                 tg = new RssTextGenerator(context, provAuth, feedId, MainActivity.stopwords);
+                break;
+            }
+            case "randomfrompreferences": {
+                final String text = p.getText();
+                tg = RandomTextGenerator.createWeightedRandomTextGenerator(text);
                 break;
             }
             default: {

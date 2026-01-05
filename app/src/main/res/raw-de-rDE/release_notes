@@ -1,3 +1,8 @@
+=1.17.0
+* Auswahl des Themes (dunkel, hell, System)
+* Auswahl der Größe des Bildschirm-Paddles (groß, normal)
+* Pauken Benutzer-definierter Zeichen im Selbstdefinierten Trainer.
+
 =1.16.0
 * Farbe vom Status-Bar in neueren Android-Versionen gefixt.
 * Workaround für Audio-Aussetzer am Ende von Playbacks

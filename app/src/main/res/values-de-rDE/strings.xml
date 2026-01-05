@@ -56,6 +56,7 @@
         <item>Eigener Text</item>
         <item>Geladener Text</item>
         <item>RSS</item>
+        <item>Eigene Zeichen</item>
     </string-array>
 
     <string-array name="text_generator_labels_2">
@@ -69,6 +70,18 @@
         <item>Paddles</item>
         <item>Handtaste</item>
     </string-array>
+
+    <string-array name="darkmode_entries">
+        <item>System</item>
+        <item>Hell</item>
+        <item>Dunkel</item>
+    </string-array>
+
+    <string-array name="onscreen_paddle_type_labels">
+        <item>Klein</item>
+        <item>Groß</item>
+    </string-array>
+
 
     <string name="root_version">Version</string>
     <string name="root_about">Über</string>
@@ -261,5 +274,7 @@
     <string name="morse_input">Morse-Eingabe</string>
     <string name="morse_input_summary">Einstellungen für die Eingabe von Morse-Code</string>
     <string name="paddle_mode">Paddle-Modus</string>
+    <string name="darkmode_title">Design</string>
+    <string name="onscreen_paddle_type">Art des Bildschirm-Paddles</string>
 
 </resources>

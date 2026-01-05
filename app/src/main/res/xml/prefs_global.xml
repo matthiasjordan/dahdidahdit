@@ -61,4 +61,14 @@
         app:summary="@string/workarounds_summary"
         />
 
+    <ListPreference
+        android:defaultValue="system"
+        android:entries="@array/darkmode_entries"
+        android:entryValues="@array/darkmode_values"
+        android:key="darkmode"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/darkmode_title"
+        app:useSimpleSummaryProvider="true" />
+
 </PreferenceScreen>

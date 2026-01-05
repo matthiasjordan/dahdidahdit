@@ -40,7 +40,6 @@ android {
 
     defaultConfig {
         applicationId "com.paddlesandbugs.dahdidahdit"
-        compileSdk 36
         minSdkVersion 24
         targetSdkVersion 36
         versionCode appVersionCode
@@ -86,6 +85,10 @@ android {
     }
 
     namespace 'com.paddlesandbugs.dahdidahdit'
+
+    compileSdk {
+        version = release(36)
+    }
 }
 
 
@@ -96,14 +99,14 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'androidx.preference:preference:1.2.1'
     implementation 'androidx.test:monitor:1.8.0'
+    implementation "androidx.activity:activity:1.12.2"
 
-    def room_version = '2.8.3'
-
+    def room_version = '2.8.4'
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:5.20.0'
+    testImplementation 'org.mockito:mockito-core:5.21.0'
 }
 
 

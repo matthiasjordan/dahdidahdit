@@ -37,6 +37,7 @@
         <item>frompreferences</item>
         <item>loaded</item>
         <item>rss</item>
+        <item>randomfrompreferences</item>
     </string-array>
 
     <string-array name="text_generator_values_2">
@@ -75,6 +76,16 @@
         <item>iambicb</item>
     </string-array>
 
+    <string-array name="darkmode_values">
+        <item>system</item>
+        <item>bright</item>
+        <item>dark</item>
+    </string-array>
+
+    <string-array name="onscreen_paddle_type_values">
+        <item>small</item>
+        <item>large</item>
+    </string-array>
 
 
 </resources>

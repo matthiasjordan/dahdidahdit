@@ -43,4 +43,15 @@
         app:summary="@string/keycodes_summary"
         />
 
+    <ListPreference
+        android:key="onscreen_paddle_type"
+        android:title="@string/onscreen_paddle_type"
+        android:defaultValue="small"
+        android:entries="@array/onscreen_paddle_type_labels"
+        android:entryValues="@array/onscreen_paddle_type_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        app:useSimpleSummaryProvider="true" />
+
+
 </PreferenceScreen>

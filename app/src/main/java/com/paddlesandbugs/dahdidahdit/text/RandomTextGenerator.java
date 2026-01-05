@@ -25,6 +25,7 @@ import com.paddlesandbugs.dahdidahdit.copytrainer.CopyTrainer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Set;
@@ -52,6 +53,20 @@ public class RandomTextGenerator extends AbstractTextGenerator implements TextGe
     }
 
 
+    public static TextGenerator createWeightedRandomTextGenerator(String text) {
+        if (text == null || text.isBlank()) {
+            return new StaticTextGenerator("no text available");
+        }
+        Map<MorseCode.CharacterData, Integer> map = TextUtils.count(text);
+        Distribution<MorseCode.CharacterData> d = new Distribution<>();
+        for (Map.Entry<MorseCode.CharacterData, Integer> e : map.entrySet()) {
+            d.setWeight(e.getKey(), e.getValue());
+        }
+
+        return new RandomTextGenerator(d.compile());
+    }
+
+
     public static RandomTextGenerator createUniformRandomTextGenerator() {
         Distribution<MorseCode.CharacterData> d = createUniformDistribution(MorseCode.getInstance().letters, MorseCode.getInstance().numbers);
         return new RandomTextGenerator(d.compile());
@@ -66,8 +81,6 @@ public class RandomTextGenerator extends AbstractTextGenerator implements TextGe
         }
         return new Distribution<>(events);
     }
-
-
 
 
     public static Distribution<MorseCode.CharacterData> createKochTextDistribution(CopyTrainer trainer, int kochLevel) {
