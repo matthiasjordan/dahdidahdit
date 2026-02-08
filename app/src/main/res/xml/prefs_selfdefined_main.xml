@@ -2,18 +2,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ListPreference
+        android:key="selfdefined_text_generator"
         android:defaultValue="random"
         android:entries="@array/text_generator_labels"
         android:entryValues="@array/text_generator_values"
-        android:key="selfdefined_text_generator"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
         android:title="@string/text_generator_type"
         app:useSimpleSummaryProvider="true" />
 
     <com.paddlesandbugs.dahdidahdit.settings.NumericPreference
-        android:defaultValue="50"
         android:key="selfdefined_text_first_n"
+        app:isPreferenceVisible="false"
+        android:defaultValue="50"
         android:title="@string/selfdefined_text_first_n"
         android:max="2000"
         app:min="1"
@@ -22,6 +23,7 @@
 
     <ListPreference
         android:key="selfdefined_rss_provider"
+        app:isPreferenceVisible="false"
         android:defaultValue=""
         android:entries="@array/rss_provider_labels"
         android:entryValues="@array/rss_provider_values"
@@ -32,6 +34,7 @@
 
     <ListPreference
         android:key="selfdefined_rss_feed"
+        app:isPreferenceVisible="false"
         android:defaultValue=""
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
@@ -40,21 +43,41 @@
 
 
     <Preference
-        app:fragment="com.paddlesandbugs.dahdidahdit.settings.SelfdefinedFragmentCurrent"
         app:key="selfdefined_from"
+        app:fragment="com.paddlesandbugs.dahdidahdit.settings.SelfdefinedFragmentCurrent"
+        app:isPreferenceVisible="false"
         app:summary="@string/selfdefined_summary_current"
         app:title="@string/settings_selfdefined_header_current" />
 
 
     <ListPreference
+        android:key="selfdefined_session_duration_S"
+        app:isPreferenceVisible="false"
         android:defaultValue="60"
         android:entries="@array/session_duration_labels"
         android:entryValues="@array/session_duration_values"
-        android:key="selfdefined_session_duration_S"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
         android:title="@string/session_length_S"
         app:useSimpleSummaryProvider="true" />
+
+    <EditTextPreference
+        android:key="selfdefined_text"
+        android:defaultValue="vvv&lt;ka&gt;"
+        app:isPreferenceVisible="false"
+        android:selectAllOnFocus="true"
+        android:singleLine="false"
+        android:title="@string/custom_text"
+        app:useSimpleSummaryProvider="true" />
+
+    <Preference
+        android:key="selfdefined_text_chooser"
+        app:isPreferenceVisible="false"
+        android:selectAllOnFocus="true"
+        android:singleLine="false"
+        android:title="@string/load_text"
+        app:useSimpleSummaryProvider="true" />
+
 
     <SeekBarPreference
         android:defaultValue="3"
@@ -83,20 +106,6 @@
         app:summary="@string/selfdefined_qlf_description"
         />
 
-    <EditTextPreference
-        android:defaultValue="vvv&lt;ka&gt;"
-        android:key="selfdefined_text"
-        android:selectAllOnFocus="true"
-        android:singleLine="false"
-        android:title="@string/custom_text"
-        app:useSimpleSummaryProvider="true" />
-
-    <Preference
-        android:key="selfdefined_text_chooser"
-        android:selectAllOnFocus="true"
-        android:singleLine="false"
-        android:title="@string/load_text"
-        app:useSimpleSummaryProvider="true" />
 
 
 </PreferenceScreen>

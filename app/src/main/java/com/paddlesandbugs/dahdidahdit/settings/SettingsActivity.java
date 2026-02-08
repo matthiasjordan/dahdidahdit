@@ -45,6 +45,8 @@ import com.paddlesandbugs.dahdidahdit.base.NightMode;
 import com.paddlesandbugs.dahdidahdit.headcopy.HeadcopyTrainer;
 import com.paddlesandbugs.dahdidahdit.selfdefined.SelfdefinedTrainer;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
@@ -92,22 +94,88 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
         final Preference.OnPreferenceChangeListener textGenChangeListener = new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                Preference textListSeekBar = context.findPreference(numPrefKey);
-                if (textListSeekBar != null) {
-                    boolean isWordListActive = "2000words".equals(newValue);
-                    textListSeekBar.setVisible(isWordListActive);
+                if (!"selfdefined_text_generator".equals(preference.getKey())) {
+                    return true;
                 }
 
-                ListPreference providerSelection = context.findPreference("selfdefined_rss_provider");
-                if (providerSelection != null) {
-                    boolean isRssListActive = "rss".equals(newValue);
-                    providerSelection.setVisible(isRssListActive);
-                    ListPreference feedSelection = context.findPreference("selfdefined_rss_feed");
-                    feedSelection.setVisible(isRssListActive);
+                if (!(newValue instanceof String)) {
+                    return true;
                 }
+
+                switch ((String) newValue) {
+                    case "random":{
+                        show();
+                        break;
+                    }
+                    case "callsigns":{
+                        show();
+                        break;
+                    }
+                    case "qcodes":{
+                        break;
+                    }
+                    case "2000words":{
+                        show("selfdefined_text_first_n");
+                        break;
+                    }
+                    case "qsos":{
+                        show();
+                        break;
+                    }
+                    case "frompreferences":{
+                        show("selfdefined_text");
+                        break;
+                    }
+                    case "loaded":{
+                        show("selfdefined_text_chooser");
+                        break;
+                    }
+                    case "rss":{
+                        show("selfdefined_rss_provider", "selfdefined_rss_feed");
+                        break;
+                    }
+                    case "randomfrompreferences":{
+                        show("selfdefined_text");
+                        break;
+                    }
+                    default: {
+                        show();
+                        break;
+                    }
+                }
+
+
+//                ListPreference providerSelection = context.findPreference("selfdefined_rss_provider");
+//                if (providerSelection != null) {
+//                    boolean isRssListActive = "rss".equals(newValue);
+//                    providerSelection.setVisible(isRssListActive);
+//                    ListPreference feedSelection = context.findPreference("selfdefined_rss_feed");
+//                    feedSelection.setVisible(isRssListActive);
+//                }
 
                 return true;
             }
+
+
+            private void show(String ... ids) {
+                HashSet<String> idSet = new HashSet<>();
+                Arrays.stream(ids).forEach(idSet::add);
+                setVisible("selfdefined_text_first_n", idSet);
+                setVisible("selfdefined_rss_provider", idSet);
+                setVisible("selfdefined_rss_feed", idSet);
+                setVisible("selfdefined_from", idSet);
+                setVisible("selfdefined_session_duration_S", idSet);
+                setVisible("selfdefined_text", idSet);
+                setVisible("selfdefined_text_chooser", idSet);
+            }
+
+            private void setVisible(String id, HashSet<String> visibleSet) {
+                Preference pref = context.findPreference(id);
+                if (pref != null) {
+                    pref.setVisible(visibleSet.contains(id));
+                }
+            }
+
         };
 
         ListPreference textPref = context.findPreference(listPrefKey);
