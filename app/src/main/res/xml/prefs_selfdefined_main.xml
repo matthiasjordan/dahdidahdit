@@ -70,6 +70,15 @@
         android:title="@string/custom_text"
         app:useSimpleSummaryProvider="true" />
 
+    <EditTextPreference
+        android:key="selfdefined_letters"
+        android:defaultValue=""
+        app:isPreferenceVisible="false"
+        android:selectAllOnFocus="true"
+        android:singleLine="false"
+        android:title="@string/custom_letters"
+        app:useSimpleSummaryProvider="true" />
+
     <Preference
         android:key="selfdefined_text_chooser"
         app:isPreferenceVisible="false"

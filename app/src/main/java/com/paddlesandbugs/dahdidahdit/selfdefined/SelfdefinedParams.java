@@ -1,20 +1,20 @@
 /****************************************************************************
-    Dahdidahdit - an Android Morse trainer
-    Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
+ Dahdidahdit - an Android Morse trainer
+ Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-****************************************************************************/
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
 
 package com.paddlesandbugs.dahdidahdit.selfdefined;
 
@@ -37,6 +37,8 @@ public class SelfdefinedParams extends GeneralParameters {
     private String textGenerator;
 
     private String text;
+
+    private String letters;
 
     private boolean chirp;
 
@@ -72,6 +74,11 @@ public class SelfdefinedParams extends GeneralParameters {
     }
 
 
+    public String getLetters() {
+        return letters;
+    }
+
+
     public boolean isChirp() {
         return chirp;
     }
@@ -94,6 +101,7 @@ public class SelfdefinedParams extends GeneralParameters {
 
         textGenerator = sharedPreferences.getString(getSettingsPrefix() + "_text_generator", "random");
         text = sharedPreferences.getString(getSettingsPrefix() + "_text", "vvv<ka>");
+        letters = sharedPreferences.getString(getSettingsPrefix() + "_letters", "");
         chirp = sharedPreferences.getBoolean(getSettingsPrefix() + "_chirp", false);
         qlf = getIntFromList(sharedPreferences, getSettingsPrefix() + "_qlf2", 1);
         wordCount = sharedPreferences.getInt(getSettingsPrefix() + "_text_first_n", 1);

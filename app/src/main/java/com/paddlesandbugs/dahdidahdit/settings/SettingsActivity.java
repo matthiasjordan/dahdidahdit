@@ -129,19 +129,19 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                         break;
                     }
                     case "frompreferences":{
-                        show("selfdefined_text");
+                        show(prefix + "_text");
                         break;
                     }
                     case "loaded":{
-                        show("selfdefined_text_chooser");
+                        show(prefix + "_text_chooser");
                         break;
                     }
                     case "rss":{
-                        show("selfdefined_rss_provider", "selfdefined_rss_feed");
+                        show(prefix + "_rss_provider", prefix + "_rss_feed");
                         break;
                     }
                     case "randomfrompreferences":{
-                        show("selfdefined_text");
+                        show(prefix + "_letters");
                         break;
                     }
                     default: {
@@ -164,6 +164,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                 setVisible(prefix + "_session_duration_S", idSet);
                 setVisible(prefix + "_text", idSet);
                 setVisible(prefix + "_text_chooser", idSet);
+                setVisible(prefix + "_letters", idSet);
             }
 
             private void setVisible(String id, HashSet<String> visibleSet) {
