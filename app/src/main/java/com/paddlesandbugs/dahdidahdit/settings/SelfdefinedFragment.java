@@ -41,7 +41,7 @@ public class SelfdefinedFragment extends AbstractFragmentCallingFragment {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.prefs_selfdefined_main, rootKey);
 
-        SettingsActivity.addWordListChangeListener(this, "selfdefined_text_generator", "selfdefined_text_first_n");
+        SettingsActivity.addWordListChangeListener(this, "selfdefined");
 
         ListPreference providerSelection = findPreference("selfdefined_rss_provider");
         if (providerSelection != null) {

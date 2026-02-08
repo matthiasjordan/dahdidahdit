@@ -100,6 +100,7 @@
     <string name="selfdefined_title">Selbstdefiniert</string>
     <string name="action_relearn_char">Letztes Zeichen erneut lernen</string>
     <string name="custom_text">Eigener Text</string>
+    <string name="custom_letters">Eigene Zeichen</string>
     <string name="load_text">Text laden</string>
     <string name="use_different_dah_frequency">Für dah andere Frequenz benutzen</string>
     <string name="text_generator_qcodes">Q-Gruppen</string>

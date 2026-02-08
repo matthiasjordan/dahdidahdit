@@ -125,7 +125,7 @@ public class NullLearningStrategy implements LearningStrategy {
                 break;
             }
             case "randomfrompreferences": {
-                final String text = p.getText();
+                final String text = p.getLetters();
                 tg = RandomTextGenerator.createWeightedRandomTextGenerator(text);
                 break;
             }
