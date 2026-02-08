@@ -46,13 +46,15 @@ public class SendingTrainerFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.prefs_sendingtrainer_main, rootKey);
 
-        SettingsActivity.addWordListChangeListener(this, "sendingtrainer_text_generator", "sendingtrainer_text_first_n");
+        SettingsActivity.addWordListChangeListener(this, "sendingtrainer");
 
         ListPreference pref = findPreference("sendingtrainer_text_generator");
         if (pref != null) {
+            final Preference.OnPreferenceChangeListener currentListener = pref.getOnPreferenceChangeListener();
             pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
+                    currentListener.onPreferenceChange(preference, newValue);
                     updateKochOnly(newValue);
                     return true;
                 }

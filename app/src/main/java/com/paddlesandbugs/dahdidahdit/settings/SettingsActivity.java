@@ -90,11 +90,16 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     }
 
 
-    public static void addWordListChangeListener(PreferenceFragmentCompat context, String listPrefKey, String numPrefKey) {
+    public static void addWordListChangeListener(PreferenceFragmentCompat context, String listPrefKeyPrefix) {
+        final String prefix = listPrefKeyPrefix;
+        final String listPrefKey = listPrefKeyPrefix + "_text_generator";
+        final String numPrefKey = listPrefKeyPrefix + "_text_first_n";
+
         final Preference.OnPreferenceChangeListener textGenChangeListener = new Preference.OnPreferenceChangeListener() {
+
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                if (!"selfdefined_text_generator".equals(preference.getKey())) {
+                if (!listPrefKey.equals(preference.getKey())) {
                     return true;
                 }
 
@@ -112,10 +117,11 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                         break;
                     }
                     case "qcodes":{
+                        show();
                         break;
                     }
                     case "2000words":{
-                        show("selfdefined_text_first_n");
+                        show(numPrefKey);
                         break;
                     }
                     case "qsos":{
@@ -144,15 +150,6 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                     }
                 }
 
-
-//                ListPreference providerSelection = context.findPreference("selfdefined_rss_provider");
-//                if (providerSelection != null) {
-//                    boolean isRssListActive = "rss".equals(newValue);
-//                    providerSelection.setVisible(isRssListActive);
-//                    ListPreference feedSelection = context.findPreference("selfdefined_rss_feed");
-//                    feedSelection.setVisible(isRssListActive);
-//                }
-
                 return true;
             }
 
@@ -160,13 +157,13 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
             private void show(String ... ids) {
                 HashSet<String> idSet = new HashSet<>();
                 Arrays.stream(ids).forEach(idSet::add);
-                setVisible("selfdefined_text_first_n", idSet);
-                setVisible("selfdefined_rss_provider", idSet);
-                setVisible("selfdefined_rss_feed", idSet);
-                setVisible("selfdefined_from", idSet);
-                setVisible("selfdefined_session_duration_S", idSet);
-                setVisible("selfdefined_text", idSet);
-                setVisible("selfdefined_text_chooser", idSet);
+                setVisible(prefix + "_text_first_n", idSet);
+                setVisible(prefix + "_rss_provider", idSet);
+                setVisible(prefix + "_rss_feed", idSet);
+                setVisible(prefix + "_from", idSet);
+                setVisible(prefix + "_session_duration_S", idSet);
+                setVisible(prefix + "_text", idSet);
+                setVisible(prefix + "_text_chooser", idSet);
             }
 
             private void setVisible(String id, HashSet<String> visibleSet) {
