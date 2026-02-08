@@ -25,6 +25,7 @@
             android:id="@+id/buttonLeft"
             android:layout_width="120dp"
             android:layout_height="120dp"
+            android:focusable="false"
             android:text="L"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/buttonRight"
@@ -35,6 +36,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginStart="20dp"
+            android:focusable="false"
             android:text="R"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/buttonLeft"
@@ -60,6 +62,7 @@
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:scaleType="fitCenter"
+            android:focusable="false"
             android:text="-"
             />
 
@@ -78,6 +81,7 @@
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:scaleType="fitCenter"
+            android:focusable="false"
             android:text="+"
             />
 
