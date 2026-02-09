@@ -26,11 +26,11 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceManager;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.paddlesandbugs.dahdidahdit.Utils;
 import com.paddlesandbugs.dahdidahdit.text.RssTextGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Keep
 class RSSProviderChangeListener implements Preference.OnPreferenceChangeListener {
@@ -86,12 +86,15 @@ class RSSProviderChangeListener implements Preference.OnPreferenceChangeListener
             final boolean noEntries = entries.length == 0;
             feedSelection.setEntryValues(values);
             feedSelection.setEntries(entries);
-            feedSelection.setSelectable(!noEntries);
             if (noEntries) {
                 feedSelection.setValue(null);
+                feedSelection.setEnabled(false);
+                feedSelection.setSelectable(false);
             } else {
                 String feedId = PreferenceManager.getDefaultSharedPreferences(providerSelection.getContext()).getString("selfdefined_rss_feed", "");
                 feedSelection.setValue(feedId);
+                feedSelection.setEnabled(true);
+                feedSelection.setSelectable(true);
             }
         }
 
