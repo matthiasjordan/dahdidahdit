@@ -42,25 +42,6 @@
         app:useSimpleSummaryProvider="true" />
 
 
-    <Preference
-        app:key="selfdefined_from"
-        app:fragment="com.paddlesandbugs.dahdidahdit.settings.SelfdefinedFragmentCurrent"
-        app:isPreferenceVisible="false"
-        app:summary="@string/selfdefined_summary_current"
-        app:title="@string/settings_selfdefined_header_current" />
-
-
-    <ListPreference
-        android:key="selfdefined_session_duration_S"
-        app:isPreferenceVisible="false"
-        android:defaultValue="60"
-        android:entries="@array/session_duration_labels"
-        android:entryValues="@array/session_duration_values"
-        android:negativeButtonText="@null"
-        android:positiveButtonText="@null"
-        android:title="@string/session_length_S"
-        app:useSimpleSummaryProvider="true" />
-
     <EditTextPreference
         android:key="selfdefined_text"
         android:defaultValue="vvv&lt;ka&gt;"
@@ -87,6 +68,22 @@
         android:title="@string/load_text"
         app:useSimpleSummaryProvider="true" />
 
+    <Preference
+        app:key="selfdefined_from"
+        app:fragment="com.paddlesandbugs.dahdidahdit.settings.SelfdefinedFragmentCurrent"
+        app:summary="@string/selfdefined_summary_current"
+        app:title="@string/settings_selfdefined_header_current" />
+
+
+    <ListPreference
+        android:key="selfdefined_session_duration_S"
+        android:defaultValue="60"
+        android:entries="@array/session_duration_labels"
+        android:entryValues="@array/session_duration_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/session_length_S"
+        app:useSimpleSummaryProvider="true" />
 
     <SeekBarPreference
         android:defaultValue="3"
