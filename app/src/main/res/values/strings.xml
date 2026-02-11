@@ -89,6 +89,7 @@
 
     <string-array name="rss_provider_labels" translatable="false">
         <item>Feeder</item>
+        <item>Feeder (Play)</item>
     </string-array>
 
     <string-array name="morse_key_type_labels">

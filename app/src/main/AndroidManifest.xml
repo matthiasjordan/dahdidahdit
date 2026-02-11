@@ -6,10 +6,12 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
 
     <uses-permission android:name="com.nononsenseapps.feeder.permission.read" />
+    <uses-permission android:name="com.nononsenseapps.feeder.play.permission.read" />
 
     <!-- Needed for API 30+ -->
     <queries>
         <provider android:authorities="com.nononsenseapps.feeder.rssprovider" />
+        <provider android:authorities="com.nononsenseapps.feeder.play.rssprovider" />
     </queries>
 
     <application
