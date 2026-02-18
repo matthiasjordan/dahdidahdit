@@ -52,6 +52,13 @@ public class RssTextGenerator extends AbstractWordTextGenerator {
     static {
         final HashMap<String, String> m = new HashMap<>();
         m.put("com.nononsenseapps.feeder.rssprovider", "com.nononsenseapps.feeder.permission.read");
+        m.put("com.nononsenseapps.feeder.play.rssprovider", "com.nononsenseapps.feeder.play.permission.read");
+        /*
+            If editing this, also edit
+            AndroidManifest.xml
+            settings-arrays.xml
+            strings.xml
+         */
 
         authToPerm = Collections.unmodifiableMap(m);
     }

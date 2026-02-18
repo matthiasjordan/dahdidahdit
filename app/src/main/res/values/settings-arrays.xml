@@ -49,6 +49,7 @@
 
     <string-array name="rss_provider_values">
         <item>com.nononsenseapps.feeder.rssprovider</item>
+        <item>com.nononsenseapps.feeder.play.rssprovider</item>
     </string-array>
 
     <string-array name="paddle_polarity_entries">

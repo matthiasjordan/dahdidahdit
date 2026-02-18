@@ -1,16 +1,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <SeekBarPreference
-        android:key="sendingtrainer_current_wpm"
-        android:defaultValue="@integer/default_value_wpm_sending"
-        android:max="40"
-        android:title="@string/words_per_minute"
-        app:min="10"
-        app:seekBarIncrement="1"
-        app:showSeekBarValue="true"
-        app:useSimpleSummaryProvider="true" />
-
     <ListPreference
         android:key="sendingtrainer_text_generator"
         android:defaultValue="random"
@@ -30,21 +20,15 @@
         app:showSeekBarValue="true"
         app:useSimpleSummaryProvider="true" />
 
-
-    <!--EditTextPreference
-        android:key="sendingtrainer_text"
-        android:defaultValue="vvv&lt;ka&gt;"
-        android:selectAllOnFocus="true"
-        android:singleLine="false"
-        android:title="@string/custom_text"
-        app:useSimpleSummaryProvider="true" /-->
-
-    <!--Preference
-        android:key="sendingtrainer_text_chooser"
-        android:selectAllOnFocus="true"
-        android:singleLine="false"
-        android:title="@string/load_text"
-        app:useSimpleSummaryProvider="true" /-->
+    <SeekBarPreference
+        android:key="sendingtrainer_current_wpm"
+        android:defaultValue="@integer/default_value_wpm_sending"
+        android:max="40"
+        android:title="@string/words_per_minute"
+        app:min="10"
+        app:seekBarIncrement="1"
+        app:showSeekBarValue="true"
+        app:useSimpleSummaryProvider="true" />
 
     <SwitchPreference
         android:key="sendingtrainer_only_koch_chars"

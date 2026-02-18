@@ -89,6 +89,7 @@
 
     <string-array name="rss_provider_labels" translatable="false">
         <item>Feeder</item>
+        <item>Feeder (Play)</item>
     </string-array>
 
     <string-array name="morse_key_type_labels">
@@ -123,6 +124,7 @@
     <string name="selfdefined_title">Custom training</string>
     <string name="action_relearn_char">Re-learn last character</string>
     <string name="custom_text">Custom text</string>
+    <string name="custom_letters">Custom letters</string>
     <string name="load_text">Load text</string>
     <string name="use_different_dah_frequency">Use a different frequency for dah</string>
     <string name="text_generator_qcodes">Q-Codes</string>

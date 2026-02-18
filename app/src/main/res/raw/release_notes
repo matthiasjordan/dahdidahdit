@@ -1,3 +1,9 @@
+=1.18.0
+* Fixed background getting grey in some modes if paddle used (#6)
+* Made custom training settings more user friendly (#32)
+* Fix for app crash when feed list empty
+* Added support for Play version of Feeder
+
 =1.17.0
 * User-selected theme (dark, bright, system)
 * User-selected on-screen paddles (large, normal)

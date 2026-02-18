@@ -45,6 +45,10 @@ import com.paddlesandbugs.dahdidahdit.base.NightMode;
 import com.paddlesandbugs.dahdidahdit.headcopy.HeadcopyTrainer;
 import com.paddlesandbugs.dahdidahdit.selfdefined.SelfdefinedTrainer;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
@@ -88,26 +92,70 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     }
 
 
-    public static void addWordListChangeListener(PreferenceFragmentCompat context, String listPrefKey, String numPrefKey) {
+    public static void addWordListChangeListener(PreferenceFragmentCompat context, String prefix) {
+        final String listPrefKey = prefix + "_text_generator";
+
         final Preference.OnPreferenceChangeListener textGenChangeListener = new Preference.OnPreferenceChangeListener() {
+
+            final Map<String, List<String>> textTypeToVisiblePrefs = Map.of(
+                    "random", List.of(), //
+                    "callsigns", List.of(),//
+                    "qcodes", List.of(), //
+                    "2000words", List.of(prefix + "_text_first_n"), //
+                    "qsos", List.of(), //
+                    "frompreferences", List.of(prefix + "_text"), //
+                    "loaded", List.of(prefix + "_text_chooser"), //
+                    "rss", List.of(prefix + "_rss_provider", prefix + "_rss_feed"), //
+                    "randomfrompreferences", List.of(prefix + "_letters") //
+            );
+
+            final List<String> allPrefs = textTypeToVisiblePrefs.values().stream().reduce(List.of(), this::merge);
+
+
+            private List<String> merge(List<String> a, List<String> b) {
+                List<String> result = new ArrayList<>(a.size() + b.size());
+                result.addAll(a);
+                result.addAll(b);
+                return result;
+            }
+
+
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                Preference textListSeekBar = context.findPreference(numPrefKey);
-                if (textListSeekBar != null) {
-                    boolean isWordListActive = "2000words".equals(newValue);
-                    textListSeekBar.setVisible(isWordListActive);
+                if (!listPrefKey.equals(preference.getKey())) {
+                    return true;
                 }
 
-                ListPreference providerSelection = context.findPreference("selfdefined_rss_provider");
-                if (providerSelection != null) {
-                    boolean isRssListActive = "rss".equals(newValue);
-                    providerSelection.setVisible(isRssListActive);
-                    ListPreference feedSelection = context.findPreference("selfdefined_rss_feed");
-                    feedSelection.setVisible(isRssListActive);
+                if (!(newValue instanceof String)) {
+                    return true;
                 }
+
+                List<String> visiblePrefs = textTypeToVisiblePrefs.get((String) newValue);
+                if (visiblePrefs == null) {
+                    visiblePrefs = List.of();
+                }
+
+                show(visiblePrefs);
 
                 return true;
             }
+
+
+            private void show(List<String> visiblePrefIds) {
+                HashSet<String> visiblePrefIdSet = new HashSet<>(visiblePrefIds);
+                for (String prefKey : allPrefs) {
+                    setVisible(prefKey, visiblePrefIdSet);
+                }
+            }
+
+
+            private void setVisible(String prefId, HashSet<String> visiblePrefIdSet) {
+                Preference pref = context.findPreference(prefId);
+                if (pref != null) {
+                    pref.setVisible(visiblePrefIdSet.contains(prefId));
+                }
+            }
+
         };
 
         ListPreference textPref = context.findPreference(listPrefKey);
