@@ -1,0 +1,4 @@
+• Fixed background getting grey in some modes if paddle used (#6)
+• Made custom training settings more user friendly (#32)
+• Fix for app crash when feed list empty
+• Added support for Play version of Feeder

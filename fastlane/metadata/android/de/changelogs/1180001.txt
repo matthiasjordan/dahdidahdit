@@ -1,0 +1,4 @@
+• Fix für grauen Hintergrund in manchen Modi, wenn externe Paddles benutzt wurden (#6)
+• Einstellungen für selbstdefiniertes Training sind nun benutzerfreundlicher (#32)
+• Fix für App-Crash bei Tap auf leere Feed-Liste.
+• Support für die Play-Version von Feeder hinzugefügt.
