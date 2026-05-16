@@ -1,20 +1,20 @@
 /****************************************************************************
-    Dahdidahdit - an Android Morse trainer
-    Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
+ Dahdidahdit - an Android Morse trainer
+ Copyright (C) 2021-2025 Matthias Jordan <matthias@paddlesandbugs.com>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-****************************************************************************/
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ ****************************************************************************/
 
 package com.paddlesandbugs.dahdidahdit.onboarding;
 
@@ -27,16 +27,19 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 import com.paddlesandbugs.dahdidahdit.Config;
 import com.paddlesandbugs.dahdidahdit.params.GeneralFadedParameters;
 import com.paddlesandbugs.dahdidahdit.sound.MorsePlayer;
 import com.paddlesandbugs.dahdidahdit.text.StaticTextGenerator;
 
+import java.lang.ref.WeakReference;
+import java.util.concurrent.atomic.AtomicReference;
+
 public class OnboardingUtils {
 
     public static boolean playSound = false;
+
+    private static WeakReference<MorsePlayer> playerReference;
 
 
     public static View createSeekBar(Context context, OnboardingActivity.Consumer consumer, int defaultWPM, AtomicReference<OnboardingActivity.Consumer> wpmf, OnboardingActivity.Values values) {
@@ -108,8 +111,8 @@ public class OnboardingUtils {
         final int min = 10;
         final int max = 40;
 
-        float f = (float) progress / 100.0f;
-        int wpm = min + (int) Math.round((float) (max - min) * f);
+        final float f = (float) progress / 100.0f;
+        final int wpm = min + (int) Math.round((float) (max - min) * f);
         return wpm;
     }
 
@@ -118,7 +121,7 @@ public class OnboardingUtils {
         final int min = 10;
         final int max = 40;
 
-        float f = (float) (wpm - min) / (float) (max - min);
+        final float f = (float) (wpm - min) / (float) (max - min);
         return (int) Math.round(100.0f * f);
     }
 
@@ -126,6 +129,15 @@ public class OnboardingUtils {
     public static void playSound(Context context, OnboardingActivity.Values values) {
         if (!playSound) {
             return;
+        }
+
+        if (playerReference != null) {
+            Log.d("ONBOARDING", "Stopping player");
+            MorsePlayer p = playerReference.get();
+            if (p != null) {
+                p.stop();
+                p.await();
+            }
         }
 
         int freq = Config.parseFrequency(values.frequency, 600);
@@ -147,7 +159,9 @@ public class OnboardingUtils {
         config.setStartPauseMs(context, 400);
         MorsePlayer p = new MorsePlayer(config);
         p.play();
+        playerReference = new WeakReference<>(p);
     }
+
 
 
 }
