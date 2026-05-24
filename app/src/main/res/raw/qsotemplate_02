@@ -1,0 +1,5 @@
+%decalls% test
+%tocall% k
+%tocall% 599 %decounter% k
+%decall% 599 %tocounter%
+tu
