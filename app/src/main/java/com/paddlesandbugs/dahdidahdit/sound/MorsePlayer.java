@@ -32,7 +32,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Semaphore;
 
 /**
- * {@link MorsePlayer} plays Morse code based on a {@link TextGenerator}.
+ * {@link MorsePlayer} plays Morse code based on a {@link MorseGenerator}.
  * <p>
  * Clients have to call {@link MorsePlayer#close()} to stop and free the player thread.
  */
@@ -135,6 +135,9 @@ public class MorsePlayer implements MorsePlayerI {
     }
 
 
+    /**
+     * Start playing.
+     */
     public void play() {
         if (getMode() == Mode.STOPPED) {
             startPlayerThread();
@@ -146,6 +149,9 @@ public class MorsePlayer implements MorsePlayerI {
     }
 
 
+    /**
+     * Wait until player is done playing.
+     */
     public void await() {
         if (p != null) {
             try {
@@ -158,8 +164,9 @@ public class MorsePlayer implements MorsePlayerI {
 
 
     /**
-     *
+     * Pause playing.
      */
+    @Override
     public void pause() {
         if (p != null) {
             p.pause();
@@ -167,6 +174,10 @@ public class MorsePlayer implements MorsePlayerI {
     }
 
 
+    /**
+     * Stop playing.
+     */
+    @Override
     public void stop() {
         if (p != null) {
             p.stop();
@@ -174,6 +185,9 @@ public class MorsePlayer implements MorsePlayerI {
     }
 
 
+    /**
+     * Remove callbacks and then stop playing,
+     */
     @Override
     public void close() {
         if (p != null) {
@@ -306,15 +320,17 @@ public class MorsePlayer implements MorsePlayerI {
 
             playAll(sample, player);
 
-            int msPlayed = sample.length * 1000 / SAMPLE_RATE;
+            final int msPlayed = sample.length * 1000 / SAMPLE_RATE;
             return msPlayed;
         }
 
 
         private void playAll(short[] sample, AudioTrack player) {
+            final int defaultChunkLen = SAMPLE_RATE / 5;
             int i = 0;
-            while (i < sample.length) {
-                int written = player.write(sample, i, (sample.length - i));
+            while (i < sample.length && (mode == Mode.PLAYING)) {
+                final int chunkLen = Math.min((sample.length - i), defaultChunkLen);
+                int written = player.write(sample, i, chunkLen);
                 i += written;
             }
         }

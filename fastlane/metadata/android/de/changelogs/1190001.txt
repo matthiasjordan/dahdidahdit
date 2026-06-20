@@ -1,0 +1,2 @@
+• Sehr niedrige Werte für Wortlänge, WPM und effektive WPM sind nun zugelassen. (#35)
+• Der QSO-Generator kann jetzt auch POTA-QSOs generieren. (#37)

@@ -6,7 +6,7 @@
         android:key="selfdefined_current_wpm"
         android:max="40"
         android:title="@string/words_per_minute"
-        app:min="10"
+        app:min="1"
         app:seekBarIncrement="1"
         app:showSeekBarValue="true"
         app:useSimpleSummaryProvider="true" />
@@ -16,7 +16,7 @@
         android:key="selfdefined_current_effwpm"
         android:max="40"
         android:title="@string/eff_words_per_minute"
-        app:min="10"
+        app:min="1"
         app:seekBarIncrement="1"
         app:showSeekBarValue="true"
         app:useSimpleSummaryProvider="true" />
@@ -26,7 +26,7 @@
         android:key="selfdefined_current_wordlength_max"
         android:max="12"
         android:title="@string/wordlength_max"
-        app:min="3"
+        app:min="1"
         app:seekBarIncrement="1"
         app:showSeekBarValue="true"
         app:useSimpleSummaryProvider="true" />

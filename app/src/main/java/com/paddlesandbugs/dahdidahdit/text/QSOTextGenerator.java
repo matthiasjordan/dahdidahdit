@@ -20,12 +20,14 @@ package com.paddlesandbugs.dahdidahdit.text;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.paddlesandbugs.dahdidahdit.MorseCode;
 import com.paddlesandbugs.dahdidahdit.R;
 import com.paddlesandbugs.dahdidahdit.Utils;
 import com.paddlesandbugs.dahdidahdit.base.MainActivity;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,25 +39,7 @@ import java.util.Random;
  */
 public class QSOTextGenerator extends AbstractTextGenerator {
 
-
-    private static final int WORDBREAKS_AFTER_PROSIGN = 2;
-
-    private final List<String> templates = Arrays.asList( //
-            "%cq% de %decalls% <ar>  " //
-                    + "%decall% de %tocall% <kn>  " //
-                    + "%tocall% de %decall% %daytime% es %tkscall% = ur rst %torsts% = my name %denames% = qth %deqth% = hw cpi? %tocall% de %decall% <kn>  " //
-                    + "%decall% de %tocall% %totksrprt% = ur rst %dersts% = my name %tonames% = qth %toqth% %decall% de %tocall% <kn>  " //
-                    + "%tocall% de %decall% %der% = %detksrprt% = ant %deant% = tx %detx% = %dewx% = will qsl via buro = pls ur qsl = tks qso 73 es %debye% = %tocall% de %decall% k  " //
-                    + "%decall% de %tocall% %tor% = tx %totx% ant %toant% = my qsl ok via buro = 73 es tks fer qso %tobye% %dename% %decall% de %tocall% sk ", //
-
-            "%decalls% test   " //
-                    + "%tocall% k  " //
-                    + "%tocall% 599 %decounter% k  " //
-                    + "%decall% 599 %tocounter%  " //
-                    + "tu "
-
-    );
-
+    private final List<String> templates;
 
     private final CallsignGenerator callsigns;
 
@@ -65,10 +49,9 @@ public class QSOTextGenerator extends AbstractTextGenerator {
 
     private final Map<String, String> values = new HashMap<>();
 
-    private int pauses = 0;
-
 
     public QSOTextGenerator(Context context) {
+        templates = loadTemplates(context);
         callsigns = new CallsignGenerator(context, MainActivity.stopwords);
 
         fillValues();
@@ -119,11 +102,13 @@ public class QSOTextGenerator extends AbstractTextGenerator {
         setValue("detx", tx());
         setValue("dewx", wx());
         setValue("debye", oneOf("cuagn", "cu"));
+        setValue("deditdit", oneOf("", "e e"));
 
         setValue("tor", Utils.repeat("r", randomInt(1, 3)));
         setValue("toant", ant());
         setValue("totx", tx());
         setValue("tobye", oneOf("cuagn", "cu"));
+        setValue("toditdit", oneOf("", "e e"));
     }
 
 
@@ -134,7 +119,7 @@ public class QSOTextGenerator extends AbstractTextGenerator {
 
     private String wx() {
         String mod = oneOf("", "light ", "heavy ");
-        final String w = oneOf(mod + "thunderstorm", mod + " rain", "sunshine", "cloudy");
+        final String w = oneOf(mod + "thunderstorm", mod + " rain", "sunshine", "clouds");
         return oneOf("", "wx " + w);
     }
 
@@ -147,13 +132,16 @@ public class QSOTextGenerator extends AbstractTextGenerator {
 
     private String ant() {
         int m = randomInt(2, 15);
-        return oneOf("dipole", "inv v", "yagi", "zepp", "efhw") + " at " + m + " m";
+        final String ant = oneOf("dipole", "inv v", "yagi", "zepp", "efhw", "hf yagi", "rnd wire", "long wire");
+        final String atM = oneOf("", " at " + m + " m");
+        return ant + atM;
     }
 
 
     private String tksrprt() {
         return oneOf("tks rprt", "tks fer rprt", "tks fer nice rprt", "tks fer ur rprt");
     }
+
 
     private Op op() {
         return oneOf( //
@@ -259,28 +247,33 @@ public class QSOTextGenerator extends AbstractTextGenerator {
 
     @Override
     public TextPart next() {
-        if (pauses > 0) {
-            pauses -= 1;
-            return new TextPart(MorseCode.WORDBREAK);
-        }
-
         MorseCode.CharacterData cd = qso.pop();
-
-        if (cd == MorseCode.WORDBREAK) {
-            while ((qso.size() != 0) && (qso.get(0) == MorseCode.WORDBREAK)) {
-                // Skip wordbreaks
-                qso.pop();
-            }
-        } else if (cd.is(MorseCode.PROSIGN)) {
-            this.pauses = WORDBREAKS_AFTER_PROSIGN;
-        }
-
         return new TextPart(cd);
     }
+
+
+    private static List<String> loadTemplates(Context context) {
+        ArrayList<String> templates = new ArrayList<>();
+        templates.add(loadTemplate(context, R.raw.qsotemplate_01));
+        templates.add(loadTemplate(context, R.raw.qsotemplate_02));
+        templates.add(loadTemplate(context, R.raw.qsotemplate_03));
+        return templates;
+    }
+
+
+    @NonNull
+    private static String loadTemplate(Context context, int qsotemplate01) {
+        String raw = Utils.toString(context, qsotemplate01);
+        raw = raw.trim();
+        raw = raw.replaceAll("\n", "  "); // Insert short break after exchange
+        return raw;
+    }
+
 
     private static class Op {
         private String name;
         private String qth;
+
 
         public static Op as(String name, String qth) {
             final Op op = new Op();
@@ -289,6 +282,7 @@ public class QSOTextGenerator extends AbstractTextGenerator {
             return op;
         }
 
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -296,6 +290,7 @@ public class QSOTextGenerator extends AbstractTextGenerator {
             Op op = (Op) o;
             return Objects.equals(name, op.name) && Objects.equals(qth, op.qth);
         }
+
 
         @Override
         public int hashCode() {

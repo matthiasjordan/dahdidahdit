@@ -6,7 +6,7 @@
         android:key="headcopy_current_wpm"
         android:max="40"
         android:title="@string/words_per_minute"
-        app:min="10"
+        app:min="1"
         app:seekBarIncrement="1"
         app:showSeekBarValue="true"
         app:useSimpleSummaryProvider="true" />
@@ -16,7 +16,7 @@
         android:key="headcopy_current_effwpm"
         android:max="40"
         android:title="@string/eff_words_per_minute"
-        app:min="10"
+        app:min="1"
         app:seekBarIncrement="1"
         app:showSeekBarValue="true"
         app:useSimpleSummaryProvider="true" />

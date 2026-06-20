@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import com.paddlesandbugs.dahdidahdit.MorseCode;
+import com.paddlesandbugs.dahdidahdit.R;
 import com.paddlesandbugs.dahdidahdit.TestingUtils;
 
 import org.junit.Assert;
@@ -40,20 +41,27 @@ public class QSOTextGeneratorTest extends AbstractTextGeneratorTest {
 
     private Context context;
 
+
     @Before
     public void setup() {
         context = Mockito.mock(Context.class);
         Resources resources = Mockito.mock(Resources.class);
         Mockito.when(context.getResources()).thenReturn(resources);
-        Mockito.when(resources.openRawResource(Mockito.anyInt())).then(TestingUtils.fakeRawResourceMulti("ab\nba-bc\n"));
+        Mockito.when(resources.openRawResource(R.raw.itu_prefixes)).then(TestingUtils.fakeRawFileResourceMulti("/raw/itu_prefixes"));
+        Mockito.when(resources.openRawResource(R.raw.qsotemplate_01)).then(TestingUtils.fakeRawFileResourceMulti("/raw/qsotemplate_01"));
+        Mockito.when(resources.openRawResource(R.raw.qsotemplate_02)).then(TestingUtils.fakeRawFileResourceMulti("/raw/qsotemplate_02"));
+        Mockito.when(resources.openRawResource(R.raw.qsotemplate_03)).then(TestingUtils.fakeRawFileResourceMulti("/raw/qsotemplate_03"));
     }
+
 
     @Test
     public void testAPI() {
+
+
         for (int i = 0; (i < RUNS); i++) {
             QSOTextGenerator sut = new QSOTextGenerator(context);
 
-            MorseCode.CharacterList actual = TextTestUtils.read(sut, 400);
+            MorseCode.CharacterList actual = TextTestUtils.read(sut, 800);
 
             String actualStr = actual.asString();
             System.out.println("qso: " + actualStr);
@@ -79,6 +87,18 @@ public class QSOTextGeneratorTest extends AbstractTextGeneratorTest {
 
             // Make sure DX and local have different names.
             Assert.assertFalse(p.matcher(actualStr).matches());
+        }
+    }
+
+    @Test
+    public void testAllPlaceholdersReplaced() {
+        for (int i = 0; (i < RUNS); i++) {
+            QSOTextGenerator sut = new QSOTextGenerator(context);
+
+            String actualStr = sut.createRandomQSO();
+
+            // Make sure DX and local have different names.
+            Assert.assertFalse("Contains placeholder: " + actualStr, actualStr.contains("%"));
         }
     }
 
