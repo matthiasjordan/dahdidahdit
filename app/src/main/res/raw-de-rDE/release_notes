@@ -1,3 +1,7 @@
+=1.19.0
+* Sehr niedrige Werte für Wortlänge, WPM und effektive WPM sind nun zugelassen. (#35)
+* Der QSO-Generator kann jetzt auch POTA-QSOs generieren. (#37)
+
 =1.18.0
 * Fix für grauen Hintergrund in manchen Modi, wenn externe Paddles benutzt wurden (#6)
 * Einstellungen für selbstdefiniertes Training sind nun benutzerfreundlicher (#32)

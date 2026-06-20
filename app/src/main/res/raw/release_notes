@@ -1,3 +1,7 @@
+=1.19.0
+* Very low values for word length, WPM and effective WPM are allowed. (#35)
+* The QSO generator can generate POTA QSOs. (#37)
+
 =1.18.0
 * Fixed background getting grey in some modes if paddle used (#6)
 * Made custom training settings more user friendly (#32)
